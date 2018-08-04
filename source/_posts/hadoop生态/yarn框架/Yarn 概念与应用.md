@@ -1,5 +1,6 @@
 ---
 title: yarn概念与应用
+date: 2016-04-02 22:46:48
 tags: 
   - yarn
 categories:

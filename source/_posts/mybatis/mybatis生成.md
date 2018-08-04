@@ -1,5 +1,6 @@
 ---
 title: mybaits gen
+date: 2015-09-04 23:22:58
 tags: 
   - mybaits
 categories:

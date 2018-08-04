@@ -1,6 +1,7 @@
 
 ---
-title: Hive - row_number,rank(),dense_rank() 
+title: Hive - row_number,rank(),dense_rank()
+date: 2016-04-02 22:46:48
 tags: 
   - hive
   - sql

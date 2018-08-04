@@ -1,5 +1,6 @@
 ---
 title: MapReduce 作业Uber模式介绍
+date: 2016-04-02 22:46:48
 tags: 
   - MapReduce
 categories:

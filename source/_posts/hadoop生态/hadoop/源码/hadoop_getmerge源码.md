@@ -1,5 +1,6 @@
 ---
 title: hadoop 源码 - 命令getMerge
+date: 2016-04-02 22:46:48
 tags: 
   - hadoop
 categories:

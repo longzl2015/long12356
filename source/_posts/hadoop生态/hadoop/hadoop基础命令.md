@@ -1,6 +1,7 @@
 
 ---
 title: hadoop常用命令
+date: 2016-04-02 22:46:48
 tags: 
   - hadoop
 categories:

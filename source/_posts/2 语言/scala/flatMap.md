@@ -1,5 +1,6 @@
 ---
 title: flatMap
+date: 2018-01-05 03:30:09
 tags: 
   - flatMap
 categories:

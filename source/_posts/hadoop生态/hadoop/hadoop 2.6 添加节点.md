@@ -1,5 +1,6 @@
 ---
 title: hadoop 2.6版本 添加节点
+date: 2016-04-02 22:46:48
 tags: 
   - hadoop
 categories:

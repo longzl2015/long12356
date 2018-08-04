@@ -1,9 +1,13 @@
 ---
+
 title: git代理
-tags: 
-- git
-categories:
-- 版本管理
+
+date: 2018-08-05 03:30:09
+
+tags: [git]
+
+categories: [版本管理]
+
 ---
 
 ### Git常用的有两种协议:

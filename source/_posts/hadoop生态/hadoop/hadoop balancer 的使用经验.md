@@ -1,6 +1,7 @@
 
 ---
 title: hadoop balancer 的使用经验
+date: 2016-04-02 22:46:48
 tags: 
   - balancer
 categories:

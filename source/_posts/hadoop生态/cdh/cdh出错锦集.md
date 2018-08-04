@@ -1,5 +1,6 @@
 ---
 title: cdh出错锦集
+date: 2016-04-02 22:46:48
 tags: 
   - cdh
 categories:

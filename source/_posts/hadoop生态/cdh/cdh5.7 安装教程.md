@@ -1,5 +1,6 @@
 ---
 title: cloudera安装cdh5.7
+date: 2016-04-02 22:46:48
 tags: 
   - cloudera
   - cdh

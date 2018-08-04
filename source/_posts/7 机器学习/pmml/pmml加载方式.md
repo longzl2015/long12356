@@ -1,5 +1,6 @@
 ---
 title: pmml 使用方式
+date: 2016-04-02 16:03:07
 tags: 
   - pmml
 categories:

@@ -1,7 +1,7 @@
 ---
 title: servlet.md
 date: 2016-03-16 23:22:58
-tags: []
+tags: [web]
 ---
 
 [TOC]

@@ -1,6 +1,7 @@
 
 ---
 title: hadoop 修改备份系数
+date: 2016-04-02 22:46:48
 tags: 
   - hadoop
 categories:

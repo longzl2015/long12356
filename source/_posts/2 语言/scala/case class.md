@@ -1,5 +1,6 @@
 ---
 title: case class简单介绍
+date: 2018-01-05 03:30:09
 tags: 
   - scala
 categories:
