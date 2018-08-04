@@ -1,10 +1,14 @@
 ---
 title: log监控
-tags: 
-  - log监控
-categories:
-  - springboot
+
+date: 2018-08-05 02:56:13
+
+tags: [log监控]
+
+categories: [springboot]
+
 ---
+
 
 ```java
 package zl.dm.dev.logweb;
