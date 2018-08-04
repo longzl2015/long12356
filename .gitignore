@@ -1,0 +1,10 @@
+/*
+!scaffolds/
+!source/
+!themes/
+!.npmignore
+!.gitignore
+!_config.yml
+!package-lock.json
+!package.json
+!README.md
