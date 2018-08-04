@@ -1,5 +1,3 @@
-
-
 ---
 title: ResourceManager
 date: 2016-04-02 22:46:48
