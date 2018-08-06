@@ -33,10 +33,10 @@ categories: spring
 
 在函数前，添加事务注解
 
-```xml
+```java
 @Transactional
 public void purchase(String username,string isbn){
-。。。。。。
+
 }
 ```
 
@@ -47,8 +47,11 @@ public void purchase(String username,string isbn){
 
 **常用的2种：**
 - **REQUIRED**：业务方法需要在一个事务中运行。如果方法运行时，已经处在一个事务中，那么加入到该事务，否则为自己创建一个新的事务。
+
 ![REQUIRED](http://i.imgur.com/Len9pXU.jpg)
+
 - **REQUIRESNEW**：属性表明不管是否存在事务，业务方法总会为自己发起一个新的事务。如果方法已经运行在一个事务中，则原有事务会被挂起，新的事务会被创建，直到方法执行结束，新事务才算结束，原先的事务才会恢复执行。
+
 ![REQUIRESNEW](http://i.imgur.com/hohUw71.jpg)
 
 **其他5种：**

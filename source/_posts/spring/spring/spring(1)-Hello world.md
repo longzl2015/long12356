@@ -6,6 +6,7 @@ categories: spring
 ---
 
 创建一个spring的hello world项目。
+
 <!--more-->
 
 ## 第一个spring项目
@@ -42,6 +43,7 @@ categories: spring
 ```java
  private BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
 ```
+
 通过Spring工厂获取相应的对象
 
 ```java

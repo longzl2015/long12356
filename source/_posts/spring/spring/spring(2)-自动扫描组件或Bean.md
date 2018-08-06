@@ -170,7 +170,7 @@ public class CustomerService
 
 ### 自定义扫描组件名称
 
-上例中，默认情况下，Spring将把组件Class的第一个字母变成小写，来作为自动扫描组件的名称，例如将“CustomerService”转变为“customerservice”，你可以用“customerService”这个名字调用组件，如下：
+上例中，默认情况下，Spring将把组件Class的第一个字母变成小写，来作为自动扫描组件的名称，例如将“CustomerService”转变为“customerService”，你可以用“customerService”这个名字调用组件，如下：
 
 CustomerService cust = (CustomerService)context.getBean("customerService");
 
@@ -262,6 +262,8 @@ Control层：
 ```java
 @Controller("userAction")
 public class UserAction {
+    
+}
 ```
 
 ## 在自动扫描中过滤组件

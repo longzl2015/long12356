@@ -5,7 +5,8 @@ tag: [依赖注入,xml]
 categories: spring
 
 ---
-本章介绍依赖注入的相关细节：
+本章介绍依赖注入的相关细节
+
 <!--more-->
 
 # 属性注入和构造器注入
@@ -17,11 +18,13 @@ class: bean的**全类名**，通过反射的方式在IOC容器中创建Bean，�
 id：标识容器中的 bean。id 唯一。
 
 `xml文件`
+
 ```xml
     <bean id="employeeDao" class="com.atguigu.ssh.dao.EmployeeDao" scope="Singleton" autowire="byName">
     <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
 ```
+
 ### autowire标签：
 
 > autowire="byName"

@@ -6,6 +6,9 @@ categories: spring
 
 ---
 
+@Autowired 和@Resource 的区别
+<!--more-->
+
 一、
 
 @Autowired和@Resource都可以用来装配bean，都可以写在字段上，或者方法上。
