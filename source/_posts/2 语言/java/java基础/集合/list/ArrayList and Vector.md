@@ -6,6 +6,8 @@ tags: [list]
 
 [TOC]
 
+ArrayList and Vector 异同。Vector 已经被弃用。
+
 <!--more-->
 
 ## ArrayList and Vector

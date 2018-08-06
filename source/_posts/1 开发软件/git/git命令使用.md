@@ -9,6 +9,10 @@ categories:
 
 [TOC]
 
+git基础命令: git log
+
+<!--more-->
+
 ## git log
 
 ### 查看提交历史
@@ -40,7 +44,7 @@ Date:   Sat Mar 15 10:31:28 2008 -0700
     first commit
 ```
 
-###自定义格式查看提交历史
+### 自定义格式查看提交历史
 
 ```
 git log --pretty=format:"%h - %an, %ar : %s"
@@ -55,13 +59,13 @@ ca82a6d - Scott Chacon, 11 months ago : changed the version number
 a11bef0 - Scott Chacon, 11 months ago : first commit
 ```
 
-###  规定查看日志时间
+### 规定查看日志时间
 
 ```
 git log --since=2.weeks
 ```
 
-####选项
+#### 选项
 
 | 选项                  | 说明             |
 | ------------------- | -------------- |
@@ -71,7 +75,7 @@ git log --since=2.weeks
 | `--author`          | 仅显示指定作者相关的提交。  |
 | `--committer`       | 仅显示指定提交者相关的提交。 |
 
-####格式符号
+#### 格式符号
 
 | 选项    | 说明                        |
 | ----- | ------------------------- |
@@ -90,8 +94,6 @@ git log --since=2.weeks
 | `%cd` | 提交日期                      |
 | `%cr` | 提交日期，按多久以前的方式显示           |
 | `%s`  | 提交说明                      |
-
-
 
 
 

@@ -7,6 +7,10 @@ categories:
   - linux
 ---
 
+top命令简单介绍
+
+<!--more-->
+
 ### 1. 显示进程全称
 
 在top界面，按 c 即可

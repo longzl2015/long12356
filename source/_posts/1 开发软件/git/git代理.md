@@ -10,19 +10,25 @@ categories: [版本管理]
 
 ---
 
-### Git常用的有两种协议:
+git 常用协议 以及 对应的 代理方法
 
-不同的协议他的代理配置各不相同。core.gitproxy 用于 git:// 协议，http.proxy 用于 http:// 协议。
+<!--more-->
+
+### Git常用的有两种协议:
 
 常见的git clone 协议如下：
 
-1. 使用http://协议
+1. 使用http:// 协议
 
 git clone https://github.com/EasyChris/baidu.git
 
-2. 使用git://协议
+2. 使用git:// 协议
 
 git clone git@github.com:EasyChris/baidu.git
+
+3. 使用ssh:// 协议
+
+git clone ssh://user@server/project.git
 
 ### http/https协议
 
@@ -36,14 +42,11 @@ git clone -c http.proxy=http://127.0.0.1:1080 https://github.com/madrobby/zepto.
 
 git目录设置目录代理模式，不太建议全部设置为全局配置
 
-通常shadowsocks的代理在本机地址是127.0.0.1 代理端口是1080
+假设shadowsocks的代理在本机地址是127.0.0.1 代理端口是1080
 
 ```
-git config http.proxy 'socks5://127.0.0.1:1080'
-git config https.proxy 'socks5://127.0.0.1:1080'
-
-git config --local http.proxy 'socks5://127.0.0.1:1086' 
-git config --local https.proxy 'socks5://127.0.0.1:1086'
+git config --local http.proxy 'socks5://127.0.0.1:1080' 
+git config --local https.proxy 'socks5://127.0.0.1:1080'
 ```
 
 
@@ -56,9 +59,10 @@ git config --local https.proxy 'socks5://127.0.0.1:1086'
 git config core.gitProxy  'socks5://192.168.7.1:1080'
 ```
 
-### Ssh 协议
+### ssh 协议
 
-那么，你使用的是[`SSH`协议](http://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols#The-SSH-Protocol)连接的远程仓库。因为git依赖ssh去连接，所以，我们需要配置ssh的socks5代理实现git的代理。在ssh的配置文件`~/.ssh/config`（没有则新建）使用`ProxyCommand`配置：
+那么，你使用的是[SSH协议](http://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols#The-SSH-Protocol)连接的远程仓库。
+因为git依赖ssh去连接，所以，我们需要配置ssh的socks5代理实现git的代理。在ssh的配置文件`~/.ssh/config`（没有则新建）使用`ProxyCommand`配置：
 
 ```
 #Linux
