@@ -1,4 +1,3 @@
-
 ---
 title: docker 常用启动命令
 date: 2016-04-02 22:46:48
@@ -26,7 +25,7 @@ docker run --name localmysql --restart=always -p 3306:3306 -v e:/docker/data/mys
 docker logs xware
 ```
 
-```bash
+```
 initing...
 try stopping xunlei service first...
 killall: ETMDaemon: no process killed
@@ -54,7 +53,7 @@ go to http://yuancheng.xunlei.com, bind your device with the active code.
 finished.
 ```
 
-的内容，把 active code 复制一下，打开 http://yuancheng.xunlei.com 点击 我的下载器 旁边的 添加 把 active code 输入进去
+把 active code 复制一下，打开 http://yuancheng.xunlei.com 点击 我的下载器 旁边的 添加 把 active code 输入进去
 
 ## 启动oracle
 ### oracle 11g
@@ -64,7 +63,9 @@ finished.
 ```bash
 docker run --name localOracle -d -p 49160:22 -p 49161:1521 -e ORACLE_ALLOW_REMOTE=true registry.cn-hangzhou.aliyuncs.com/qida/oracle-xe-11g 
 ```
-1. Connect database 
+
+1. Connect database
+
 -  hostname: localhost 
 -  port: 49161 
 -  sid: xe 
