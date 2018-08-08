@@ -2,7 +2,7 @@
 title: 搭建git服务器-http访问
 date: 2015-09-01 09:09:28
 tags: [git,git服务器,gitolite,gitweb]
-categories: git
+categories: 版本管理
 
 ---
 

@@ -6,7 +6,7 @@ date: 2015-08-31 09:09:28
 
 tags: [git]
 
-categories: git
+categories: 版本管理
 
 ---
 

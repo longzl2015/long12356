@@ -70,7 +70,13 @@ Host bitbucket.org
   User git
   Port 22
   Hostname bitbucket.org
-  ProxyCommand nc -x 127.0.0.1:1080 %h %p
+  ProxyCommand nc -x 127.0.0.1:1086 %h %p
+Host github.com
+  User git
+  Port 22
+  Hostname bitbucket.org
+  ProxyCommand nc -x 127.0.0.1:1086 %h %p  
+  
 #windows
 Host bitbucket.org
   User git

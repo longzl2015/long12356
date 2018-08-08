@@ -156,7 +156,7 @@ docker run -d --name hadoop-master -p 50070:50070 -p 10000:10000 -p 8088:8088 -p
 
 启动hue
 
-```sh
+```bash
 docker run --name hue -d -p 8888:8888 gethue/hue
 
 // 容器中修改 pseudo-distributed.ini，主要是hive端口号和ip信息
@@ -169,7 +169,7 @@ docker restart hue
 
 ## 启动swagger
 
-```
+```bash
 docker pull swaggerapi/swagger-editor
 docker run -d -p 80:8080 swaggerapi/swagger-editor
 ```

@@ -9,6 +9,9 @@ categories: [springboot]
 
 ---
 
+使用 websock 实现 指定路径的文件监控
+
+<!--more-->
 
 ```java
 package zl.dm.dev.logweb;
@@ -76,7 +79,7 @@ public class LogWebSocketHandler extends TextWebSocketHandler {
             String tmpLine;
             StringBuffer lines = new StringBuffer();
             int count = 0;
-            boolean reachBottom = `false`;
+            boolean reachBottom = false;
 
             //发送信息
             while (session.isOpen()) {
