@@ -1,4 +1,3 @@
-
 ---
 title: docker 远程访问
 date: 2016-04-02 22:46:48
@@ -75,12 +74,10 @@ tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN      
 tcp6       0      0 [::]:2375               [::]:*                  LISTEN      26208/dockerd
 ```
 
-5、这里拿本地的ubuntu做客户端，来访问阿里云上centos7的docker服务，访问成功。139.129.130.123是阿里云上的centos7机器公网ip。
+5、查看docker是否已开启远程
 
 ```
-$ sudo docker -H tcp://13x.12x.13x.12x:2375 images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-mysql               5.6                 f8fe303bcac2        4 days ago          298MB
+curl http://localhost:2375/version
 ```
 
 注意：生产环境最好将这个关掉，或者做好安全的配置
