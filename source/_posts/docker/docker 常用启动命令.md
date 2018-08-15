@@ -174,6 +174,11 @@ docker pull swaggerapi/swagger-editor
 docker run -d -p 80:8080 swaggerapi/swagger-editor
 ```
 
+##  启动 jenkins
+
+```bash
+docker run --name jenkins -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+```
 
 ##退出自动删除
 
