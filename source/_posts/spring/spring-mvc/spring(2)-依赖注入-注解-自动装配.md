@@ -119,7 +119,7 @@ public class MovieRecommender {
 }
 ```
 
-### map<String,SomeType> 注入
+## map<String,SomeType> 注入
 
 以 string 类型为 key 的map: spring 会将 ApplicationContext 中的对应的 SomeType 注入 该map中。
 
@@ -137,7 +137,7 @@ public class MovieRecommender {
 }
 ```
 
-### 其他
+## 其他
 
 @Autowired 也可以用在一些众所周知的接口上(BeanFactory, ApplicationContext, Environment, ResourceLoader, ApplicationEventPublisher, and MessageSource),
 或者他们的 extended interfaces 上。
