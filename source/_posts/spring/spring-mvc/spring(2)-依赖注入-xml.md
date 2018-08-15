@@ -203,5 +203,4 @@ Name 中的值会在对应对象中调用 setXX 方法来注入，xx代表 name 
 必须在文件头部添加 p 命名空间
 ```xml
 <bean id="persion5" class="com.zju.spring.collection.Persion" p:age="30" p:name="Queen" p:cars-ref="cars"></bean>
-<>
 ```

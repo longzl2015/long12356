@@ -3,22 +3,19 @@ title: spring(2)-依赖注入-xml-自动装配autowired
 date: 2015-08-10 13:26:58
 tags: [自动装配,autowired]
 categories: spring
-
 ---
 
-自动装配的好处是减少构造器注入和setter注入配置(其实就是少了<property>标签)。自动装配通过配置<bean>标签的“autowire”属性来改变自动装配方式。
+自动装配的好处是 无须在Spring配置文件中描述javaBean之间的依赖关系（如配置<property>、<constructor-arg>）。IOC容器会自动建立javabean之间的关联关系.
+
 <!--more-->
 
-写法如下：
-```xml
-<bean id="customer" class="com.lei.common.Customer" autowire="byName" />
-```
+
 ## 自动装配autowire模式
-Spring支持5种自动装配模式，如下：
+Spring支持多种自动装配模式，如下：
 
 1. **no**
   默认情况下，不自动装配，通过“ref”attribute手动设定。
-2. **buName **
+2. **byName**
   根据Property的Name自动装配，如果一个bean的name，和另一个bean中的Property的name相同，则自动装配这个bean到Property中。
 3. **byType**
   根据Property的数据类型（Type）自动装配，如果一个bean的数据类型，兼容另一个bean中Property的数据类型，则自动装配。
@@ -132,4 +129,3 @@ Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependen
 <bean id="person" class="com.lei.common.Person" />
  ```
 
- **最后，我认为，自动装配虽然让开发变得更快速，但是同时却要花更大的力气维护，因为它增加了配置文件的复杂性，你甚至不知道哪一个bean会被自动注入到另一个bean中。我更愿意写配置文件来手工装配。**
