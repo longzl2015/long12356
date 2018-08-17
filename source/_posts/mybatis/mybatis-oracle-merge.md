@@ -15,29 +15,6 @@ merge into 能够以一次请求实现 类似于insertOrUpdate的操作。减少
 
 <!--more-->
 
-### merge into clause
-
-需要被更新的表
-
-
-### using clause
-
-新增或者更新的数据源。
-
-
-### on clause
-
-指定条件，只有满足条件的行会被更新和替换
-
-
-### update clause
-
-标准的 update 参数，需要注意的是，set 参数里不能出现 on clause 出现的 参数
-
-### insert clause
-
-标准的 insert 参数
-
 ```xml
 
     <insert id="insertOrUpdate" parameterType="ArrayList">
@@ -74,3 +51,27 @@ merge into 能够以一次请求实现 类似于insertOrUpdate的操作。减少
         </trim>
     </insert>
 ```
+
+### merge into clause
+
+需要被更新的表
+
+
+### using clause
+
+新增或者更新的数据源。
+
+
+### on clause
+
+指定条件，只有满足条件的行会被更新和替换
+
+
+### update clause
+
+标准的 update 参数，需要注意的是，set 参数里不能出现 on clause 出现的 参数
+
+### insert clause
+
+标准的 insert 参数
+
