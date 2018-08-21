@@ -242,3 +242,8 @@ SimpleObject root = new SimpleObject();
 ## 结束语
 
 本文介绍了 OGNL 的概念、表达式语法以及如何使用 OGNL， 并提供了一些简单的示例代码，OGNL 在实际应用中还可以对其进行扩展，在本文中并为涉及， 感兴趣的读者可以进一步进行相关的学习和研究
+
+
+## 来源
+
+[](https://www.ibm.com/developerworks/cn/opensource/os-cn-ognl/index.html)
