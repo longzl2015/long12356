@@ -23,8 +23,8 @@ tags: [oracle]
 ### 常用字段及其描述：
 
 SADDR       产生的会话在内存中的位置
-PADDR       进程的地址，与V$PROCESS中ADDR对应
-TADDR       与V$TRANSACTION中ADDR对应，与V$LOCK中ADDR对应
+PADDR       进程的地址，与`V$PROCESS`中ADDR对应
+TADDR       与`V$TRANSACTION`中ADDR对应，与`V$LOCK`中ADDR对应
 SID         Session identifier  与select distinct sid from v$mystat;中对应
 SERIAL#     同一会话下的多个操作，用序列号SERIAL#来表示
 USER#       其中SYS用户为0，与后面的SCHEMA#字段对应
@@ -52,7 +52,7 @@ RESOURCE_CONSUMER_GROUP  会话当前资源组的名称
 
 SQL_ADDRESS 目前正在执行的SQL语句的SQL标识符
 SQL_HASH_VALUE
-SQL_ID      为空，执行完毕。不为空，会话ACTIVE。与V$SQL中SQL_ID对应。select sql_text from v$sql where sql_id='9mk1dmrqf9dv8';
+SQL_ID      为空，执行完毕。不为空，会话ACTIVE。与`V$SQL`中SQL_ID对应。select sql_text from `v$sql` where sql_id='9mk1dmrqf9dv8';
 SQL_CHILD_NUMBER
 SQL_EXEC_START 10G无此字段，11G有，显示SQL语句开始执行的时间
 SQL_EXEC_ID     目前正在执行的SQL语句的SQL标识符
@@ -66,7 +66,7 @@ PREV_EXEC_ID        11G新增。这6个PREV_开头的字段描述的均是最后
 ### 会话相关的锁、等待事件字段描述
 
 ROW_WAIT_OBJ#   等待的对象；与DBA_OBJECTS中OBJECT_ID对应
-ROW_WAIT_FILE#  等待的OBJECTS所在的数据文件编号，与dba_data_files 中 file_id对应。select * from dba_data_files where file_id=4;
+ROW_WAIT_FILE#  等待的OBJECTS所在的数据文件编号，与dba_data_files 中 file_id对应。`select * from dba_data_files where file_id=4`;
 ROW_WAIT_BLOCK# 在数据文件 的第N个块上
 ROW_WAIT_ROW#   在数据文件 的第N个块上第N行 0指从第一行开始
 BLOCKING_SESSION_STATUS 阻塞会话状态，VALID 被阻塞；NO HOLDER 无阻塞；
@@ -74,7 +74,7 @@ BLOCKING_SESSION        显示被哪个会话阻塞
 BLOCKING_INSTANCE       显示补哪个实例阻塞-RAC时
 SEQ#            等待事件的惟一标识，此数字会递增。
 EVENT#          事件ID；五V$EVENT_NAME中的EVENT#对应
-EVENT           事件描述：如enq: TX - row lock contention 行锁  正常状态：SQL*Net message from client
+EVENT           事件描述：如enq: TX - row lock contention 行锁  正常状态：`SQL*Net message from client`
 WAIT_CLASS      等待事件的类型-Application/IDLE；
 WAIT_TIME       WAIT_TIME非零值是会话的最后等待时间。零值表示会话正在等待。
 SECONDS_IN_WAIT 如果WAIT_TIME=0，则SECONDS_IN_WAIT是在当前等待状态所花费的秒。如果WAIT_TIME> 0，则SECONDS_IN_WAIT是秒自上次等待的开始，SECONDS_IN_WAIT - WAIT_TIME/100自上等待结束的活跃秒。
@@ -83,7 +83,7 @@ SECONDS_IN_WAIT 如果WAIT_TIME=0，则SECONDS_IN_WAIT是在当前等待状态�
 
 `V$PROCESS`
 
-ADDR       与v$session中PADDR对应
+ADDR       与`v$session`中PADDR对应
 PID        Oracle进程标识符，ORACLE的后台进程及用户进程都在内。查select pid,pname from v$process;
 SPID       ORACLE中进程ID--ps -ef |grep LOCAL    查出的进程号
 PROGRAM    显示所用的程序--如oracle@bys3.bys.com (SMON)  后台进程 oracle@bys3.bys.com (TNS V1-V3) 服务器上直接连接  oracle@bys3.bys.com 通过监听连接的用户进程
