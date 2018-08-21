@@ -11,13 +11,14 @@ tags: [oracle]
 ---
 
 `v$session`    此视图列出当前会话的详细信息-用户进程通过网络连接到服务器进程，即产生一个会话--不论会话是否有操作。
+
 `v$process`    此视图包含当前系统oracle运行的所有进程信息。
 
 <!--more-->
 
 ## session 视图
 
-v$session
+`v$session`
 
 ### 常用字段及其描述：
 
@@ -80,7 +81,7 @@ SECONDS_IN_WAIT 如果WAIT_TIME=0，则SECONDS_IN_WAIT是在当前等待状态�
 
 ## PROCESS视图
 
-V$PROCESS
+`V$PROCESS`
 
 ADDR       与v$session中PADDR对应
 PID        Oracle进程标识符，ORACLE的后台进程及用户进程都在内。查select pid,pname from v$process;
