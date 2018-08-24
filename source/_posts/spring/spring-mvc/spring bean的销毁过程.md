@@ -4,7 +4,7 @@ title: spring bean的销毁过程(转)
 
 date: 2018-08-22 15:20:00
 
-categories: [spring,bean]
+categories: [spring]
 
 tags: [spring,bean]
 
