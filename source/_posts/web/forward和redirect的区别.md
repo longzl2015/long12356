@@ -2,8 +2,7 @@
 title: forward和redirect的区别
 date: 2015-08-19 13:22:58
 tag: [forward,redirect]
-categories: springMVC
-
+categories: web
 ---
 
 ### 1.从地址栏显示来说  
