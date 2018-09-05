@@ -167,6 +167,30 @@ public class ServletTest04 extends HttpServlet {
 }
 ```
 
+#### 获取 资源
+
+```java
+InputStream input = servletContext.getResourceAsStream("/index.jsp"); 
+```
+
+对于 tomcat 应用。
+上述代码中，"/" 代表的是 web content root。即下面的web文件夹。
+
+```
+YourWebProject
+ |-- src
+ |    :
+ |
+ |-- web
+ |    |-- META-INF
+ |    |    `-- MANIFEST.MF
+ |    |-- WEB-INF
+ |    |    `-- web.xml
+ |    |-- index.jsp
+ |    `-- login.jsp
+ : 
+```
+
 ## 参考
 
 https://www.cnblogs.com/zhangyinhua/p/7625851.html

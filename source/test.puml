@@ -1,0 +1,14 @@
+@startuml
+
+note "单项关联" as N1
+
+class Customer{
+- address:Address
+}
+
+class Address{
+}
+
+Customer -right-> Address
+
+@enduml
