@@ -51,17 +51,35 @@ public class Servlet extends HttpServlet {
 	- 第一次请求servlet
 	- 启动时立即创建，即load-on-startup servlet
 2. 初始化：调用init()方法
-3. 响应请求：调用service()方法,doGet、doPost
+3. 响应请求：调用service()方法, 根据请求方法选择 doGet 或 doPost
 5. 实例销毁：调用destroy()方法,在servlet容器停止或者重新启动时发生
 
 ## servlet调用图
 
 ![servlet调用图](http://7xlgbq.com1.z0.glb.clouddn.com/servlet调用图.jpg "servlet调用图")
 
-## 类介绍
+Servlet访问的过程：
 
-1. ServletConfig：用于封装servlet的配置信息。
-2. ServletContext：一个全局的储存信息的空间。
+> Http请求---->web.xml-------->  url -pattern----->servlet-name----->servlet-class----->   QuickStratServlet(对应的Class文件)
+
+## 其他类介绍
+
+### ServletConfig
+
+用于封装servlet的配置信息:
+
+- ServletName: 当前Servlet在web.xml中配置的名字
+- ServletContext: 当前web应用的ServletContext对象
+- InitParameter: 当前Servlet指定名称的初始化参数的值
+- InitParameterNames: 当前Servlet所有初始化参数的名字组成的枚举
+
+
+### ServletContext
+
+WEB容器在启动时，它会为每个WEB应用程序都创建一个对应的ServletContext对象，它代表当前web应用。
+由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。
+
+
 
 ## 参考
 
