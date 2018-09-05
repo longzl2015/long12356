@@ -1,12 +1,17 @@
 ---
 title: servlet与tomcat交互.md
 date: 2016-03-20 23:06:14
+categories: [tomcat]
 tags: [servlet,tomcat]
 ---
 
 [TOC]
 
 <!--more-->
+
+## 概述
+Tomcat 是Web应用服务器,是一个Servlet/JSP容器. Tomcat 作为Servlet容器,负责处理客户请求,把请求传送给Servlet,并将Servlet的响应传送回给客户.而Servlet是一种运行在支持Java语言的服务器上的组件.
+
 
 ## servlet与tomcat交互图
 
