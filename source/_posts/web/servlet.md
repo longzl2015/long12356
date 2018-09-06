@@ -1,7 +1,8 @@
 ---
-title: servlet
+title: javaWeb 三大组件之一(servlet)
 date: 2016-03-16 23:22:58
-tags: [web]
+categories: [web]
+tags: [web,servlet]
 ---
 
 [TOC]
