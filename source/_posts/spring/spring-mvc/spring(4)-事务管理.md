@@ -18,8 +18,7 @@ categories: spring
 
 声明式事务最大的优点就是不需要通过编程的方式管理事务，这样就不需要在业务逻辑代码中掺杂事务管理的代码，只需在配置文件中做相关的事务规则声明（或通过等价的基于标注的方式），便可以将事务规则应用到业务逻辑中。
 
-- 配置xml
-
+### 使用 xml 配置 
 
 ```xml
 <!-- 配置事务管理器 -->
@@ -40,6 +39,48 @@ public void purchase(String username,string isbn){
 
 }
 ```
+
+### 纯注解形式
+
+```java
+// 在启动类上 添加 @SpringBootApplication
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+
+//在服务层的方法上加上 @Transactional 注解即可
+@Component
+public class BookingService {
+
+    private final static Logger logger = LoggerFactory.getLogger(BookingService.class);
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public BookingService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Transactional
+    public void book(String... persons) {
+        for (String person : persons) {
+            logger.info("Booking " + person + " in a seat...");
+            jdbcTemplate.update("insert into BOOKINGS(FIRST_NAME) values (?)", person);
+        }
+    }
+
+    public List<String> findAllBookings() {
+        return jdbcTemplate.query("select FIRST_NAME from BOOKINGS",
+                (rs, rowNum) -> rs.getString("FIRST_NAME"));
+    }
+}
+```
+
+
 
 ## 事务的相关标签介绍
 
@@ -119,3 +160,7 @@ public void purchase(String username,string isbn){
 
 参考 https://stackoverflow.com/questions/23118789/why-we-shouldnt-make-a-spring-mvc-controller-transactional
 
+
+## 来源
+
+https://spring.io/guides/gs/managing-transactions/
