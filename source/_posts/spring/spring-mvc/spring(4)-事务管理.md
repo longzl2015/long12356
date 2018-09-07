@@ -3,10 +3,11 @@ title: spring(4)-事务管理
 date: 2015-08-12 20:59:28
 tags: [aop,事务管理]
 categories: spring
-
 ---
+
 事务管理是企业级应用程序开发中必不可少的技术,用来确保数据的完整性和一致性.
 事务就是一系列的动作, 它们被当做一个单独的工作单元. 这些动作要么全部完成, 要么全部不起作用
+
 <!--more-->
 
 ## 事务的四个关键属性(ACID)
@@ -110,3 +111,11 @@ public void purchase(String username,string isbn){
 它们定义哪些异常引起回滚，哪些不引起。在默认设置下，事务只在出现运行时异常（runtime exception）时回滚，而在出现受检查异常（checked exception）时不回滚（这一行为和EJB中的回滚行为是一致的）。
 
 不过，也可以声明在出现特定受检查异常时像运行时异常一样回滚。同样，也可以声明一个事务在出现特定的异常时不回滚，即使那些异常是运行时一场。
+
+
+## 事务应该放在服务层 
+
+将事务发到服务层，这个只是最佳实践。在技术上是可以将事务注解放到控制层的。
+
+参考 https://stackoverflow.com/questions/23118789/why-we-shouldnt-make-a-spring-mvc-controller-transactional
+
