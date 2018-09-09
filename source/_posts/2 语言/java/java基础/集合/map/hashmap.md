@@ -1,7 +1,7 @@
 ---
 title: hashmap.md
 date: 2016-03-19 22:27:06
-tags: [hashmap]
+tags: [hashmap,集合]
 ---
 
 [TOC]

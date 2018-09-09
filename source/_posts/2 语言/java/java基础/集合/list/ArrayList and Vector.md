@@ -1,7 +1,7 @@
 ---
 title: ArrayList and Vector.md
 date: 2016-03-20 16:34:17
-tags: [list]
+tags: [list,集合]
 ---
 
 [TOC]

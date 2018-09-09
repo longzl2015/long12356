@@ -1,7 +1,7 @@
 ---
 title: hashtable.md
 date: 2016-03-19 23:29:15
-tags: [hashtable]
+tags: [hashtable,集合]
 ---
 
 [TOC]
