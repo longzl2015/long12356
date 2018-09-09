@@ -122,3 +122,8 @@ public boolean equals(Object obj) {
 
 需要注意的是在极少数情况下，两个对象根据 equal 方法 比较返会的是 false，这两个对象的hashcode有可能会相同。
 
+
+# 抽象类和接口
+
+## 抽象类
+
