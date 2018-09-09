@@ -1,21 +1,25 @@
 ---
-title: hashmap.md
+title: HashMap.md
 date: 2016-03-19 22:27:06
-tags: [hashmap,集合]
+tags: [HashMap,集合]
 ---
 
 [TOC]
 
 <!--more-->
 
-## hashmap数据结构
-![hashmap](http://7xlgbq.com1.z0.glb.clouddn.com/hashmap.jpg "hashmap")
+## HashMap 数据结构
+![](hashmap/hashmap.png)
 
 主体为table数组结构，数组的每一项元素是一个链表。
 
+```java
+
+```
+
 ## 关键点
 
-基于map接口实现，不保证顺序，允许null key/value，不同步，默认大小16，按2倍扩增。
+基于map接口的非同步实现，不保证顺序，允许null key/value，默认大小16，按2倍扩增。
 
 ## put函数实现
 
