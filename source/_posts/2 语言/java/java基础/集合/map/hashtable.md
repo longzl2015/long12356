@@ -12,7 +12,7 @@ tags: [hashtable,集合]
 
 ![hashtable](http://7xlgbq.com1.z0.glb.clouddn.com/hashtable.jpg "hashtable")
 
-结构与hashmap一样：一个数组 + 链表
+结构与 hashmap 一样：一个数组 + 链表
 
 ## put方法
 
