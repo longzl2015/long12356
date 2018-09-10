@@ -12,6 +12,26 @@ tags: [HashMap,集合]
 
 基于map接口的非同步实现，不保证顺序，允许null key/value，默认大小16，按2倍扩增。
 
+## 重要参数
+
+threshold 代表的是一个阈值，通常小于数组的实际长度。这个阈值的具体值则由负载因子（loadFactor）和数组容量来决定。
+
+> threshold = capacity * loadFactor。
+
+伴随着元素不断的被添加进数组，一旦数组中的元素数量达到这个threshold，那么表明数组应该被扩容而不应该继续任由元素加入。
+
+```java
+int threshold;
+final float loadFactor;
+
+//默认的容量，即默认的数组长度 16
+static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
+//HashMap 中默认负载因子为 0.75
+static final float DEFAULT_LOAD_FACTOR = 0.75f;
+//最大的容量，即数组可定义的最大长度 
+static final int MAXIMUM_CAPACITY = 1 << 30;
+```
+
 ## HashMap 数据结构
 
 首先，HashMap 是 Map 的一个实现类，它代表的是一种键值对的数据存储形式。Key 不允许重复出现，Value 随意。jdk 8 之前，其内部是由数组+链表来实现的，而 jdk 8 对于链表长度超过 8 的链表将转储为红黑树。大致的数据存储形式如下：
@@ -20,29 +40,12 @@ tags: [HashMap,集合]
 
 主体为table数组结构，数组的每一项元素是一个链表。
 
-下面的代码就是上述提到的数组，数组的元素都是 Node 类型，数组中的每个 Node 元素都是一个链表的头结点，
-通过它可以访问连接在其后面的所有结点。文中的容量指的就是这个数组的长度。
+下面的代码就是上述提到的数组，数组的元素都是 Node 类型，数组中的每个 Node 元素都是一个链表的头结点，通过它可以访问连接在其后面的所有结点。
 
 ```java
 transient Node<K,V>[] table;
 ```
 
-threshold 代表的是一个阈值，通常小于数组的实际长度。
-伴随着元素不断的被添加进数组，一旦数组中的元素数量达到这个阈值，那么表明数组应该被扩容而不应该继续任由元素加入。
-而这个阈值的具体值则由负载因子（loadFactor）和数组容量来决定，
-公式：threshold = capacity * loadFactor。
-
-
-```java
-int threshold;
-//默认的容量，即默认的数组长度 16
-static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
-final float loadFactor;
-//HashMap 中默认负载因子为 0.75
-static final float DEFAULT_LOAD_FACTOR = 0.75f;
-//最大的容量，即数组可定义的最大长度 
-static final int MAXIMUM_CAPACITY = 1 << 30;
-```
 
 ### Node<K,V>
 Node 是一个单向列表，她实现了 Map.Entry接口
@@ -149,6 +152,8 @@ int index = (n - 1) & hash(key)
 
 ![](hashmap/resize3.png)
 
+因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”
+
 ### 源码
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
@@ -233,10 +238,12 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         } while ((e = next) != null);
                         
                         //将头部数据插入桶中
+                        //原索引放到bucket里
                         if (loTail != null) {
                             loTail.next = null;
                             newTab[j] = loHead;
                         }
+                        //原索引+oldCap放到bucket里
                         if (hiTail != null) {
                             hiTail.next = null;
                             newTab[j + oldCap] = hiHead;
@@ -400,6 +407,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 红黑树: 当单个链表长度大于8时，hashMap 会将链表转换为红黑树，这样使得查询时间变成了O(logn)。
 
 > 它是如何工作的？前面产生冲突的那些KEY对应的记录只是简单的追加到一个链表后面，这些记录只能通过遍历来进行查找。但是超过这个阈值后HashMap开始将列表升级成一个二叉树，使用哈希值作为树的分支变量，如果两个哈希值不等，但指向同一个桶的话，较大的那个会插入到右子树里。如果哈希值相等，HashMap希望key值最好是实现了Comparable接口的，这样它可以按照顺序来进行插入。这对HashMap的key来说并不是必须的，不过如果实现了当然最好。如果没有实现这个接口，在出现严重的哈希碰撞的时候，你就并别指望能获得性能提升了。
+
 ----
 
 [Java HashMap工作原理及实现](http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/)
