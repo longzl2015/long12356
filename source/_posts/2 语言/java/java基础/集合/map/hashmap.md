@@ -20,11 +20,20 @@ tags: [HashMap,集合]
 
 主体为table数组结构，数组的每一项元素是一个链表。
 
+下面的代码就是上述提到的数组，数组的元素都是 Node 类型，数组中的每个 Node 元素都是一个链表的头结点，
+通过它可以访问连接在其后面的所有结点。文中的容量指的就是这个数组的长度。
+
 ```java
-//下面这三个属性是相关的，threshold 代表的是一个阈值，通常小于数组的实际长度。
-// 伴随着元素不断的被添加进数组，一旦数组中的元素数量达到这个阈值，那么表明数组应该被扩容而不应该继续任由元素加入。
-// 而这个阈值的具体值则由负载因子（loadFactor）和数组容量来决定，
-// 公式：threshold = capacity * loadFactor。
+transient Node<K,V>[] table;
+```
+
+threshold 代表的是一个阈值，通常小于数组的实际长度。
+伴随着元素不断的被添加进数组，一旦数组中的元素数量达到这个阈值，那么表明数组应该被扩容而不应该继续任由元素加入。
+而这个阈值的具体值则由负载因子（loadFactor）和数组容量来决定，
+公式：threshold = capacity * loadFactor。
+
+
+```java
 int threshold;
 //默认的容量，即默认的数组长度 16
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
@@ -33,16 +42,6 @@ final float loadFactor;
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 //最大的容量，即数组可定义的最大长度 
 static final int MAXIMUM_CAPACITY = 1 << 30;
-
-//实际存储的键值对个数
-transient int size;
-//用于迭代防止结构性破坏的标量
-transient int modCount;
-
-//这就是上述提到的数组，数组的元素都是 Node 类型，数组中的每个 Node 元素都是一个链表的头结点，
-//通过它可以访问连接在其后面的所有结点。其实你也应该发现，上述的容量指的就是这个数组的长度。
-transient Node<K,V>[] table;
-
 ```
 
 ### Node<K,V>
@@ -127,8 +126,130 @@ static final int hash(Object key) {
 int index = (n - 1) & hash(key)
 ```
 
+![](hashmap/index计算.png)
+
 1. hash函数实现：高16bit不变，低16bit和高16bit做了一个异或
 2. (n-1)&hash: n 表示table的大小，即是取hash的低（n-1）位作为index
+
+## resize函数
+
+### resize 巧妙设计
+
+由于 hashMap 使用的是2次幂的扩展(指长度扩为原来2倍)，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。
+看下图可以明白这句话的意思，n为table的长度，
+
+- 图（a）表示扩容前的key1和key2两种key确定索引位置的示例，
+- 图（b）表示扩容后key1和key2两种key确定索引位置的示例，
+
+其中hash1是key1对应的哈希与高位运算结果。
+
+![](hashmap/resize2.png)
+
+元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：
+
+![](hashmap/resize3.png)
+
+### 源码
+```java
+public class HashMap<K,V> extends AbstractMap<K,V>
+    implements Map<K,V>, Cloneable, Serializable {
+    // .. 
+    final Node<K,V>[] resize() {
+        Node<K,V>[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap > 0) {
+            //如果大于 最大容量，直接返回
+            if (oldCap >= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            //容量和阈值 扩大1倍
+            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr << 1; // double threshold
+        }
+        // 如果原来的 thredshold 大于0则将容量设为原来的 thredshold
+        // 在第一次带参数初始化时候会有这种情况
+        else if (oldThr > 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        // 在默认无参数初始化会有这种情况
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({"rawtypes","unchecked"})
+        //以 newCap 容量构造新表
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+            //遍历 table 数组
+            for (int j = 0; j < oldCap; ++j) {
+                Node<K,V> e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    //链表只有一个，直接将其放入新 table 数组中
+                    if (e.next == null)
+                        newTab[e.hash & (newCap - 1)] = e;
+                    //红黑树
+                    else if (e instanceof TreeNode)
+                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                    //链表
+                    else { // preserve order
+                        //存储不需要移动的节点
+                        // loHead 存储头部数据
+                        // loTail 存储尾部数据
+                        Node<K,V> loHead = null, loTail = null;
+                        //存储移动到高位的节点
+                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> next;
+                        do {
+                            next = e.next;
+                            // (e.hash & oldCap) 为 0 表示元素位置不需要移动，
+                            // 原理 请看上面的 `resize 巧妙设计` 小节
+                            if ((e.hash & oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            // 需要移动
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        
+                        //将头部数据插入桶中
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }    
+    // ...
+}
+```
 
 ## put函数实现
 
@@ -262,100 +383,6 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 	- 若为树，则在树中通过key.equals(k)查找，O(logn)；
 	- 若为链表，则在链表中通过key.equals(k)查找，O(n)。
 
-## resize函数
-
-构造hash表时，如果不指明初始大小，默认大小为16（即Node数组大小16），
-如果Node[]数组中的元素达到（填充比*Node.length）重新调整HashMap大小 变为原来2倍大小,扩容很耗时
-
-```java
-public class HashMap<K,V> extends AbstractMap<K,V>
-    implements Map<K,V>, Cloneable, Serializable {
-    // .. 
-    final Node<K,V>[] resize() {
-        Node<K,V>[] oldTab = table;
-        int oldCap = (oldTab == null) ? 0 : oldTab.length;
-        int oldThr = threshold;
-        int newCap, newThr = 0;
-        if (oldCap > 0) {
-            //如果大于 最大容量，直接返回
-            if (oldCap >= MAXIMUM_CAPACITY) {
-                threshold = Integer.MAX_VALUE;
-                return oldTab;
-            }
-            //容量和阈值 扩大1倍
-            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                     oldCap >= DEFAULT_INITIAL_CAPACITY)
-                newThr = oldThr << 1; // double threshold
-        }
-        //第一次初始化表
-        else if (oldThr > 0) // initial capacity was placed in threshold
-            newCap = oldThr;
-        else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
-            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-        }
-        
-        if (newThr == 0) {
-            float ft = (float)newCap * loadFactor;
-            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                      (int)ft : Integer.MAX_VALUE);
-        }
-        threshold = newThr;
-        @SuppressWarnings({"rawtypes","unchecked"})
-        //以 newCap 容量构造新表
-        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-        table = newTab;
-        if (oldTab != null) {
-            for (int j = 0; j < oldCap; ++j) {
-                Node<K,V> e;
-                if ((e = oldTab[j]) != null) {
-                    oldTab[j] = null;
-                    if (e.next == null)
-                        newTab[e.hash & (newCap - 1)] = e;
-                    else if (e instanceof TreeNode)
-                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                    else { // preserve order
-                        Node<K,V> loHead = null, loTail = null;
-                        Node<K,V> hiHead = null, hiTail = null;
-                        Node<K,V> next;
-                        do {
-                            next = e.next;
-                            if ((e.hash & oldCap) == 0) {
-                                if (loTail == null)
-                                    loHead = e;
-                                else
-                                    loTail.next = e;
-                                loTail = e;
-                            }
-                            else {
-                                if (hiTail == null)
-                                    hiHead = e;
-                                else
-                                    hiTail.next = e;
-                                hiTail = e;
-                            }
-                        } while ((e = next) != null);
-                        if (loTail != null) {
-                            loTail.next = null;
-                            newTab[j] = loHead;
-                        }
-                        if (hiTail != null) {
-                            hiTail.next = null;
-                            newTab[j + oldCap] = hiHead;
-                        }
-                    }
-                }
-            }
-        }
-        return newTab;
-    }    
-    // ...
-}
-```
-
-## java8中解决冲突的改变
-
-利用红黑树替换链表，将时间复杂度变为O(1)+O(logn)
 
 ## 面试题
 
@@ -367,6 +394,12 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
 因为如果填充比很大，说明利用的空间很多，如果一直不进行扩容的话，链表就会越来越长，这样查找的效率很低，因为链表的长度很大（当然最新版本使用了红黑树后会改进很多），扩容之后，将原来链表数组的每一个链表分成奇偶两个子链表分别挂在新链表数组的散列位置，这样就减少了每个链表的长度，增加查找效率
 
+3、为什么需要红黑树
+
+在一种极端情况下，多个 HashCode 的值 落在了同一个桶中，使 hashMap 变成了链表，查找时间从 O(1)到 O(n)。这样非常耗时。
+红黑树: 当单个链表长度大于8时，hashMap 会将链表转换为红黑树，这样使得查询时间变成了O(logn)。
+
+> 它是如何工作的？前面产生冲突的那些KEY对应的记录只是简单的追加到一个链表后面，这些记录只能通过遍历来进行查找。但是超过这个阈值后HashMap开始将列表升级成一个二叉树，使用哈希值作为树的分支变量，如果两个哈希值不等，但指向同一个桶的话，较大的那个会插入到右子树里。如果哈希值相等，HashMap希望key值最好是实现了Comparable接口的，这样它可以按照顺序来进行插入。这对HashMap的key来说并不是必须的，不过如果实现了当然最好。如果没有实现这个接口，在出现严重的哈希碰撞的时候，你就并别指望能获得性能提升了。
 ----
 
 [Java HashMap工作原理及实现](http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/)
@@ -374,3 +407,5 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 https://www.cnblogs.com/yangming1996/p/7997468.html
 
 https://blog.csdn.net/weixin_37356262/article/details/80543218
+
+http://www.importnew.com/20386.html
