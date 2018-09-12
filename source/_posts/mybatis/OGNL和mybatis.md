@@ -3,9 +3,9 @@ title: OGNL 语言介绍与实践(转)
 date: 2018-06-04 23:22:58
 tags: 
   - OGNL
-  - mybaits
+  - mybatis
 categories:
-  - mybaits
+  - mybatis
 ---
 
 ## OGNL 的基本语法

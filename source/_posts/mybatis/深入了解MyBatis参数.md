@@ -2,9 +2,9 @@
 title: 深入了解MyBatis参数
 date: 2018-06-04 23:22:58
 tags: 
-  - mybaits
+  - mybatis
 categories:
-  - mybaits
+  - mybatis
 ---
 
 
