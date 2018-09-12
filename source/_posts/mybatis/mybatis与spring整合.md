@@ -10,6 +10,7 @@ mybatis使用***mapper.xml的配置方式
 <!--more-->
 
 ## 单独使用 mybatis
+
 单独使用mybatis时，映射mapper.xml,有两种选择。
 第一是手动在 MyBatis 的 XML 配置文件中使用 <mappers> 部分来指定类路径。
 第二是使用工厂 bean 的 mapperLocations 属 性。

@@ -1,22 +1,129 @@
 ---
 
-title: mybatis执行错误时记录sql
+title: mybatis拦截器(原)
 
 date: 2018-09-12 17:28:00
 
 categories: [mybatis]
 
-tags: [mybatis,sql]
+tags: [mybatis,sql,interceptor]
 
 ---
 
+mybatis 提供了一种插件机制，其实就是一个拦截器，用于拦截 mybatis。
 
-
-记录执行错误的sql信息
+使用拦截器可以实现很多功能，比如: 记录执行错误的sql信息
 
 <!--more-->
 
+添加一个拦截器非常简单:
+- 实现 Interceptor 接口，
+- 将拦截器注册到配置文件的<plugins>即可
 
+## 拦截器接口
+
+```java
+/**
+ * @author Clinton Begin
+ */
+public interface Interceptor {
+
+  Object intercept(Invocation invocation) throws Throwable;
+
+  Object plugin(Object target);
+
+  void setProperties(Properties properties);
+
+}
+
+```
+
+## 简单样例
+
+该样例拦截 Executor 接口的 update 方法。
+
+```java
+@Intercepts({@Signature(
+  type= Executor.class,
+  method = "update",
+  args = {MappedStatement.class,Object.class})})
+public class ExamplePlugin implements Interceptor {
+  public Object intercept(Invocation invocation) throws Throwable {
+      //可以再该处进行拦截处理。
+    return invocation.proceed();
+  }
+  public Object plugin(Object target) {
+    return Plugin.wrap(target, this);
+  }
+  public void setProperties(Properties properties) {
+  }
+}
+```
+
+```xml
+<plugins>
+    <plugin interceptor="org.format.mybatis.cache.interceptor.ExamplePlugin"></plugin>
+</plugins>
+```
+
+## 源码分析
+
+### 将 注册的插件加入 InterceptorChain
+
+先从 XMLConfigBuilder 解析 xml 配置文件开始。
+
+```java
+public class XMLConfigBuilder extends BaseBuilder { 
+    //...
+  
+  // 解析 xml 的 plugins 配置
+  private void pluginElement(XNode parent) throws Exception {
+    if (parent != null) {
+      for (XNode child : parent.getChildren()) {
+        String interceptor = child.getStringAttribute("interceptor");
+        Properties properties = child.getChildrenAsProperties();
+        //通过反射实例化 interceptor
+        Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
+        //调用接口的 setProperties() 设置 拦截器需要的变量。
+        interceptorInstance.setProperties(properties);
+        // 将拦截器加入全局配置类Configuration.interceptorChain中
+        // InterceptorChain 就是一个连接器链
+        configuration.addInterceptor(interceptorInstance);
+      }
+    }
+  } 
+  
+  //...
+}
+```
+
+拦截器链具体代码如下
+
+```java
+public class InterceptorChain {
+
+  private final List<Interceptor> interceptors = new ArrayList<Interceptor>();
+
+  public Object pluginAll(Object target) {
+    for (Interceptor interceptor : interceptors) {
+      target = interceptor.plugin(target);
+    }
+    return target;
+  }
+
+  public void addInterceptor(Interceptor interceptor) {
+    interceptors.add(interceptor);
+  }
+
+  public List<Interceptor> getInterceptors() {
+    return Collections.unmodifiableList(interceptors);
+  }
+
+}
+```
+
+
+## 应用实例一、执行错误时日志输出sql
 
 ```java
 package cn.zl.util;
@@ -163,3 +270,7 @@ public class SQLInterceptor implements Interceptor {
 }
 
 ```
+
+## 来源
+
+https://www.cnblogs.com/fangjian0423/p/mybatis-interceptor.html
