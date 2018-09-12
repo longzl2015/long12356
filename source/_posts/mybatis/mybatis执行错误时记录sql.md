@@ -94,7 +94,6 @@ public class SQLInterceptor implements Interceptor {
         return formatSql(configuration, boundSql);
     }
 
-    @SuppressWarnings("unchecked")
     private String formatSql(Configuration configuration, BoundSql boundSql) {
         String sql = boundSql.getSql();
         if (sql == null || sql.length() == 0) {
