@@ -7,6 +7,7 @@ categories: mybatis
 
 原始dao开发方法和mapper代理方法的比较。
 [原文地址](http://www.cnblogs.com/selene/p/4605191.html)
+
 <!--more-->
 
 ## 原始dao开发方法

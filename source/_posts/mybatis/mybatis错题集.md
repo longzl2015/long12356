@@ -1,5 +1,5 @@
 ---
-title: intellij idea 使用mybatis时,出现的诡异错误。
+title: mybatis错题集
 date: 2015-08-31 09:09:28
 tags: [intellij, mybatis]
 categories: mybatis
