@@ -91,8 +91,7 @@ public class XMLConfigBuilder extends BaseBuilder {
         configuration.addInterceptor(interceptorInstance);
       }
     }
-  } 
-  
+  }
   //...
 }
 ```
