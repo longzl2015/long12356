@@ -105,6 +105,7 @@ public interface Interceptor {
   // 实际处理在这里做
   Object intercept(Invocation invocation) throws Throwable;
 
+  // 返回代理对象
   // 一般 使用 `return Plugin.wrap(o, this);`即可
   Object plugin(Object target);
 
