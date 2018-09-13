@@ -52,6 +52,46 @@ public class ExamplePlugin implements Interceptor {
 </plugins>
 ```
 
+## 四大对象
+
+Mybatis 中 有四类对象 Executor，ParameterHandler，ResultSetHandler，StatementHandler。
+
+- Executor : DefaultSqlSession 是通过 Executor 完成查询的，而 Executor 是依赖 StatementHandler 完成与数据库的交互的。
+- StatementHandler : 与数据库对话，会使用 parameterHandler 和 ResultHandler 对象为我们绑定SQL参数和组装最后的结果返回
+- ParameterHandler : ParameterHandler 用于处理 sql 的参数，实际作用相当于对sql中所有的参数都执行 preparedStatement.setXXX(value);
+- ResultSetHandler : 处理Statement执行后产生的结果集，生成结果列表
+
+## 插件需要的相关注解
+
+### Intercepts
+
+Intercepts 注解 表示该类为mybatis拦截器。该注解只有一个属性 
+
+> Signature[] value();
+
+表示 拦截其需要拦截的 类 和 方法。
+
+### Signature
+
+Signature 注解。通过该注解可以确定拦截 具体哪一个类的哪个方法。
+
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({})
+public @interface Signature {
+    // 可选参数 Executor，ParameterHandler，ResultSetHandler，StatementHandler
+    Class<?> type();
+    
+    // 上面选取类型对应的方法
+    String method();
+     
+    // 由于只传方法名无法确定是具体哪一个方法，还需要带上方法的参数列表
+    Class<?>[] args();
+}
+```
+
+
 ## 源码分析
 
 ### 拦截器接口
@@ -81,6 +121,108 @@ public interface Interceptor {
 
 
 ```java
+package org.apache.ibatis.plugin;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.ibatis.reflection.ExceptionUtil;
+
+/**
+ * @author Clinton Begin
+ */
+public class Plugin implements InvocationHandler {
+
+  private Object target;
+  private Interceptor interceptor;
+  // Class<?> 代表需要拦截的类，Set<Method>代表 需要拦截的对应类的方法
+  private Map<Class<?>, Set<Method>> signatureMap;
+
+  private Plugin(Object target, Interceptor interceptor, Map<Class<?>, Set<Method>> signatureMap) {
+    this.target = target;
+    this.interceptor = interceptor;
+    this.signatureMap = signatureMap;
+  }
+
+  // 这个 target 可强制转换的类型: ParameterHandler、ResultSetHandler、StatementHandler、Executor
+  public static Object wrap(Object target, Interceptor interceptor) {
+    // 获取需要拦截的类和方法
+    Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
+    Class<?> type = target.getClass();
+    Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
+    
+    //若存在符合拦截条件的接口，创建一个代理对象
+    if (interfaces.length > 0) {
+      return Proxy.newProxyInstance(
+          type.getClassLoader(),
+          interfaces,
+          new Plugin(target, interceptor, signatureMap));
+    }
+    return target;
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    try {
+        
+      Set<Method> methods = signatureMap.get(method.getDeclaringClass());
+      if (methods != null && methods.contains(method)) {
+          // 调用接口的处理逻辑的
+        return interceptor.intercept(new Invocation(target, method, args));
+      }
+      return method.invoke(target, args);
+    } catch (Exception e) {
+      throw ExceptionUtil.unwrapThrowable(e);
+    }
+  }
+
+  //解析拦截器的注解，将注解解析成 Map<Class<?>, Set<Method>> 
+  // Class<?> 代表需要拦截的类，Set<Method>代表 需要拦截的对应类的方法
+  private static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) {
+    
+    Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
+    // issue #251
+    if (interceptsAnnotation == null) {
+      throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());      
+    }
+    Signature[] sigs = interceptsAnnotation.value();
+    Map<Class<?>, Set<Method>> signatureMap = new HashMap<Class<?>, Set<Method>>();
+    for (Signature sig : sigs) {
+      Set<Method> methods = signatureMap.get(sig.type());
+      if (methods == null) {
+        methods = new HashSet<Method>();
+        signatureMap.put(sig.type(), methods);
+      }
+      try {
+        Method method = sig.type().getMethod(sig.method(), sig.args());
+        methods.add(method);
+      } catch (NoSuchMethodException e) {
+        throw new PluginException("Could not find method on " + sig.type() + " named " + sig.method() + ". Cause: " + e, e);
+      }
+    }
+    return signatureMap;
+  }
+
+  //筛选出 target 类实现的接口: 这些接口在 拦截器的拦截列表中
+  private static Class<?>[] getAllInterfaces(Class<?> type, Map<Class<?>, Set<Method>> signatureMap) {
+    Set<Class<?>> interfaces = new HashSet<Class<?>>();
+    while (type != null) {
+      for (Class<?> c : type.getInterfaces()) {
+        if (signatureMap.containsKey(c)) {
+          interfaces.add(c);
+        }
+      }
+      type = type.getSuperclass();
+    }
+    return interfaces.toArray(new Class<?>[interfaces.size()]);
+  }
+
+}
 
 ```
 
@@ -88,4 +230,4 @@ public interface Interceptor {
 
 https://www.cnblogs.com/fangjian0423/p/mybatis-interceptor.html
 https://blog.csdn.net/qq924862077/article/details/53197778
-[ResultSetHandler](https://blog.csdn.net/ashan_li/article/details/50379458)
+https://blog.csdn.net/ykzhen2015/article/details/50349540

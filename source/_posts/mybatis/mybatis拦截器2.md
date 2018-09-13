@@ -15,14 +15,6 @@ tags: [mybatis,sql,interceptor]
 <!--more-->
 
 
-## 简单介绍四大对象
-Mybatis 中 有四类对象 Executor，ParameterHandler，ResultSetHandler，StatementHandler。
-
-- Executor : DefaultSqlSession 是通过 Executor 完成查询的，而 Executor 是依赖 StatementHandler 完成与数据库的交互的。
-- StatementHandler : 与数据库对话，会使用 parameterHandler 和 ResultHandler 对象为我们绑定SQL参数和组装最后的结果返回
-- ParameterHandler : ParameterHandler 用于处理 sql 的参数，实际作用相当于对sql中所有的参数都执行 preparedStatement.setXXX(value);
-- ResultSetHandler : 处理Statement执行后产生的结果集，生成结果列表
-
 ## 源码分析
 
 ### xml注册插件
