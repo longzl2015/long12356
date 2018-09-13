@@ -120,7 +120,6 @@ public interface Interceptor {
 
 为了方便生成代理对象和绑定方法，MyBATIS为我们提供了一个 Plugin 类。
 
-
 ```java
 package org.apache.ibatis.plugin;
 
@@ -226,6 +225,15 @@ public class Plugin implements InvocationHandler {
 }
 
 ```
+
+### 小结
+
+Plugin 和 Interceptor 的合作流程:
+
+1. Interceptor 首先会调用 plugin(Object target): 该方法会返回一个 target 的代理对象(简称为 proxy )。
+2. 当外界需要执行 target 的方法的时候，会委托 proxy 执行对应的方法。
+3. proxy 执行时，会根据 拦截器上的注解内容 判断是否进行拦截操作。若是，则调用 interceptor 的 intercept() 方法。
+4. intercept() 方法 必须执行 proxy 的 invoke 方法。
 
 ## 来源
 
