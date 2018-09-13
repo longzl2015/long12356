@@ -1,6 +1,6 @@
 ---
 
-title: mybatis拦截器(原)
+title: mybatis拦截器2
 
 date: 2018-09-12 17:28:00
 
@@ -10,65 +10,14 @@ tags: [mybatis,sql,interceptor]
 
 ---
 
-mybatis 提供了一种插件机制，其实就是一个拦截器，用于拦截 mybatis。
-
-使用拦截器可以实现很多功能，比如: 记录执行错误的sql信息
+上一章讲了 mybatis 如何通过代理实现插件功能。本章则讲述插件运行的前后逻辑。
 
 <!--more-->
 
-添加一个拦截器非常简单:
-- 实现 Interceptor 接口，
-- 将拦截器注册到配置文件的<plugins>即可
-
-## 拦截器接口
-
-```java
-/**
- * @author Clinton Begin
- */
-public interface Interceptor {
-
-  Object intercept(Invocation invocation) throws Throwable;
-
-  Object plugin(Object target);
-
-  void setProperties(Properties properties);
-
-}
-
-```
-
-## 简单样例
-
-该样例拦截 Executor 接口的 update 方法。
-
-```java
-@Intercepts({@Signature(
-  type= Executor.class,
-  method = "update",
-  args = {MappedStatement.class,Object.class})})
-public class ExamplePlugin implements Interceptor {
-  public Object intercept(Invocation invocation) throws Throwable {
-      //可以再该处进行拦截处理。
-    return invocation.proceed();
-  }
-  public Object plugin(Object target) {
-    return Plugin.wrap(target, this);
-  }
-  public void setProperties(Properties properties) {
-  }
-}
-```
-
-```xml
-<plugins>
-    <plugin interceptor="org.format.mybatis.cache.interceptor.ExamplePlugin"></plugin>
-</plugins>
-```
 
 ## 源码分析
 
-### 将 注册的插件加入 InterceptorChain
+### xml注册插件
 
 先从 XMLConfigBuilder 解析 xml 配置文件开始。
 
@@ -103,6 +52,7 @@ public class InterceptorChain {
 
   private final List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
+  //遍历执行每个plugin
   public Object pluginAll(Object target) {
     for (Interceptor interceptor : interceptors) {
       target = interceptor.plugin(target);
@@ -121,6 +71,60 @@ public class InterceptorChain {
 }
 ```
 
+### 四大对象调用插件
+
+```java
+public class Configuration {
+  //..
+  
+  // 初始化 StatementHandler 时调用 newParameterHandler()
+  public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+    ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
+    parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
+    return parameterHandler;
+  }
+
+  // 初始化 StatementHandler 时调用 newResultSetHandler()
+  public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,
+      ResultHandler resultHandler, BoundSql boundSql) {
+    ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
+    resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
+    return resultSetHandler;
+  }
+
+  // Executor 执行请求时调用
+  public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+    return statementHandler;
+  }
+
+
+  public Executor newExecutor(Transaction transaction) {
+    return newExecutor(transaction, defaultExecutorType);
+  }
+
+  // SqlSessionFactory openSession 时调用 
+  public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
+    executorType = executorType == null ? defaultExecutorType : executorType;
+    executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
+    Executor executor;
+    if (ExecutorType.BATCH == executorType) {
+      executor = new BatchExecutor(this, transaction);
+    } else if (ExecutorType.REUSE == executorType) {
+      executor = new ReuseExecutor(this, transaction);
+    } else {
+      executor = new SimpleExecutor(this, transaction);
+    }
+    if (cacheEnabled) {
+      executor = new CachingExecutor(executor);
+    }
+    executor = (Executor) interceptorChain.pluginAll(executor);
+    return executor;
+  }
+  //...
+}
+```
 
 ## 应用实例一、执行错误时日志输出sql
 
@@ -273,3 +277,5 @@ public class SQLInterceptor implements Interceptor {
 ## 来源
 
 https://www.cnblogs.com/fangjian0423/p/mybatis-interceptor.html
+https://blog.csdn.net/qq924862077/article/details/53197778
+[ResultSetHandler](https://blog.csdn.net/ashan_li/article/details/50379458)
