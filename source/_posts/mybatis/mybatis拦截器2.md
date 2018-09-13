@@ -19,7 +19,7 @@ tags: [mybatis,sql,interceptor]
 
 ### xml注册插件
 
-先从 XMLConfigBuilder 解析 xml 配置文件开始。
+ XMLConfigBuilder 会解析 xml 配置文件，然后将其xml中配置的所有插件一个一个加入到 configuration 的 InterceptorChain 中。
 
 ```java
 public class XMLConfigBuilder extends BaseBuilder { 
@@ -71,7 +71,9 @@ public class InterceptorChain {
 }
 ```
 
-### 四大对象调用插件
+### 生成 XXXHandler 和 Executor
+
+在创建 四大对象时，会 调用 interceptorChain.pluginAll() 遍历 所有插件 ，逐个代理。
 
 ```java
 public class Configuration {
