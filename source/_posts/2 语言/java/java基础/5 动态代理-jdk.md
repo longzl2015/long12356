@@ -6,21 +6,27 @@ tags: [动态代理,java]
 
 [TOC]
 
-JDK动态代理（proxy）可以在运行时创建一个实现一组给定接口的新类。但是略有限制，即被代理的类必须实现某个接口，否则无法使用JDK自带的动态代理，
-因此，如果不满足条件，就只能使用另一种更加灵活，功能更加强大的动态代理技术—— CGLIB。Spring里会自动在JDK的代理和CGLIB之间切换，同时我们也可以强制Spring使用CGLIB。
 
-本文介绍jdk原始动态代理。
+JDK动态代理可以在`运行期间`创建一个代理类，这个代理类实现了一组给定的接口方法。
+
+当调用这个代理类的接口方法时，这个调用都会被定向到 InvocationHandler.invoke()方法。在这个invoke方法中，我们可以添加任何逻辑，如打印日志、安全检查等等。
+之后，invoke方法会调用真实对象的方法。
+
+从上面的描述可以看出，动态代理是基于接口实现代理类的。因此当被代理对象没有继承接口时，JDK动态代理就无法使用，这时可以使用 CGLIB 代理，关于CGLIB 代理在下一章中介绍。
 
 <!--more-->
 
 
-JDK动态代理主要有 Proxy类的newProxyInstance()方法 和 InvocationHandler接口 这两个要点。
+JDK动态代理主要有 `Proxy类的newProxyInstance(...)方法` 和 `实现InvocationHandler接口` 这两个要点。
 
-newProxyInstance()方法用于根据传入的接口类型interfaces返回一个动态创建的代理类的实例，方法中
+newProxyInstance()方法用于根据传入的接口类型interfaces返回一个动态创建的代理类的实例，方法的参数解释
 
 - 第一个参数loader表示代理类的类加载器，
 - 第二个参数interfaces表示被代理类实现的接口列表，
 - 第三个参数h表示所指派的调用处理程序类。
+
+实现InvocationHandler接口主要是重写 invoke 方法，在invoke 方法中，可以添加任何逻辑，如打印日志、安全检查等等。
+如果不进行拦截的话，一定要 调用 `Object invoke = method.invoke(target, args);`来执行真正的方法
 
 ## 简单例子
 
@@ -68,6 +74,7 @@ public class MyInvocationHandler implements InvocationHandler {
 }
 ```
 
+测试代码
 
 ```java
 import java.lang.reflect.Proxy;
@@ -79,16 +86,9 @@ public class Test {
         IHello hello = new Hello();
         InvocationHandler handler = new MyInvocationHandler(hello);
         
-        /*
-         * 通过Proxy的newProxyInstance方法来创建我们的代理对象，我们来看看其三个参数
-         * 
-         * 第一个参数 类加载器
-         * 第二个参数 代理对象对应的接口集
-         * 第三个参数 自定义的InvocationHandler
-         */
         IHello  ihello = (IHello) Proxy.newProxyInstance(handler.getClass().getClassLoader(),  
-                hello.getClass().getInterfaces(),      //一组接口
-                handler); //自定义的InvocationHandler
+                hello.getClass().getInterfaces(),     
+                handler);
         ihello.sayHello();
     }
 }
