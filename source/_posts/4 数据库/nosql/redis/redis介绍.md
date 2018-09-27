@@ -16,6 +16,23 @@ redis 本身支持 replication、Luau 脚本、LRU eviction、事务和不同lev
 
 <!--more-->
 
+## 为什么使用redis:
+
+在项目中使用redis，主要是从两个角度去考虑:性能和并发。
+当然，redis还具备可以做分布式锁等其他功能，但是如果只是为了分布式锁这些其他功能，完全还有其他中间件(如zookpeer等)代替，并不是非要使用redis。
+
+### 性能
+
+如下图所示，我们在碰到需要执行耗时特别久，且结果不频繁变动的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够迅速响应。
+
+![](redis介绍/性能.png)
+
+### 并发
+
+如下图所示，在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问数据库。
+
+![](redis介绍/并发.png)
+
 ## 常用类型介绍
 
 Redis最为常用的数据类型主要有以下：
@@ -250,3 +267,4 @@ Pub/Sub 从字面上理解就是发布（Publish）与订阅（Subscribe），�
 ## 来源
 
 https://blog.csdn.net/hguisu/article/details/8836819
+https://www.cnblogs.com/rjzheng/p/9096228.html
