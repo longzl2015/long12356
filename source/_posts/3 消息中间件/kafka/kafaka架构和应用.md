@@ -103,7 +103,16 @@ Kafka MirrorMaker 为您的集群提供地理复制支持。使用MirrorMaker，
 kafka消费方式的实现: 在消费者实例中划分日志中的分区，每个消费者实例专门处理分配给自己的分区。这个组的成员状态检测是由kafka自己动态处理的。
 如果一个组加入了一个新的实例，新实例会接管其他成员的部分分区；如果某个实例挂了，他的分区会被其他的实例接管。
 
+kafka仅提供一个分区内的记录的总订单(order)，无法获取一个主题下所有分区的总和。
+Per-partition ordering combined with the ability to partition data by key is sufficient for most applications。
+如果需要记录上的总订单，那么可以使用只有一个分区的主题来实现，尽管这将意味着每个消费者组只有一个消费者进程。
 
+## 多租户
+
+可以将kafka部署为多租户解决方案。多租户是通过配置哪些主题可以产生或消耗数据来实现的。也有对配额的操作支持。
+管理员可以在请求上定义和执行配额，以控制客户端使用的代理资源。有关详细信息，[请参阅安全文档](https://kafka.apache.org/documentation/#security)
+
+## 
 
 ## 其他资料
 https://blog.csdn.net/wjacketcn/article/details/50912878
