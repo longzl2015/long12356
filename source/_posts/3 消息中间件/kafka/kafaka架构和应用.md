@@ -1,6 +1,6 @@
 ---
 
-title: kafaka架构和应用
+title: kafaka架构和应用(翻译)
 
 date: 2018-09-28 14:04:00
 
