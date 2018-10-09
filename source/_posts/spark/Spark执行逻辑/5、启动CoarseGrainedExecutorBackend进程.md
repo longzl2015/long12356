@@ -13,7 +13,7 @@ categories:
 
 ##一、CoarseGrainedExecutorBackend类
 
-![sparkExecutor类图](../../图/CoarseGrainedExecutorBackend类图.png)
+![sparkExecutor类图](5、启动CoarseGrainedExecutorBackend进程/CoarseGrainedExecutorBackend类图.png)
 
 1. `CoarseGrainedExecutorBackend`是**RpcEndpoint**的子类，能够和Driver进行RPC通信。
 2. `CoarseGrainedExecutorBackend`维护了两个属性executor和driver，executor负责运行task，driver负责和Driver通信。
@@ -24,7 +24,6 @@ categories:
 
 
 ## 二、启动过程
-
 
 
 ### 2.1 uml
@@ -39,8 +38,8 @@ note over ExecutorRunner: start
 note over ExecutorRunner: fetchAndRunExecutor
 ExecutorRunner -> ProcessBuilder: 调用
 note over ProcessBuilder: start
-ProcessBuilder -> Linux Command: 调用
-note over Linux Command: java -server CoarseGrainedExecutorBackend
+ProcessBuilder -> Linux_Command: 调用
+note over Linux_Command: java -server CoarseGrainedExecutorBackend
 @enduml
 ```
 
