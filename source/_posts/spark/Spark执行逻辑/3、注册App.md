@@ -19,7 +19,7 @@ categories:
 
 **SparkDeploySchedulerBackend**是SchedulerBackend的实现类，作用于Driver内，维护了和Executor的通信，配合**TaskScheduler**提交任务到Executor，以及接收Executor的计算结果。SchedulerBackend有几个实现类，分别针对不同的资源管理器，如下 
 
-![SchedulerBackend类](../../图/SchedulerBackend类.png)
+![SchedulerBackend类](3、注册App/SchedulerBackend类.png)
 
 1. **ExecutorAllocationClient**: 负责向资源管理器申请Executor。
 2. **DriverEndpoint**: 底层提交task到Executor，接收Executor返回的计算结果。
@@ -137,7 +137,7 @@ private def registerApplication(app: ApplicationInfo): Unit = {
 
 最后，完整流程如下 
 
-![img](../../图/spark注册App.png)
+![img](3、注册App/spark注册App.png)
 
 注释：
 

@@ -45,7 +45,7 @@ Executor运行在Worker节点，主要负责执行task和cache数据。
 
 ### 2.1 Executor 类图
 
-![sparkExecutor类图](../../图/sparkExecutor类图.png)
+![sparkExecutor类图](6、创建executor过程/sparkExecutor类图.png)
 
 介绍TaskRunner和Executor的主要作用
 

@@ -18,7 +18,7 @@ java.ext.dirs 用于加载指定路径下的jar文件，默认是 $JAVA_HOME/jre
 <!--more-->
 
 ### JDK software directory tree
-![jdk_tree](../../图/jdk_tree.png)
+![jdk_tree](java.ext.dirs介绍/jdk_tree.png)
 
 ### 详解
 

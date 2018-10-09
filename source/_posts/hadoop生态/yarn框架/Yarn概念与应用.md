@@ -9,7 +9,7 @@ categories:
 
 如前面所描述的, YARN 实质上是管理分布式app的系统。他由一个全局的**ResourceManager**和 每一个节点上的**NodeManager**组成。**ResourceManager**用于管理集群所有的可用资源，而每一个节点上的 **NodeManager**用于与ResourceManager沟通并负责管理单节点的可用资源。
 
-![yarnflow1](../../图/yarnflow1.png)
+![yarnflow1](Yarn概念与应用/yarnflow1.png)
 
 ## 1、Resource Manager
 
@@ -106,7 +106,7 @@ applications执行包括以下步骤：
 7. 在应用程序执行期间，提交程序的客户端通过应用程序特定的协议直接与应用程序管理器通信以获取状态，进度更新等。
 8. 一旦申请完成，并且所有必要的工作已经完成，申请管理员就会注销资源管理器并关闭，从而允许自己的容器被重新利用。
 
-![img](../../图/yarnflow.png)
+![img](Yarn概念与应用/yarnflow.png)
 
 
 

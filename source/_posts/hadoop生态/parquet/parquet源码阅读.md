@@ -8,7 +8,7 @@ categories:
   - hadoop
 ---
 
-![parquet_classes](../../图/parquet_classes.png)
+![parquet_classes](parquet源码阅读/parquet_classes.png)
 
 ## 1、parquet文件结构相关类
 

@@ -68,7 +68,7 @@ ApplicationMaster负责向调度器请求合适的container，并监控container
 
 ### 2.3 YARN的架构图：
 
-![image002](../../图/image002.jpg)
+![image002](hadoop_yarn框架/image002.jpg)
 
 新YARN系统比较重要的一条就是复用了原有的MapReduce框架，而并不需要大的改动，这对现有的MR应用以及用户来说，是非常重要的，具体是怎么复用的，以后再细说。
 
