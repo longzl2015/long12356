@@ -286,7 +286,10 @@ override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit
 
 介绍了deploy-mode=cluster模式下，从命令行提交任务，到Master端接收并注册Driver的过程，完整流程如下 
 
-```sequence
+
+
+```puml
+@startuml
 title:spark-submit到Driver注册的过程
 
 note over "spark-submit": shell
@@ -303,6 +306,7 @@ note over ClientEndpoint: onStart
 ClientEndpoint -> Master: 发送RequestSubmitDriver消息
 note over Master: receiveAndReply
 Master -> Master: 注册Driver到waitingDrivers中
+@enduml
 ```
 
 

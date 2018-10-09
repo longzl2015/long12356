@@ -1,6 +1,6 @@
 ---
 title: 创建executor 过程
-date: 2017-06-04 23:22:58
+date: 2017-06-04 23:23:03
 tags: 
   - spark
 categories:
@@ -21,7 +21,8 @@ categories:
 
 注： Drive 在类CoarseGrainedSchedulerBackend.scala中
 
-```sequence
+```puml
+@startuml
 Title: spark 创建executor 过程
 Note over CoarseGrainedExecutorBackend: main
 Note over CoarseGrainedExecutorBackend: run
@@ -36,6 +37,7 @@ Driver->CoarseGrainedExecutorBackend: RegisteredExecutor消息
 Note over CoarseGrainedExecutorBackend: receive 
 CoarseGrainedExecutorBackend->Executor:创建Executor
 Note over Executor: contructor
+@enduml
 ```
 ## 二、Executor
 

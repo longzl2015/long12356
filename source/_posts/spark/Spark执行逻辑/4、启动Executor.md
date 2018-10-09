@@ -1,6 +1,6 @@
 ---
 title: 启动Executor
-date: 2017-06-04 23:22:58
+date: 2017-06-04 23:23:01
 tags: 
   - spark
 categories:
@@ -209,7 +209,8 @@ private def launchExecutor(worker: WorkerInfo, exec: ExecutorDesc): Unit = {
 
 流程如下 
 
-```sequence
+```puml
+@startuml
 title: 启动Executor
 
 note over Master: receive\n(case RequestSubmitDriver)
@@ -218,4 +219,5 @@ note over Master: startExecutorsOnWorkers
 note over Master: allocateWorkerResourceToExecutors
 note over Master: launchExecutor
 Master -> Worker: launch executor
+@enduml
 ```

@@ -1,6 +1,6 @@
 ---
 title: 启动CoarseGrainedExecutorBackend进程
-date: 2017-06-04 23:22:58
+date: 2017-06-04 23:23:02
 tags: 
   - spark
 categories:
@@ -29,7 +29,8 @@ categories:
 
 ### 2.1 uml
 
-```sequence
+```puml
+@startuml
 title:CoarseGrainedExecutorBackend的启动
 
 note over Work: receive(case LaunchExecutor)
@@ -40,6 +41,7 @@ ExecutorRunner -> ProcessBuilder: 调用
 note over ProcessBuilder: start
 ProcessBuilder -> Linux Command: 调用
 note over Linux Command: java -server CoarseGrainedExecutorBackend
+@enduml
 ```
 
 ### 2.2 详细过程

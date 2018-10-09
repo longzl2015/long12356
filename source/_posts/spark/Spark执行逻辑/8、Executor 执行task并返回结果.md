@@ -1,6 +1,6 @@
 ---
 title: executor执行task比返回结果
-date: 2017-06-04 23:22:58
+date: 2017-06-04 23:23:05
 tags: 
   - spark
 categories:

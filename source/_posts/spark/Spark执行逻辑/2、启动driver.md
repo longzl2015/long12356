@@ -1,7 +1,7 @@
 
 ---
 title: 启动Driver
-date: 2017-06-04 23:22:58
+date: 2017-06-04 23:22:59
 tags: 
   - spark
 categories:
@@ -206,7 +206,8 @@ java -cp $SPARK_ASSEMBLY_JAR \
 
 介绍了Master将Driver发送到Worker，及在Worker节点启动Driver的流程，如下 
 
-```sequence
+```puml
+@startuml
 title:master启动driver节点
 
 note over Master: receiveAndReply\n(case RequsetSubmitDriver)
@@ -222,4 +223,5 @@ DriverRunner -> DriverRunner:调用
 note over DriverRunner: launchDriver
 DriverRunner -> ProcessBuilder: 调用
 note over ProcessBuilder: 拼装 java 启动命令，并执行
+@enduml
 ```
