@@ -245,6 +245,7 @@ _heartbeatReceiver是默认基于netty实现的心跳机制，创建schedulerBac
 ```
 
 executorAllocationManager关于Executor动态资源分配，通过spark.dynamicAllocation.enabled设置，创建contextcleaner用于清理过期的RDD, shuffle和broadcast ，启动ListenerBus，并post环境信息和应用信息，最后添加确保context停止的hook，至此整个sparkcontext的初始化流程结束。
+
 ```scala    
     _executorAllocationManager =
       if (dynamicAllocationEnabled) {

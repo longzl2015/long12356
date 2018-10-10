@@ -17,16 +17,12 @@ spark.eventLog.dir      hdfs://hadoop1:8000/sparklogs
 spark.yarn.historyServer.address    hadoop1:18080  
 ```
 
- 
-
 进入$SPARK_HOME/sbin路径
 
 ```
 ./start-all.sh
 ./start-history-server.sh 
 ```
-
- 
 
 注意：会启动失败，控制台显示
 
@@ -92,7 +88,7 @@ export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080 -Dspark.history.retaine
 　　默认值：false
 　　授权用户查看应用程序信息的时候是否检查acl。如果启用，只有应用程序所有者和spark.ui.view.acls指定的用户可以查看应用程序信息;否则，不做任何检查
 
-**8）spark.eventLog.enabled **
+**8）spark.eventLog.enabled**
 　　默认值：false 
 　　是否记录Spark事件，用于应用程序在完成后重构webUI
 
