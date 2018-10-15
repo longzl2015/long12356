@@ -43,8 +43,9 @@ public void purchase(String username,string isbn){
 ### 纯注解形式
 
 ```java
-// 在启动类上 添加 @SpringBootApplication
+// 在启动类上 添加 @EnableTransactionManagement
 @SpringBootApplication
+@EnableTransactionManagement
 public class Application {
 
     public static void main(String[] args) {
@@ -80,7 +81,12 @@ public class BookingService {
 }
 ```
 
+### Transactional使用注意点
 
+1. 由于 Transactional 注解使用的是AOP形式，因此，Transactional注解只能作用在 public 方法上。如果放在了非public方法上，编译器并不会报错，但是不会有事务功能。
+2. spring事务管理器，默认只对运行时异常进行回滚操作。如果方法抛出的是 unchecked 异常，事务不会进行回滚。若需要进行回滚可以指定 rollbackFor 属性。
+3. spring团队建议将 Transactional 放在 具体的类或者具体的方法上。因为这只有在使用基于接口的代理时它才会生效。
+4. 一个方法调用被 Transactional 注解标记的同类中的另一个方法时，事务不会生效。
 
 ## 事务的相关标签介绍
 
