@@ -85,8 +85,10 @@ public class BookingService {
 
 1. 由于 Transactional 注解使用的是AOP形式，因此，Transactional注解只能作用在 public 方法上。如果放在了非public方法上，编译器并不会报错，但是不会有事务功能。
 2. spring事务管理器，默认只对运行时异常进行回滚操作。如果方法抛出的是 unchecked 异常，事务不会进行回滚。若需要进行回滚可以指定 rollbackFor 属性。
-3. spring团队建议将 Transactional 放在 具体的类或者具体的方法上。因为这只有在使用基于接口的代理时它才会生效。
-4. 一个方法调用被 Transactional 注解标记的同类中的另一个方法时，事务不会生效。
+3. spring团队建议将 Transactional 放在 具体的类或者具体的方法上。因为如果将注解写在接口上，而此时aop使用的是cglib代理，那么事务就会失效。
+4. 一个方法调用被 Transactional 注解标记的同类中的另一个方法时，事务不会生效。(可以使用自注入或者新增一个事务层解决)
+5. “proxy-target-class” 属性值来控制是基于接口的还是基于类的代理被创建。默认为 fasle 即 jdk代理。
+
 
 ## 事务的相关标签介绍
 
@@ -170,3 +172,4 @@ public class BookingService {
 ## 来源
 
 https://spring.io/guides/gs/managing-transactions/
+https://mojito515.github.io/blog/2016/08/31/transactionalinspring/
