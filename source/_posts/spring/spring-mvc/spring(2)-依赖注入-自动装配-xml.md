@@ -1,5 +1,5 @@
 ---
-title: spring(2)-依赖注入-xml-自动装配autowired
+title: spring(2)-依赖注入-自动装配-xml
 date: 2015-08-10 13:26:58
 tags: [自动装配,autowired]
 categories: spring

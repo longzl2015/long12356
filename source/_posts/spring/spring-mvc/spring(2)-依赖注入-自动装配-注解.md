@@ -95,7 +95,7 @@ public class MovieRecommender {
 ```
 
 
-## 集合 注入
+## 集合注入
 
 注入指定类型的所有实例 到 集合变量中 。
 
@@ -119,7 +119,11 @@ public class MovieRecommender {
 }
 ```
 
-## map<String,SomeType> 注入
+## map注入
+
+map注入形式:
+
+`Map<String,SomeType>`
 
 以 string 类型为 key 的map: spring 会将 ApplicationContext 中的对应的 SomeType 注入 该map中。
 
