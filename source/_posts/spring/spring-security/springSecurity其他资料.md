@@ -4,9 +4,9 @@ title: springSecurity其他资料
 
 date: 2018-10-19 13:35:00
 
-categories: [springsecurity]
+categories: [SpringSecurity]
 
-tags: [springsecurity,todo]
+tags: [SpringSecurity,todo]
 
 ---
 
@@ -17,3 +17,5 @@ tags: [springsecurity,todo]
 <!--more-->
 
 https://www.jianshu.com/p/a41a8f09b811
+https://springcloud.cc/spring-security-zhcn.html
+https://spring.io/guides/topicals/spring-security-architecture/
