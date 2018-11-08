@@ -154,7 +154,10 @@ int index = (n - 1) & hash(key)
 
 因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”
 
-### 源码
+## 源码
+
+### resize 函数实现
+
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
     implements Map<K,V>, Cloneable, Serializable {
@@ -258,7 +261,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 }
 ```
 
-## put函数实现
+### put函数实现
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
@@ -345,7 +348,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 5. 如果节点已经存在就替换old value(保证key的唯一性)
 6. 如果bucket满了(超过load factor*current capacity)，就要resize。
 
-## get函数实现
+### get函数实现
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
@@ -391,7 +394,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 	- 若为链表，则在链表中通过key.equals(k)查找，O(n)。
 
 
-## 面试题
+## 常见问题
 
 1、hashmap中的键为自定义的类型。放入 HashMap 后，我们在外部把某一个 key 的属性进行更改，然后我们再用这个 key 从 HashMap 里取出元素，这时候 HashMap 会返回什么？
 
