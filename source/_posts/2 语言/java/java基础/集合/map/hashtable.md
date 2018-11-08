@@ -6,7 +6,8 @@ tags: [hashtable,集合]
 
 [TOC]
 
-Hashtable 是java一开始发布时就提供的键值映射的数据结构，而HashMap产生于JDK1.2。虽然Hashtable比HashMap出现的早一些，但是现在Hashtable基本上已经被弃用了。
+Hashtable 是java一开始发布时就提供的键值映射的数据结构，而HashMap产生于JDK1.2。
+虽然Hashtable比HashMap出现的早一些，但是现在Hashtable基本上已经被弃用了。
 另外，Hashtable没有遵循驼峰式命名。
 
 <!--more-->
@@ -48,9 +49,9 @@ Hashtable .up.> Map
 @enduml
 ```
 
-## hashtable结构
+## hashtable 结构
 
-![hashtable](http://7xlgbq.com1.z0.glb.clouddn.com/hashtable.jpg "hashtable")
+![Hashtable](hashtable/hashtable.png)
 
 结构与 hashmap 一样：一个数组 + 链表。
 
@@ -81,3 +82,4 @@ Hashtable .up.> Map
 [Java集合学习3：Hashtable的实现原理](http://tracylihui.github.io/2015/07/01/Java%E9%9B%86%E5%90%88%E5%AD%A6%E4%B9%A03%EF%BC%9AHashtable%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/)
 
 https://blog.csdn.net/wangxing233/article/details/79452946
+https://www.cnblogs.com/skywang12345/p/3310887.html
