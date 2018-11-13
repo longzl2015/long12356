@@ -2,6 +2,7 @@
 title: ThreadLocal.md
 date: 2016-03-20 16:59:48
 tags: [threadlocal,并发]
+categories: [并发]
 ---
 
 [TOC]

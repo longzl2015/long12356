@@ -2,6 +2,7 @@
 title: synchronized和lock.md
 date: 2016-03-19 10:50:42
 tags: [synchronized,lock]
+categories: [并发]
 ---
 
 [TOC]
