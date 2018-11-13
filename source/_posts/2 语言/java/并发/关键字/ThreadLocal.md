@@ -46,7 +46,7 @@ key: ThreadLocal<T>对象的hashCode)
 value: T的值
 ```
 
-为什么是map呢： 因为一个线程可能需要存储多个变量
+为什么是map呢： 因为一个线程类中，可能会申明多个 ThreadLocal 变量。
 
 ### 部分源码
 ```java
