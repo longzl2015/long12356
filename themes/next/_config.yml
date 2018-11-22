@@ -242,7 +242,7 @@ post_wordcount:
   #description: ex. subscribe to my blog by scanning my public wechat account
 
 # Reward
-reward_comment: 如果写的不好，欢迎交流。
+reward_comment: 欢迎质疑，讨论。
 #wechatpay: /images/wechatpay.jpg
 alipay: /images/alipay.png
 #bitcoin: /images/bitcoin.png
