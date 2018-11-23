@@ -50,3 +50,7 @@ spring 工具类笔记
 | parseMatrixVariables           |                                                                                                           |
 | removeWebAppRootSystemProperty |                                                                                                           |
 | setWebAppRootSystemProperty    |                                                                                                           |
+
+
+## RequestContextHolder
+

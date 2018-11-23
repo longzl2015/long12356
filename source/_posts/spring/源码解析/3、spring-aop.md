@@ -18,6 +18,5 @@ tags: [spring]
 
 
 ## 来源
-
-http://www.importnew.com/28342.html
-http://www.uml.org.cn/j2ee/201301102.asp
+[](http://www.importnew.com/28342.html)
+[](http://www.uml.org.cn/j2ee/201301102.asp)
