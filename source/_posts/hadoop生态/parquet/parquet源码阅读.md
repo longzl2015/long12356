@@ -76,7 +76,7 @@ org.apache.spark.sql.parquet.row.metadata={
     {"name":"tbr_lccont_cnt","type":"double","nullable":false,"metadata":{}},
     {"name":"tbr_marriage","type":"double","nullable":false,"metadata":{}},
     {"name":"tbr_year_prem","type":"double","nullable":false,"metadata":{}},
-    {"name":"bsfit_result","type":"string","nullable":true,"metadata":{}}
+    {"name":"bit_result","type":"string","nullable":true,"metadata":{}}
     ]
   }}
 ```
