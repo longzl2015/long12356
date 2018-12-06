@@ -10,8 +10,11 @@ categories:
 ## 启动 mysql
 
 ```bash
-docker run --name localmysql --restart=always -p 3306:3306 -v e:/docker/data/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql:5.6 --lower_case_table_names=1
+docker run --name localmysql --restart=always -p 3306:3306  -e MYSQL_ROOT_PASSWORD=root -d mysql:5.6 --lower_case_table_names=1
 ```
+
+- 若要指定路径放到 宿主机上，添加 `-v e:/docker/data/mysql:/var/lib/mysql` 即可。
+- 若需要在 定制 sql-model 直接在 docker 命令的末尾加上 `--sql-mode=""`即可
 
 ## 启动 迅雷
 
