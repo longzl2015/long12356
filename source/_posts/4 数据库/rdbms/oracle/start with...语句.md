@@ -95,3 +95,7 @@ PIROR运算符被置于CONNECT BY 子句中等号的后面时，则强制从叶�
 
 ## 6．排序显示
 象在其它查询中一样，在树结构查询中也可以使用ORDER BY 子句，改变查询结果的显示顺序，而不必按照遍历树结构的顺序。
+
+## 资料
+
+[start with](https://www.cnblogs.com/ZHF/archive/2008/09/10/1288101.html)
