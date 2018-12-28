@@ -200,5 +200,4 @@ def rulesFromConseq(freqSet, H, supportData, brl, minConf=0.7):
         Hmp1 = calcConf(freqSet, Hmp1, supportData, brl, minConf)
         if (len(Hmp1) > 1):    #need at least two sets to merge
             rulesFromConseq(freqSet, Hmp1, supportData, brl, minConf)
-
 ```
