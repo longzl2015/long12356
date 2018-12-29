@@ -82,8 +82,8 @@ Name 中的值会在对应对象中调用 setXX 方法来注入，xx代表 name 
 `xml文件`
 ```xml
 <bean id="car" chass="com.zju.spring.beans.HelloWorld">
-	<constructor-arg value="奥迪" index=0></constructor-arg>
-	<constructor-arg value="长春一汽" index=1></constructor-arg>
+	<constructor-arg value="奥迪" index= '0' > </constructor-arg>
+	<constructor-arg value="长春一汽" index='1'> </constructor-arg>
 </bean>
 ```
 
@@ -204,3 +204,4 @@ Name 中的值会在对应对象中调用 setXX 方法来注入，xx代表 name 
 ```xml
 <bean id="persion5" class="com.zju.spring.collection.Persion" p:age="30" p:name="Queen" p:cars-ref="cars"></bean>
 ```
+  方法
