@@ -183,7 +183,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
         }
 
         if (this.publishContext) {
-            // 将新创建的容器上下文设置到ServletContext中
+            // 将新创建的web上下文设置到ServletContext中
             String attrName = getServletContextAttributeName();
             getServletContext().setAttribute(attrName, wac);
         }
@@ -192,6 +192,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
     }
 }
 ```
+
 
 
 
