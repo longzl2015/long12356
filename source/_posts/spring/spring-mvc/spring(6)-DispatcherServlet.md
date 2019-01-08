@@ -193,6 +193,43 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 }
 ```
 
+### DispatcherServlet 类
+
+```java
+public class DispatcherServlet extends FrameworkServlet {
+    //..
+    
+    @Override
+    protected void onRefresh(ApplicationContext context) {
+        initStrategies(context);
+    }
+    
+    /**
+     * Initialize the strategy objects that this servlet uses.
+     * <p>May be overridden in subclasses in order to initialize further strategy objects.
+     */
+    protected void initStrategies(ApplicationContext context) {
+        
+        // Resolver 主要通过修改http的请求(cookie、session、head)达到各种目的
+        initMultipartResolver(context);// MultipartResolver: 处理文件上传
+        initLocaleResolver(context);// LocaleResolver: 处理多语言环境
+        initThemeResolver(context);// ThemeResolver: 处理主题风格
+        
+        // 从Spring容器中查找 HandlerMapping 实例列表
+        initHandlerMappings(context);
+        // 从Spring容器中查找 HandlerAdapters 实例列表
+        initHandlerAdapters(context);
+        initHandlerExceptionResolvers(context);
+        initRequestToViewNameTranslator(context);
+        initViewResolvers(context);
+        initFlashMapManager(context);
+    }
+   	protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //todo ..
+   	}
+   	
+}
+```
 
 
 
