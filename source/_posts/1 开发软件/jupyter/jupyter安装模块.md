@@ -11,7 +11,10 @@ tags: [jupyter]
 ---
 
 
-本文来自 https://nbviewer.jupyter.org/format/script/url/jakevdp.github.com/downloads/notebooks/JupyterInstallation.ipynb。
+本文来自 
+https://nbviewer.jupyter.org/format/script/url/jakevdp.github.com/downloads/notebooks/JupyterInstallation.ipynb。
+复制到此处用于备份。
+
 主要介绍 如何在 jupyter 中安装 python模块。
 
 先说结论: 
