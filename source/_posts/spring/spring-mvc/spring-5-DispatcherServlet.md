@@ -1,6 +1,6 @@
 ---
 
-title: spring(6)-DispatcherServlet
+title: spring-5-DispatcherServlet
 
 date: 2018-10-19 13:33:00
 
@@ -18,11 +18,11 @@ ff
 
 ## DispatcherServlet继承关系
 
-![](spring(6)-DispatcherServlet/DispatcherServlet.png)
+![](spring-6-DispatcherServlet/DispatcherServlet.png)
 
 ### 首先看 HttpServlet
 
-![](spring(6)-DispatcherServlet/HTTPServlet.png)
+![](spring-6-DispatcherServlet/HTTPServlet.png)
 
 ServletConfig 定义4个方法:  
 
@@ -57,7 +57,7 @@ HttpServlet: 将请求细分为7种http-method(doGet、doPost、doPut、doDelete
 
 ### FrameworkServlet
 
-![](spring(6)-DispatcherServlet/FrameworkServlet.png)
+![](spring-6-DispatcherServlet/FrameworkServlet.png)
 
 Aware: 实现该接口的bean能够从spring容器中获取对应的资源
 

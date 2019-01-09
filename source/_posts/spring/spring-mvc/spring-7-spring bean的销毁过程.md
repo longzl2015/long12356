@@ -1,6 +1,6 @@
 ---
 
-title: spring bean的销毁过程(转)
+title: spring-7-SpringBean的销毁过程(转)
 
 date: 2018-08-22 15:20:00
 
@@ -143,7 +143,7 @@ public void destroySingletons() {
 所以你可以在destroyBean中看到一个关键逻辑，会先执行当前bean所依赖的bean的销毁操作。代码如下：
 
 ```java
-    ...
+    //...
     Set<String> dependencies = this.dependentBeanMap.remove(beanName);
 	if (dependencies != null) {
 		if (logger.isDebugEnabled()) {
@@ -153,7 +153,7 @@ public void destroySingletons() {
 			destroySingleton(dependentBeanName);
 		}
 	}
-    ...
+    //...
 ```
 
 对于bean之间的依赖配置，可以使用下面方式：

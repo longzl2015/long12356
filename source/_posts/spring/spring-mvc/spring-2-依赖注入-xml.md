@@ -1,5 +1,5 @@
 ---
-title: spring(2)-依赖注入-xml
+title: spring-2-依赖注入-xml
 date: 2015-08-10 13:26:58
 tag: [依赖注入,xml]
 categories: spring

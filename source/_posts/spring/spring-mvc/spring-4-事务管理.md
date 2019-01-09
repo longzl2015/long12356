@@ -1,5 +1,5 @@
 ---
-title: spring(4)-事务管理
+title: spring-4-事务管理
 date: 2015-08-12 20:59:28
 tags: [aop,事务管理]
 categories: spring
