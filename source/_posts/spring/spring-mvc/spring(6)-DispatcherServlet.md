@@ -108,6 +108,12 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 
 FrameworkServlet类:
 
+- initServletBean() 初始化Spring上下文和子类信息
+- service() 处理请求 针对每种httpMethod做些修改后，调用 processRequest()
+- processRequest() 处理请求 获取本地信息和 RequestAttributes等
+- doService 由子类完成
+
+
 ```java
 public abstract class FrameworkServlet extends HttpServletBean implements ApplicationContextAware {
     //...
@@ -190,10 +196,53 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 
         return wac;
     }
+    
+    protected final void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        long startTime = System.currentTimeMillis();
+        Throwable failureCause = null;
+
+        LocaleContext previousLocaleContext = LocaleContextHolder.getLocaleContext();
+        LocaleContext localeContext = buildLocaleContext(request);
+
+        RequestAttributes previousAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes requestAttributes = buildRequestAttributes(request, response, previousAttributes);
+
+        WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
+        asyncManager.registerCallableInterceptor(FrameworkServlet.class.getName(), new RequestBindingInterceptor());
+
+        initContextHolders(request, localeContext, requestAttributes);
+
+        try {
+            doService(request, response);
+        }
+        catch (ServletException | IOException ex) {
+            failureCause = ex;
+            throw ex;
+        }
+        catch (Throwable ex) {
+            failureCause = ex;
+            throw new NestedServletException("Request processing failed", ex);
+        }
+
+        finally {
+            resetContextHolders(request, previousLocaleContext, previousAttributes);
+            if (requestAttributes != null) {
+                requestAttributes.requestCompleted();
+            }
+            logResult(request, response, failureCause, asyncManager);
+            publishRequestHandledEvent(request, response, startTime, failureCause);
+        }
+    }
 }
 ```
 
 ### DispatcherServlet 类
+
+- onRefresh() 由 FrameworkServlet 的 initWebApplicationContext方法调用
+- doService() 实现 FrameworkServlet 的 doService 方法: 主要做一些请求的属性设置，然后调用 doDispatch()
+- doDispatch() 通过 HandlerMapping 获取 Handler，再找到用于执行它的 HandlerAdapter，执行 Handler 后得到 ModelAndView ，ModelAndView 是连接“业务逻辑层”与“视图展示层”的桥梁，接下来就要通过 ModelAndView 获得 View，再通过它的 Model 对 View 进行渲染
 
 ```java
 public class DispatcherServlet extends FrameworkServlet {
@@ -219,14 +268,126 @@ public class DispatcherServlet extends FrameworkServlet {
         initHandlerMappings(context);
         // 从Spring容器中查找 HandlerAdapters 实例列表
         initHandlerAdapters(context);
+        // 从Spring容器中查找 HandlerExceptionResolvers 实例
         initHandlerExceptionResolvers(context);
+        // 从Spring容器中查找 RequestToViewNameTranslator 实例
         initRequestToViewNameTranslator(context);
+        // 从Spring容器中查找 ViewResolvers 实例
         initViewResolvers(context);
+        // 从Spring容器中查找 FlashMapManager 实例
         initFlashMapManager(context);
     }
-   	protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //todo ..
-   	}
+    
+    @Override
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        logRequest(request);
+
+        // Keep a snapshot of the request attributes in case of an include,
+        // to be able to restore the original attributes after the include.
+        Map<String, Object> attributesSnapshot = null;
+        if (WebUtils.isIncludeRequest(request)) {
+            attributesSnapshot = new HashMap<>();
+            Enumeration<?> attrNames = request.getAttributeNames();
+            while (attrNames.hasMoreElements()) {
+                String attrName = (String) attrNames.nextElement();
+                if (this.cleanupAfterInclude || attrName.startsWith(DEFAULT_STRATEGIES_PREFIX)) {
+                    attributesSnapshot.put(attrName, request.getAttribute(attrName));
+                }
+            }
+        }
+
+        // Make framework objects available to handlers and view objects.
+        request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE, getWebApplicationContext());
+        request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, this.localeResolver);
+        request.setAttribute(THEME_RESOLVER_ATTRIBUTE, this.themeResolver);
+        request.setAttribute(THEME_SOURCE_ATTRIBUTE, getThemeSource());
+
+        if (this.flashMapManager != null) {
+            FlashMap inputFlashMap = this.flashMapManager.retrieveAndUpdate(request, response);
+            if (inputFlashMap != null) {
+                request.setAttribute(INPUT_FLASH_MAP_ATTRIBUTE, Collections.unmodifiableMap(inputFlashMap));
+            }
+            request.setAttribute(OUTPUT_FLASH_MAP_ATTRIBUTE, new FlashMap());
+            request.setAttribute(FLASH_MAP_MANAGER_ATTRIBUTE, this.flashMapManager);
+        }
+
+        try {
+            doDispatch(request, response);
+        }
+        finally {
+            if (!WebAsyncUtils.getAsyncManager(request).isConcurrentHandlingStarted()) {
+                // Restore the original attribute snapshot, in case of an include.
+                if (attributesSnapshot != null) {
+                    restoreAttributesAfterInclude(request, attributesSnapshot);
+                }
+            }
+        }
+    }
+    
+    protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpServletRequest processedRequest = request;
+        HandlerExecutionChain mappedHandler = null;
+        boolean multipartRequestParsed = false;
+        // 获取当前请求的WebAsyncManager，如果没找到则创建并与请求关联
+        WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
+        try {
+            ModelAndView mv = null;
+            Exception dispatchException = null;
+            try {
+                // 检查是否有 Multipart，有则将请求转换为 Multipart 请求
+                processedRequest = checkMultipart(request);
+                multipartRequestParsed = (processedRequest != request);
+                // 遍历所有的 HandlerMapping 找到与请求对应的 Handler，并将其与一堆拦截器封装到 HandlerExecution 对象中。
+                mappedHandler = getHandler(processedRequest);
+                if (mappedHandler == null || mappedHandler.getHandler() == null) {
+                    noHandlerFound(processedRequest, response);
+                    return;
+                }
+                // 遍历所有的 HandlerAdapter，找到可以处理该 Handler 的 HandlerAdapter
+                HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
+                // 处理 last-modified 请求头 
+                String method = request.getMethod();
+                boolean isGet = "GET".equals(method);
+                if (isGet || "HEAD".equals(method)) {
+                    long lastModified = ha.getLastModified(request, mappedHandler.getHandler());
+                    if (new ServletWebRequest(request, response).checkNotModified(lastModified) && isGet) {
+                        return;
+                    }
+                }
+                // 遍历拦截器，执行它们的 preHandle() 方法
+                if (!mappedHandler.applyPreHandle(processedRequest, response)) {
+                    return;
+                }
+                try {
+                    // 执行实际的处理程序
+                    mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+                } finally {
+                    if (asyncManager.isConcurrentHandlingStarted()) {
+                        return;
+                    }
+                }
+                applyDefaultViewName(request, mv);
+                // 遍历拦截器，执行它们的 postHandle() 方法
+                mappedHandler.applyPostHandle(processedRequest, response, mv);
+            } catch (Exception ex) {
+                dispatchException = ex;
+            }
+            // 处理执行结果，是一个 ModelAndView 或 Exception，然后进行渲染
+            processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+        } catch (Exception ex) {
+        } catch (Error err) {
+        } finally {
+            if (asyncManager.isConcurrentHandlingStarted()) {
+                // 遍历拦截器，执行它们的 afterCompletion() 方法  
+                mappedHandler.applyAfterConcurrentHandlingStarted(processedRequest, response);
+                return;
+            }
+            // Clean up any resources used by a multipart request.
+            if (multipartRequestParsed) {
+                cleanupMultipart(processedRequest);
+            }
+        }
+    }
    	
 }
 ```
