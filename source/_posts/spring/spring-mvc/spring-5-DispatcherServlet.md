@@ -24,14 +24,16 @@ ff
 
 ![](spring-6-DispatcherServlet/HTTPServlet.png)
 
-ServletConfig 定义4个方法:  
+#### ServletConfig 
+定义4个方法:  
 
 - getInitParameter
 - getInitParameterNames
 - getServletContext
 - getServletName
 
-Servlet 定义了5个方法: 
+#### Servlet 
+定义了5个方法: 
 
 - destroy
 - getServletConfig
@@ -39,12 +41,13 @@ Servlet 定义了5个方法:
 - init
 - service: 该方法 处理所有的 http 请求。
 
-GenericServlet: 
+#### GenericServlet
 
 - 实现了一个通用的Servlet类
 - 仍保留一个抽象方法 `void service(ServletRequest req, ServletResponse res)`
 
-HttpServlet: 将请求细分为7种http-method(doGet、doPost、doPut、doDelete等)。
+#### HttpServlet
+将请求细分为7种http-method(doGet、doPost、doPut、doDelete等)。
 
 - get: 用于请求资源
 - head: 与get基本一致，区别在于服务器只返回HTTP头信息，不包含响应体
@@ -61,19 +64,22 @@ HttpServlet: 将请求细分为7种http-method(doGet、doPost、doPut、doDelete
 
 Aware: 实现该接口的bean能够从spring容器中获取对应的资源
 
-EnvironmentAware接口: 设置环境变量
+#### EnvironmentAware接口
+设置环境变量
 
 - setEnvironment(*)
 
-ApplicationContextAware接口: 设置应用上下文
+#### ApplicationContextAware接口
+设置应用上下文
 
 - setApplicationContext(*)
 
-EnvironmentCapable接口: 获取环境变量
+#### EnvironmentCapable接口
+获取环境变量
 
 - getEnvironment() 
 
-HttpServletBean类: 
+#### HttpServletBean类
 
 ```java
 public abstract class HttpServletBean extends HttpServlet implements EnvironmentCapable, EnvironmentAware {
@@ -106,7 +112,7 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 }
 ```
 
-FrameworkServlet类:
+#### FrameworkServlet类
 
 - initServletBean() 初始化Spring上下文和子类信息
 - service() 处理请求 针对每种httpMethod做些修改后，调用 processRequest()
