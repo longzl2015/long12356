@@ -11,12 +11,12 @@ tags: [springmvc,todo]
 ---
 
 
-ff
+该章介绍了 DispatcherServlet 继承关系和 处理请求的过程。
 
 
 <!--more-->
 
-## DispatcherServlet继承关系
+## DispatcherServlet 继承关系
 
 ![](spring-6-DispatcherServlet/DispatcherServlet.png)
 
