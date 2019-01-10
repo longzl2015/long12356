@@ -50,7 +50,7 @@ public class Servlet extends HttpServlet {
 
 1. 创建实例：
 
-	- 第一次请求servlet
+	- 第一次请求 servlet
 	- 启动时立即创建，即load-on-startup servlet
 	
 2. 初始化：调用init()方法
