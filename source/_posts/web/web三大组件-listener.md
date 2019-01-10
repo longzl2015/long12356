@@ -1,6 +1,6 @@
 ---
 
-title: javaWeb 三大组件之一(listener）
+title: web三大组件-listener
 
 date: 2018-09-06 17:42:00
 
@@ -31,7 +31,7 @@ JavaWeb中的监听器 主要有8个.
 
 ## 启动顺序
 
-![](listener/启动顺序.png)
+![](web三大组件-listener/启动顺序.png)
 
 ## 生命周期监听
 

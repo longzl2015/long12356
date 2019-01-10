@@ -1,5 +1,5 @@
 ---
-title: javaWeb 三大组件之一(servlet)
+title: web三大组件-servlet
 date: 2016-03-16 23:22:58
 categories: [web]
 tags: [web,servlet]
@@ -17,7 +17,7 @@ Servlet是Java Web的三大组件（Servlet,Filter,Listener）之一，属于动
 
 > 接受请求数据、处理请求、完成响应
 
-![](servlet/请求过程.png)
+![](web三大组件-servlet/请求过程.png)
 
 ## 实现 servlet 
 
@@ -49,15 +49,17 @@ public class Servlet extends HttpServlet {
 ## servlet 生命周期
 
 1. 创建实例：
+
 	- 第一次请求servlet
 	- 启动时立即创建，即load-on-startup servlet
+	
 2. 初始化：调用init()方法
 3. 响应请求：调用service()方法, 根据请求方法选择 doGet 或 doPost
 5. 实例销毁：调用destroy()方法,在servlet容器停止或者重新启动时发生
 
 ## servlet调用图
 
-![servlet调用图](http://7xlgbq.com1.z0.glb.clouddn.com/servlet调用图.jpg "servlet调用图")
+![servlet调用图](web三大组件-servlet/servlet调用图.png)
 
 Servlet访问的过程：
 

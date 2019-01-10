@@ -18,35 +18,46 @@ tags: [springmvc,todo]
 
 ## DispatcherServlet 继承关系
 
+下图为DispatcherServlet 完整的UML图。
+
 ![](spring-6-DispatcherServlet/DispatcherServlet.png)
 
-### 首先看 HttpServlet
+### HttpServlet
+
+HttpServlet 完整UML图如下。
 
 ![](spring-6-DispatcherServlet/HTTPServlet.png)
 
-#### ServletConfig 
-定义4个方法:  
+我们先从最底层的接口看起，最后再看HTTPServlet。
 
-- getInitParameter
+#### ServletConfig接口 
+
+ServletConfig 是一个接口，定义了4个方法:  
+
+- getInitParameter 
 - getInitParameterNames
 - getServletContext
 - getServletName
 
-#### Servlet 
-定义了5个方法: 
+#### Servlet接口 
+Servlet 是一个接口，定义了5个方法: 
 
 - destroy
-- getServletConfig
-- getServletInfo
-- init
+- getServletConfig: 返回 ServletConfig 对象
+- getServletInfo: 返回Servlet信息的字符串，如 作者、版本等
+- init: 容器启动或者第一次请求Servlet时调用
 - service: 该方法 处理所有的 http 请求。
 
 #### GenericServlet
 
-- 实现了一个通用的Servlet类
-- 仍保留一个抽象方法 `void service(ServletRequest req, ServletResponse res)`
+从名称就可以看出，GenericServlet 实现了一个通用的Servlet类。
+
+他简单实现了绝大部分的接口，只留下一个 `void service(ServletRequest req, ServletResponse res)`抽象方法，由具体的子类实现。
 
 #### HttpServlet
+
+HttpServlet 实现了`void service(ServletRequest req, ServletResponse res)`方法。
+
 将请求细分为7种http-method(doGet、doPost、doPut、doDelete等)。
 
 - get: 用于请求资源
@@ -62,7 +73,7 @@ tags: [springmvc,todo]
 
 ![](spring-6-DispatcherServlet/FrameworkServlet.png)
 
-Aware: 实现该接口的bean能够从spring容器中获取对应的资源
+Aware接口: 实现该接口的bean能够从spring容器中获取对应的资源
 
 #### EnvironmentAware接口
 设置环境变量
@@ -84,31 +95,31 @@ Aware: 实现该接口的bean能够从spring容器中获取对应的资源
 ```java
 public abstract class HttpServletBean extends HttpServlet implements EnvironmentCapable, EnvironmentAware {
     //...
-    	@Override
-    	public final void init() throws ServletException {
-    
-    		// 加载 web.xml 中 DispatcherServlet 的 <init-param> 配置，
-    		// 将这些配置包装到Bean（这个bean默认是DispatcherServlet）
-    		PropertyValues pvs = new ServletConfigPropertyValues(getServletConfig(), this.requiredProperties);
-    		if (!pvs.isEmpty()) {
-    			try {
-    				BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
-    				ResourceLoader resourceLoader = new ServletContextResourceLoader(getServletContext());
-    				bw.registerCustomEditor(Resource.class, new ResourceEditor(resourceLoader, getEnvironment()));
-    				initBeanWrapper(bw);
-    				bw.setPropertyValues(pvs, true);
-    			}
-    			catch (BeansException ex) {
-    				if (logger.isErrorEnabled()) {
-    					logger.error("Failed to set bean properties on servlet '" + getServletName() + "'", ex);
-    				}
-    				throw ex;
-    			}
-    		}
-    
-    		//调用子类的initServletBean()
-    		initServletBean();
-    	}
+    @Override
+    public final void init() throws ServletException {
+
+        // 加载 web.xml 中 DispatcherServlet 的 <init-param> 配置，
+        // 将这些配置包装到Bean（这个bean默认是DispatcherServlet）
+        PropertyValues pvs = new ServletConfigPropertyValues(getServletConfig(), this.requiredProperties);
+        if (!pvs.isEmpty()) {
+            try {
+                BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
+                ResourceLoader resourceLoader = new ServletContextResourceLoader(getServletContext());
+                bw.registerCustomEditor(Resource.class, new ResourceEditor(resourceLoader, getEnvironment()));
+                initBeanWrapper(bw);
+                bw.setPropertyValues(pvs, true);
+            }
+            catch (BeansException ex) {
+                if (logger.isErrorEnabled()) {
+                    logger.error("Failed to set bean properties on servlet '" + getServletName() + "'", ex);
+                }
+                throw ex;
+            }
+        }
+
+        //调用子类的initServletBean()
+        initServletBean();
+    }
 }
 ```
 
