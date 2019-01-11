@@ -1,5 +1,5 @@
 ---
-title: spring(1)-Hello world
+title: spring-1-Hello world
 date: 2015-08-09 11:09:28
 tags:
 categories: spring

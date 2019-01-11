@@ -1,5 +1,5 @@
 ---
-title: spring(3)-AOP-切面通知详解
+title: spring-3-AOP-切面通知详解
 date: 2015-8-11 21:21:44
 tags: aop
 categories: spring

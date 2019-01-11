@@ -1,6 +1,6 @@
 ---
 
-title: javaWeb 三大组件之一(filter)
+title: web三大组件-filter
 
 date: 2018-09-06 16:22:00
 
@@ -19,7 +19,7 @@ filter 用于动态 拦截请求和响应。其可以在
 
 ## 简介
 
-![](filter/filter.png)
+![](web三大组件-filter/filter.png)
 
 ## 过滤器接口
 

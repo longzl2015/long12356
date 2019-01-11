@@ -1,5 +1,5 @@
 ---
-title: spring(3)-AOP-创建过程（基于注解和基于xml）
+title: spring-3-AOP-创建过程（基于注解和基于xml）
 date: 2015-08-11 15:09:28
 tags: aop
 categories: spring
