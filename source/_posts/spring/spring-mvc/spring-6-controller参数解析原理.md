@@ -1,5 +1,4 @@
 ---
-
 title: spring-6-controller参数解析原理
 
 date: 2018-12-29 10:21:00
@@ -7,6 +6,7 @@ date: 2018-12-29 10:21:00
 categories: [springmvc]
 
 tags: [springmvc,todo]
+
 
 ---
 
@@ -26,7 +26,7 @@ tags: [springmvc,todo]
 
 
 
-## ServletInvocableHandlerMethod 部分分析
+## ServletInvocableHandlerMethod 分析
 
 ServletInvocableHandlerMethod 在处理时，将 方法参数的处理 交给 HandlerMethodArgumentResolver 处理，而方法的返回值会交给 HandlerMethodReturnValueHandler 处理。
 
@@ -135,9 +135,9 @@ public interface HandlerMethodReturnValueHandler {
 }
 ```
 
-### AbstractMessageConverterMethodArgumentResolver
+### AbstractMessageConverterMethodArgumentResolver 
 
-实现了HandlerMethodArgumentResolver 的抽象类:  将 Request的 body 转换为想要的结果。
+HandlerMethodArgumentResolver接口的抽象类： 仅仅引入了HttpMessageConverter，即具体的转换工作由这些HttpMessageConverter来完成。 
 
 **简单介绍AbstractMessageConverterMethodArgumentResolver中其他关联的类:** 
 
@@ -232,19 +232,72 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 }
 ```
 
+### AbstractMessageConverterMethodProcessor抽象类
 
+在 AbstractMessageConverterMethodArgumentResolver抽象类 的基础上，添加HandlerMethodReturnValueHandler接口。
+因此 **AbstractMessageConverterMethodProcessor**类 不仅可以用来转换请求数据，也可以用来转换响应数据。 
 
 ### RequestResponseBodyMethodProcessor类
 
-解析 包含@RequestBody 和 @ResponseBody注解的方法。
+继承自 AbstractMessageConverterMethodProcessor，专注解析 包含@RequestBody 和 @ResponseBody注解的方法。
 
+```java
+public class RequestResponseBodyMethodProcessor 
+    extends AbstractMessageConverterMethodProcessor {
+    // 支持 (参数包含 RequestBody 注解)的方法
+    @Override
+	public boolean supportsParameter(MethodParameter parameter) {
+		return parameter.hasParameterAnnotation(RequestBody.class);
+	}
+     // 支持 (方法上有 ResponseBody 注解)的方法
+	@Override
+	public boolean supportsReturnType(MethodParameter returnType) {
+		return (AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), ResponseBody.class) 
+                || returnType.hasMethodAnnotation(ResponseBody.class));
+	}
+    
+    @Override
+	public Object resolveArgument(
+        MethodParameter parameter, 
+        @Nullable ModelAndViewContainer mavContainer,
+		NativeWebRequest webRequest, 
+        @Nullable WebDataBinderFactory binderFactory) throws Exception {
+        //1. 若参数为 optional类型 则，返回参数的variant(变种，指向同一个参数)
+        //2. 调用下面的readWithMessageConverters
+        //3. 获取parameter变量名
+        //4. 进行数据绑定工作 找时间再研究源码
+        //5. 返回结果(若为 optional类型，会做一点节点的处理)
+	}
 
+	@Override
+	protected <T> Object readWithMessageConverters(
+        NativeWebRequest webRequest, 
+        MethodParameter parameter,
+		Type paramType) 
+       throws IOException, HttpMediaTypeNotSupportedException,HttpMessageNotReadableException       
+    {
+    	// 1. 将 Request 转为 ServletServerHttpRequest
+    	// 2. 调用 父类(AbstractMessageConverterMethodArgumentResolver)的 readWithMessageConverters 将 Request 的 body 转换为想要的结果。
+        // 3. 判断 requestBody.required()，不满足就抛出异常
+        // 4. 返回结果
+	}
 
-### AbstractMessageConverterMethodProcessor接口
+	@Override
+	public void handleReturnValue(
+        @Nullable Object returnValue, 
+        MethodParameter returnType,
+		ModelAndViewContainer mavContainer, 
+        NativeWebRequest webRequest)
+	throws IOException, HttpMediaTypeNotAcceptableException,HttpMessageNotWritableException {
+    	//1. 标记Request已处理
+        //2. 调用父类(AbstractMessageConverterMethodProcessor)的writeWithMessageConverters方法
+        //3. 返回结果
+	}
+```
 
-添加了 将 Response 的 body 转换为想要的结果的功能。如将 pojo 转换为 json字符串。
+## 相关接口的实现类总览
 
-## HandlerMethodArgumentResolver实现类
+### HandlerMethodArgumentResolver实现类
 
 | 实现类                                   | 说明                                                         |
 | ---------------------------------------- | ------------------------------------------------------------ |
@@ -258,12 +311,9 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 | RedirectAttributesMethodArgumentResolver | 参数是实现了RedirectAttributes接口的类                       |
 | HttpEntityMethodProcessor                | 参数类型是HttpEntity                                         |
 
-**从名字我们也看的出来，**
 
-- Resolver结尾的是实现了HandlerMethodArgumentResolver接口的类，
-- Processor结尾的是实现了HandlerMethodArgumentResolver和HandlerMethodReturnValueHandler的类。
 
-## HandlerMethodReturnValueHandler实现类
+### HandlerMethodReturnValueHandler实现类
 
 | 实现类                               | 说明                             |
 | ------------------------------------ | -------------------------------- |
@@ -273,6 +323,14 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 | HttpHeadersReturnValueHandler        | 返回值类型是HttpHeaders或其子类  |
 | ModelAttributeMethodProcessor        | 返回值有@ModelAttribute注解      |
 | ViewNameMethodReturnValueHandler     | 返回值是void或String             |
+
+### 接口总览小结
+
+从名字我们也看的出来
+
+- Resolver结尾的是实现了**HandlerMethodArgumentResolver**接口的类
+- Handler结尾的是实现了**HandlerMethodReturnValueHandler**接口的类
+- Processor结尾的是实现了**HandlerMethodArgumentResolver**和**HandlerMethodReturnValueHandler**的类
 
 ## 来源
 
