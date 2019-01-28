@@ -18,10 +18,9 @@ Controller方法的参数类型可以是基本类型，也可以是封装后的�
 而服务端通过Request的getParameter方法取到的参数也都是字符串形式的结果。
 所以，需要有一个把字符串形式的参数转换成服务端真正需要的类型的转换工具，在spring中这个转换工具为WebDataBinder。
 
-## WebDataBinder类图
+## WebDataBinder 类图
 
 ![](spring-6-参数绑定/webDataBinder.png)
-
 
 
 

@@ -1,6 +1,5 @@
-
 ---
-title: 启动Driver
+title: spark2-启动Driver
 date: 2017-06-04 23:22:59
 tags: 
   - spark

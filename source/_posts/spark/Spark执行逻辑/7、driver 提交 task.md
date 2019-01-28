@@ -1,5 +1,5 @@
 ---
-title: driver提交task
+title: spark7-driver提交task
 date: 2017-06-04 23:23:04
 tags: 
   - spark

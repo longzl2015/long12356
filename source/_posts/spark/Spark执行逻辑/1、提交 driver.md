@@ -1,6 +1,5 @@
-
 ---
-title: spark-submit的提交过程
+title: spark1-spark-submit的提交过程
 date: 2017-06-04 23:22:58
 tags: 
   - spark

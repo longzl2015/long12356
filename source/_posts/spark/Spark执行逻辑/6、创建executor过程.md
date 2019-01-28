@@ -1,5 +1,5 @@
 ---
-title: 创建executor 过程
+title: spark6-创建executor 过程
 date: 2017-06-04 23:23:03
 tags: 
   - spark
