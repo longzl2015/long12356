@@ -1,5 +1,5 @@
 ---
-title: spark-submit分析
+title: spark0-spark_submit脚本执行逻辑
 date: 2017-06-04 23:22:58
 tags: 
   - spark
@@ -9,17 +9,30 @@ categories:
 
 # spark-submit分析
 
+spark-submit 脚本的主要流程:
 
+1. 执行 `./bin/spark-submit`文件
+    - 设置 Spark_home, 关闭字符串的随机Hash，调用 `./bin/spark-class`
+
+2. 执行 `./bin/spark-class`文件
+    - 执行`./bin/load-spark-env.sh`: 设置 Spark_home，执行 `./conf/spark-env.sh`，scala版本号和scala主目录
+    - 设置 Spark_home
+    - 获取 java_home 或者 确认 java指令 能够使用
+    - 设置 将spark的相关jar包和scala的相关jar 设置到 LAUNCH_CLASSPATH 添加到中
+    - 最终执行 `java -Xmx128m -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main + 相关参数`
+    
 ##1 spark-submit脚本内容
 
 这个脚本较为简单，将参数传递给spark-class运行
 `$@` ： 表示传给脚本的所有参数的列表
+
 ```bash
 if [ -z "${SPARK_HOME}" ]; then
   export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
 fi
 
 # disable randomized hash for string in Python 3.3+
+# 对同一个字符串，多次产生的hash值相同。
 export PYTHONHASHSEED=0
 
 # spark-shell传入的参数为 --class org.apache.spark.repl.Main --name "Spark shell" "$@"
