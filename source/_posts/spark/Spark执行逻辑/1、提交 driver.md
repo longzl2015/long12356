@@ -49,10 +49,18 @@ categories:
 
 ## 二、org.apache.spark.deploy.SparkSubmit
 
-shell中调用了 SparkSubmit 的main函数，main函数主要逻辑在处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等，
-当deploy-mode为cluster时，会借助于**RestSubmissionClient**或**Client**提交Driver，如下 
+shell中调用了 SparkSubmit 的main函数，main函数主要逻辑:
+处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等。
 
 ```scala
+    // 解析执行下面的四个参数: 需要注意的是 childMainClass。
+    // childMainClass 根据spark的模式 会分为多种情况: 
+    // - org.apache.spark.deploy.Client
+    // - org.apache.spark.deploy.yarn.Client
+    // - org.apache.spark.deploy.rest.RestSubmissionClient
+    // - 用户自定义的app类
+    val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)
+ 
     def doRunMain(): Unit = {
       if (args.proxyUser != null) {
         val proxyUser = UserGroupInformation.createProxyUser(args.proxyUser,
@@ -67,6 +75,7 @@ shell中调用了 SparkSubmit 的main函数，main函数主要逻辑在处理传
          //忽略
         }
       } else {
+        // 一般默认走这里
         runMain(childArgs, childClasspath, sysProps, childMainClass, args.verbose)
       }
     }
@@ -82,7 +91,8 @@ shell中调用了 SparkSubmit 的main函数，main函数主要逻辑在处理传
     }
 ```
 
-通过反射启动**childMainClass**
+通过反射启动**childMainClass** 
+在例子中 childMainClass 代表 `org.apache.spark.examples.SparkPi`
 
 ```scala
 private def runMain(
@@ -91,7 +101,7 @@ private def runMain(
       sysProps: Map[String, String],
       childMainClass: String,
       verbose: Boolean): Unit = {
-   ...
+   //...
     val loader =
       if (sysProps.getOrElse("spark.driver.userClassPathFirst", "false").toBoolean) {
         new ChildFirstURLClassLoader(new Array[URL](0),
@@ -118,7 +128,7 @@ private def runMain(
       //忽略
     }
     // 忽略
-    ...
+    //...
     
     val mainMethod = mainClass.getMethod("main", new Array[String](0).getClass)
     if (!Modifier.isStatic(mainMethod.getModifiers)) {
@@ -127,6 +137,7 @@ private def runMain(
     //忽略
     ... 
     
+    // 反射启动主类
     try {
       mainMethod.invoke(null, childArgs.toArray)
     } catch {
@@ -138,10 +149,23 @@ private def runMain(
 
 
 ## 三、org.apache.spark.deploy.Client
+SparkSubmit的反射子类(childMainClass)根据不同模式 会有多种类型
 
-我们选择Standalone-client这条执行路径，SparkSubmit使用反射运行Client的main方法，Client的main方法先处理传入的参数(和SparkSubmit中处理参数相似)，然后创建RpcEnv对象，如下
+- org.apache.spark.deploy.Client
+- org.apache.spark.deploy.yarn.Client
+- org.apache.spark.deploy.rest.RestSubmissionClient
+- 用户自定义的app类
+
+
+这里 我们选择StandaloneCluster模式进行说明，SparkSubmit使用反射运行`org.apache.spark.deploy.ClientEndpoint中的Client.main()`
+Client的main方法先处理传入的参数，然后创建RpcEnv对象。
+如下: 
 
 ```scala
+object Client {
+  def main(args: Array[String]) {
+    //....
+    
     val conf = new SparkConf()
     val driverArgs = new ClientArguments(args)
     if (!conf.contains("spark.rpc.askTimeout")) {
@@ -158,9 +182,11 @@ private def runMain(
     rpcEnv.setupEndpoint("client", new ClientEndpoint(rpcEnv, driverArgs, masterEndpoints, conf))
 
     rpcEnv.awaitTermination()
+  }
+}
 ```
 
-ClientEndpoint的onStart()方法会 发送消息给Master，注册Driver
+ClientEndpoint 的 onStart()方法会 发送消息给Master，注册Driver
 
 ```scala
 override def onStart(): Unit = {
