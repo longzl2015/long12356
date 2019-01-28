@@ -21,7 +21,7 @@ spark-submit 脚本的主要流程:
     - 设置 将spark的相关jar包和scala的相关jar 设置到 LAUNCH_CLASSPATH 添加到中
     - 最终执行 `java -Xmx128m -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main + 相关参数`
     
-##1 spark-submit脚本内容
+## spark-submit脚本内容
 
 这个脚本较为简单，将参数传递给spark-class运行
 `$@` ： 表示传给脚本的所有参数的列表
@@ -35,15 +35,15 @@ fi
 # 对同一个字符串，多次产生的hash值相同。
 export PYTHONHASHSEED=0
 
-# spark-shell传入的参数为 --class org.apache.spark.repl.Main --name "Spark shell" "$@"
+# 调用 ./bin/spark-class
 exec "${SPARK_HOME}"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"
 
 ```
 
-##2 spark-class脚本内容
+## spark-class脚本内容
 分析spark-class的逻辑之前，先看看spark-env.sh的实现内容。
 
-### 2.1 spark-env.sh
+### spark-env.sh
 
 主要定义spark-env.sh中的变量、scala版本号和scala主目录。
 
@@ -89,7 +89,7 @@ if [ -z "$SPARK_SCALA_VERSION" ]; then
 fi
 ```
 
-### 2.2 spark-class具体内容
+### spark-class具体内容
 
 ```bash
 #定位spark主目录
@@ -159,22 +159,63 @@ if [[ -n "$SPARK_TESTING" ]]; then
   unset HADOOP_CONF_DIR
 fi
 
+
 # The launcher library will print arguments separated by a NULL character, to allow arguments with
 # characters that would be otherwise interpreted by the shell. Read that in a while loop, populating
 # an array that will be used to exec the final command.
-# 执行org.apache.spark.launcher.Main作为Spark应用程序的主入口
-CMD=()
-while IFS= read -d '' -r ARG; do
+#
+# The exit code of the launcher is appended to the output, so the parent shell removes it from the
+# command array and checks the value to see if the launcher succeeded.
+build_command() {
+  "$RUNNER" -Xmx128m -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@"
+  printf "%d\0" $?
+}
+
+# Turn off posix mode since it does not allow process substitution
+set +o posix
+CMD=()                                # 创建数组
+while IFS= read -d '' -r ARG; do      # 把build_commands输出结果,循环加到数组CMD中
   CMD+=("$ARG")
-## java -cp 指定这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）
-done < <("$RUNNER" -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@")
-exec "${CMD[@]}"
+done < <(build_command "$@")
+
+COUNT=${#CMD[@]}                      # 数组长度
+LAST=$((COUNT - 1))                   # 数组长度-1
+LAUNCHER_EXIT_CODE=${CMD[$LAST]}      # 数组的最后一个值，也就是上边$?的值
+
+# Certain JVM failures result in errors being printed to stdout (instead of stderr), which causes
+# the code that parses the output of the launcher to get confused. In those cases, check if the
+# exit code is an integer, and if it's not, handle it as a special error case.
+# 某些JVM失败会导致错误被打印到stdout(而不是stderr)，这会导致解析启动程序输出的代码变得混乱。
+# 在这些情况下，检查退出代码是否为整数，如果不是，将其作为特殊的错误处理。
+if ! [[ $LAUNCHER_EXIT_CODE =~ ^[0-9]+$ ]]; then
+  echo "${CMD[@]}" | head -n-1 1>&2
+  exit 1
+fi
+
+# 如果返回值不为0，退出，返回返回值
+if [ $LAUNCHER_EXIT_CODE != 0 ]; then
+  exit $LAUNCHER_EXIT_CODE
+fi
+
+CMD=("${CMD[@]:0:$LAST}")     # CMD还是原来那些参数，$@
+exec "${CMD[@]}"              # 执行这些
+
 ```
-最终运行为：
+
+最终运行命令参考为：
 
 ```bash
-java -cp ${SPARK_HOME}/launcher/target/scala-$SPARK_SCALA_VERSION/classes:$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main org.apache.spark.deploy.SparkSubmit --class org.apache.spark.repl.Main --name "Spark shell" "$@"
+/opt/jdk1.8/bin/java -Dhdp.version=2.6.0.3-8 -cp /usr/hdp/current/spark2-historyserver/conf/:/usr/hdp/2.6.0.3-8/spark2/jars/*:/usr/hdp/current/hadoop-client/conf/
+   org.apache.spark.deploy.SparkSubmit \
+  --master spark://192.168.1.20:7077 \
+  --deploy-mode cluster \
+  --class org.apache.spark.examples.SparkPi \
+  --executor-memory 2G \
+  --total-executor-cores 5 \
+  ../examples/jars/spark-examples_2.11-2.1.0.2.6.0.3-8.jar \
+  1000
 ```
+
 [参考](http://blog.csdn.net/lovehuangjiaju/article/details/49123975)
 
 

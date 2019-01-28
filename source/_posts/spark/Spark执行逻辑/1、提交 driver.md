@@ -27,41 +27,30 @@ categories:
   1000
 ```
 
-注意，上图中的deploy-mode为**cluster**，查看spark-submit脚本内容 
+注意，上图中的deploy-mode为**cluster**，spark-submit脚本的过程可参见 上一篇文章《spark0-spark_submit脚本执行逻辑》。
 
-```shell
-if [ -z "${SPARK_HOME}" ]; then
-  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
-fi
+最终运行为：
 
-# disable randomized hash for string in Python 3.3+
-export PYTHONHASHSEED=0
+```bash
+/opt/jdk1.8/bin/java \
+  -Dhdp.version=2.6.0.3-8 \
+  -cp /usr/hdp/current/spark2-historyserver/conf/:/usr/hdp/2.6.0.3-8/spark2/jars/*:/usr/hdp/current/hadoop-client/conf/ \
+  org.apache.spark.deploy.SparkSubmit \
+  --class org.apache.spark.examples.SparkPi \
+  --master spark:xxxx \
+  --deploy-mode cluster \
+  --supervise \
+  --executor-memory 20G \
+  --total-executor-core 100 \
+  /path/to/examples.jar \
+  1000
 
-# spark-shell传入的参数为 --class org.apache.spark.repl.Main --name "Spark shell" "$@"
-exec "${SPARK_HOME}"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"
-```
-
-spark-submit中调用shell spark-class，spark-class中对Java环境变量和spark主目录等进行了相关设置。最后一行处，调用exec执行命令，如下 
-
-```shell
-# 执行org.apache.spark.launcher.Main作为Spark应用程序的主入口
-CMD=()
-while IFS= read -d '' -r ARG; do
-  CMD+=("$ARG")
-## java -cp 指定这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）
-done < <("$RUNNER" -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@")
-exec "${CMD[@]}"
-```
-
- 最终运行为：
-
-```shell
-java -cp ${SPARK_HOME}/launcher/target/scala-$SPARK_SCALA_VERSION/classes:$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main org.apache.spark.deploy.SparkSubmit --class org.apache.spark.repl.Main --name "Spark shell" "$@"
 ```
 
 ## 二、org.apache.spark.deploy.SparkSubmit
 
-shell中调用了SparkSubmit的main函数，main函数主要逻辑在处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等，当deploy-mode为cluster时，会借助于**RestSubmissionClient**或**Client**提交Driver，如下 
+shell中调用了 SparkSubmit 的main函数，main函数主要逻辑在处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等，
+当deploy-mode为cluster时，会借助于**RestSubmissionClient**或**Client**提交Driver，如下 
 
 ```scala
     def doRunMain(): Unit = {
