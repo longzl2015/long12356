@@ -1,6 +1,6 @@
 ---
 title: spark8-executor执行task比返回结果
-date: 2017-06-04 23:23:05
+date: 2018-06-12 23:22:58
 tags: 
   - spark
 categories:
