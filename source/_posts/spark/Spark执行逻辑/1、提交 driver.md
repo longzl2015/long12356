@@ -1,5 +1,5 @@
 ---
-title: spark1-spark-submit的提交过程
+title: spark1-提交Driver过程
 date: 2018-06-05 23:22:58
 tags: 
   - spark
@@ -148,7 +148,8 @@ private def runMain(
 
 
 
-## 三、org.apache.spark.deploy.Client
+## 三、SparkSubmit发送消息 向 master 注册 Driver
+
 SparkSubmit的反射子类(childMainClass)根据不同模式 会有多种类型
 
 - org.apache.spark.deploy.Client
@@ -192,6 +193,9 @@ ClientEndpoint 的 onStart()方法会 发送消息给Master，注册Driver
 override def onStart(): Unit = {
     driverArgs.cmd match {
       case "launch" =>
+        //Spark使用**DriverWrapper**启动用户APP的main函数，而不是直接启动，
+        // 这是为了Driver程序和启动Driver的Worker程序共命运(源码注释中称为**share fate**).
+        // 即如果此Worker挂了，对应的Driver也会停止。
         val mainClass = "org.apache.spark.deploy.worker.DriverWrapper"
 
         val classPathConf = "spark.driver.extraClassPath"
@@ -245,20 +249,20 @@ private[spark] case class Command(
 } 
 ```
 
-Spark使用**DriverWrapper**启动用户APP的main函数，而不是直接启动，这是为了Driver程序和启动Driver的Worker程序共命运(源码注释中称为**share fate**)，即如果此Worker挂了，对应的Driver也会停止。至此，Client提交Driver流程结束了。
+至此，Client提交 Driver 流程结束了。
 
 ## 四、Master处理RequestSubmitDriver消息
 
-Master的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
+Master(org.apache.spark.deploy.master.Master)的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
 
 ```scala
 override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
     case RegisterWorker(
         id, workerHost, workerPort, workerRef, cores, memory, workerWebUiUrl) =>
-     ... 
 
     case RequestSubmitDriver(description) =>
       if (state != RecoveryState.ALIVE) {
+        // 判断 Master 的运行状态，非 ALIVE 则 报错。
         val msg = s"${Utils.BACKUP_STANDALONE_MASTER_PREFIX}: $state. " +
           "Can only accept driver submissions in ALIVE state."
         context.reply(SubmitDriverResponse(self, false, None, msg))
@@ -270,29 +274,29 @@ override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit
         // 注册 Driver
         waitingDrivers += driver
         drivers.add(driver)
-        // launch Driver 和 Executor
+        // launch Driver 和 Executor，这个下一章分析
         schedule()
         context.reply(SubmitDriverResponse(self, true, Some(driver.id),
           s"Driver successfully submitted as ${driver.id}"))
       }
 
     case RequestKillDriver(driverId) =>
-      ...
+     //...
 
     case RequestDriverStatus(driverId) =>
-     ...
+     //...
 
     case RequestMasterState =>
-     ...
+     //...
 
     case BoundPortsRequest =>
-      ...
+     //...
 
     case RequestExecutors(appId, requestedTotal) =>
-     ...
+     //...
 
     case KillExecutors(appId, executorIds) =>
-     ...
+     //...
   }
 ```
 
