@@ -13,7 +13,7 @@ categories:
 
 ## 一、Master发送LaunchDriver消息
 
-上一节讲到 Master 接收 ClientEndPoint发送的注册Driver的信息。接下来调用schedule()方法，启动Driver和Executor，查看schedule() 
+上一节讲到 Master(`org.apache.spark.deploy.master.Master`) 接收 ClientEndPoint发送的注册Driver的信息。接下来调用schedule()方法，启动Driver和Executor
 
 ```scala
 override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
@@ -40,7 +40,7 @@ override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit
   }
 ```
 
-schedule() 方法
+**schedule() 方法**
 
 ```scala
 private def schedule(): Unit = {
@@ -59,6 +59,7 @@ private def schedule(): Unit = {
       val worker = shuffledAliveWorkers(curPos)
       numWorkersVisited += 1
       if (worker.memoryFree >= driver.desc.mem && worker.coresFree >= driver.desc.cores) {
+        //发送LauncherDriver消息给Worker节点  
         launchDriver(worker, driver)
         waitingDrivers -= driver
         launched = true
@@ -66,6 +67,7 @@ private def schedule(): Unit = {
       curPos = (curPos + 1) % numWorkersAlive
     }
   }
+  // 在work节点启动Executor，该内容在《spark4-启动Executor》讲解
   startExecutorsOnWorkers()
 }
 
@@ -87,14 +89,15 @@ private def launchDriver(worker: WorkerInfo, driver: DriverInfo) {
 
 ## 二、Worker节点启动Driver
 
-Worker的receive方法接收并处理**LaunchDriver**信息，如下 
+Worker(`org.apache.spark.deploy.worker.Worker`)的receive方法接收并处理**LaunchDriver**信息，如下 
 
 ```scala
  override def receive: PartialFunction[Any, Unit] = synchronized {
- 
+    // 忽略
+    //...
     case LaunchDriver(driverId, driverDesc) =>
       logInfo(s"Asked to launch driver $driverId")
-     // 封装Driver信息为DriverRunner
+      //封装Driver信息为DriverRunner
       val driver = new DriverRunner(
         conf,
         driverId,
@@ -105,20 +108,18 @@ Worker的receive方法接收并处理**LaunchDriver**信息，如下
         workerUri,
         securityMgr)
       drivers(driverId) = driver
-     // 启动Driver
+      //启动Driver
       driver.start()
 
       coresUsed += driverDesc.cores
       memoryUsed += driverDesc.mem
-   // 忽略
-     ...
   }
 ```
 
 查看DriverRunner的start方法
 
 ```scala
- /** Starts a thread to run and manage the driver. */
+ /** 启动一个线程，去运行 这个driver. */
   private[worker] def start() = {
     new Thread("DriverRunner for " + driverId) {
       override def run() {
@@ -129,10 +130,10 @@ Worker的receive方法接收并处理**LaunchDriver**信息，如下
             kill()
           }
 
-          // 准备 driver jars and 运行 driver
+          // 从其他环境中下载driver的jars 并在本地运行 driver
           val exitCode = prepareAndRunDriver()
 
-          // set final state depending on if forcibly killed and process exit code
+          // 根据exitCode，设置 finalState 
           finalState = if (exitCode == 0) {
             Some(DriverState.FINISHED)
           } else if (killed) {
@@ -151,7 +152,11 @@ Worker的receive方法接收并处理**LaunchDriver**信息，如下
           }
         }
 
-        // notify worker of final driver state, possible exception
+        // 一旦Driver运行完毕, 
+        // work会 执行org.apache.spark.deploy.worker.Worker中的 handleDriverStateChanged()
+        //  
+        // - work会向Master发送消息driverStateChanged
+        // - 释放相关资源
         worker.send(DriverStateChanged(driverId, finalState.get, finalException))
       }
     }.start()
@@ -175,7 +180,7 @@ private[worker] def prepareAndRunDriver(): Int = {
   // 通过java执行组织好的命令
   val builder = CommandUtils.buildProcessBuilder(driverDesc.command, securityManager,
     driverDesc.mem, sparkHome.getAbsolutePath, substituteVariables)
-  // 这一步就是启动Driver，即执行 /parh/to/examples.jar中的main方法
+  // 这一步就是启动Driver，即执行 /parh/to/examples.jar中的main方法.
   runDriver(builder, driverDir, driverDesc.supervise)
 }
 ```
@@ -224,3 +229,8 @@ DriverRunner -> ProcessBuilder: 调用
 note over ProcessBuilder: 拼装 java 启动命令，并执行
 @enduml
 ```
+
+## 参考
+
+[Spark源码阅读:Driver的注册与启动](http://www.louisvv.com/archives/1366.html)
+

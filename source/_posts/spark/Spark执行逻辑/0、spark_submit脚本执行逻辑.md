@@ -9,6 +9,20 @@ categories:
 
 # spark-submit分析
 
+Spark-submit提交实例:
+
+```bas
+./bin/spark-submit \
+  --class org.apache.spark.examples.SparkPi \
+  --master spark://192.168.1.20:7077 \
+  --deploy-mode cluster \
+  --supervise \
+  --executor-memory 2G \
+  --total-executor-cores 5 \
+  /path/to/examples.jar \
+  1000
+```
+
 spark-submit 脚本的主要流程:
 
 1. 执行 `./bin/spark-submit`文件
@@ -216,6 +230,10 @@ exec "${CMD[@]}"              # 执行这些
   1000
 ```
 
-[参考](http://blog.csdn.net/lovehuangjiaju/article/details/49123975)
+## 参考 
+
+[Spark源码阅读: Spark Submit任务提交](http://www.louisvv.com/archives/1340.html)
+
+[Spark修炼之道（高级篇）——Spark源码阅读：第一节 Spark应用程序提交流程](http://blog.csdn.net/lovehuangjiaju/article/details/49123975)
 
 

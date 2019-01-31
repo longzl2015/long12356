@@ -55,12 +55,15 @@ shell中调用了 SparkSubmit 的main函数，main函数主要逻辑:
 ```scala
     // 解析执行下面的四个参数: 需要注意的是 childMainClass。
     // childMainClass 根据spark的模式 会分为多种情况: 
-    // - org.apache.spark.deploy.Client
+    // - org.apache.spark.deploy.Client 
     // - org.apache.spark.deploy.yarn.Client
     // - org.apache.spark.deploy.rest.RestSubmissionClient
     // - 用户自定义的app类
+    //
+    // 在本例子中为 org.apache.spark.deploy.Client 
     val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)
  
+    //声明doRunMain()方法
     def doRunMain(): Unit = {
       if (args.proxyUser != null) {
         val proxyUser = UserGroupInformation.createProxyUser(args.proxyUser,
@@ -79,8 +82,10 @@ shell中调用了 SparkSubmit 的main函数，main函数主要逻辑:
         runMain(childArgs, childClasspath, sysProps, childMainClass, args.verbose)
       }
     }
+
     if (args.isStandaloneCluster && args.useRest) {
       try {
+        printStream.println("Running Spark using the REST application submission protocol.")
         doRunMain()
       } catch {
        //忽略
@@ -91,8 +96,9 @@ shell中调用了 SparkSubmit 的main函数，main函数主要逻辑:
     }
 ```
 
-通过反射启动**childMainClass** 
-在例子中 childMainClass 代表 `org.apache.spark.examples.SparkPi`
+通过反射启动**childMainClass**:
+
+在例子中 childMainClass 代表 `org.apache.spark.deploy.Client`
 
 ```scala
 private def runMain(
@@ -128,14 +134,12 @@ private def runMain(
       //忽略
     }
     // 忽略
-    //...
     
     val mainMethod = mainClass.getMethod("main", new Array[String](0).getClass)
     if (!Modifier.isStatic(mainMethod.getModifiers)) {
       throw new IllegalStateException("The main method in the given main class must be static")
     }
     //忽略
-    ... 
     
     // 反射启动主类
     try {
@@ -157,8 +161,7 @@ SparkSubmit的反射子类(childMainClass)根据不同模式 会有多种类型
 - org.apache.spark.deploy.rest.RestSubmissionClient
 - 用户自定义的app类
 
-
-这里 我们选择StandaloneCluster模式进行说明，SparkSubmit使用反射运行`org.apache.spark.deploy.ClientEndpoint中的Client.main()`
+这里 我们选择StandaloneCluster模式进行说明，SparkSubmit使用反射运行`org.apache.spark.deploy.Client.main()`
 Client的main方法先处理传入的参数，然后创建RpcEnv对象。
 如下: 
 
@@ -214,6 +217,7 @@ override def onStart(): Unit = {
         val sparkJavaOpts = Utils.sparkJavaOpts(conf)
         val javaOpts = sparkJavaOpts ++ extraJavaOpts
         // 运行命令
+        //  这里的mainClass为org.apache.spark.deploy.worker.DriverWrapper
         val command = new Command(mainClass,
           Seq("{{WORKER_URL}}", "{{USER_JAR}}", driverArgs.mainClass) ++ driverArgs.driverOptions,
           sys.env, classPathEntries, libraryPathEntries, javaOpts)
@@ -253,7 +257,7 @@ private[spark] case class Command(
 
 ## 四、Master处理RequestSubmitDriver消息
 
-Master(org.apache.spark.deploy.master.Master)的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
+Master(`org.apache.spark.deploy.master.Master`)的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
 
 ```scala
 override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
