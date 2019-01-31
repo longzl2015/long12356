@@ -11,7 +11,7 @@ categories:
 
 ## 一、回顾
 
-在《1、提交driver》已经介绍过，Master的receiveAndReply方法接收Client发送的消息RequestSubmitDriver。
+在《1、提交driver》已经介绍过，org.apache.spark.deploy.master.Master 的 receiveAndReply方法接收Client发送的消息RequestSubmitDriver。
 
 前面已经介绍了schedule()中launchDriver的流程，即《2、启动driver》。
 

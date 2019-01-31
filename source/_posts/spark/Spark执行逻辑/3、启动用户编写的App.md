@@ -269,6 +269,8 @@ class SparkContext(config: SparkConf) extends Logging {
 
 上文中有这一段代码，在该章节详细讲解。
 
+该小节仅简单介绍了AppClient的注册，详细信息见下一小节。
+
 ```scala
 val (sched, ts) = SparkContext.createTaskScheduler(this, master, deployMode)
 _schedulerBackend = sched
@@ -378,22 +380,129 @@ override def start() {
   }
 ```
 
+## AppClient的注册
+
+本小节接着 如下代码讲解:
+
+全路劲 org.apache.spark.scheduler.cluster.StandaloneSchedulerBackend
+
+```scala
+override def start() {
+  // 忽略
+  // ...
+  
+  client = new StandaloneAppClient(sc.env.rpcEnv, masters, appDesc, this, conf)
+  //注册ClientEndpoint，ClientEndpoint的生命周期方法onStart中会和Master通信，注册APP
+  client.start()
+  
+  // 忽略
+  // ...
+}
+```
+
+ClientEndpoint.onStart() 方法
+
+```scala
+override def onStart(): Unit = {
+  try {
+    registerWithMaster(1)
+  } catch {
+    case e: Exception =>
+    logWarning("Failed to connect to master", e)
+    markDisconnected()
+    stop()
+  }
+}
+//向所有的master异步注册。在达到超时时间之前，他会以特定的时间间隔调用 registerWithMaster().
+//一旦成功连上 其中一个master：
+// 1. 会向 master 发送 RegisterApplication(appDescription, self) 消息
+// 2. 所有的 scheduling work and Futures will be cancelled
+private def registerWithMaster(nthRetry: Int) {
+  registerMasterFutures.set(tryRegisterAllMasters())
+  registrationRetryTimer.set(registrationRetryThread.schedule(new Runnable {
+    override def run(): Unit = {
+      if (registered.get) {
+        registerMasterFutures.get.foreach(_.cancel(true))
+        registerMasterThreadPool.shutdownNow()
+      } else if (nthRetry >= REGISTRATION_RETRIES) {
+        markDead("All masters are unresponsive! Giving up.")
+      } else {
+        registerMasterFutures.get.foreach(_.cancel(true))
+        registerWithMaster(nthRetry + 1)
+      }
+    }
+  }, REGISTRATION_TIMEOUT_SECONDS, TimeUnit.SECONDS))
+}
+
+private def tryRegisterAllMasters(): Array[JFuture[_]] = {
+  for (masterAddress <- masterRpcAddresses) yield {
+    registerMasterThreadPool.submit(new Runnable {
+      override def run(): Unit = try {
+        if (registered.get) {
+          return
+        }
+        logInfo("Connecting to master " + masterAddress.toSparkURL + "...")
+        val masterRef = rpcEnv.setupEndpointRef(masterAddress, Master.ENDPOINT_NAME)
+        masterRef.send(RegisterApplication(appDescription, self))
+      } catch {
+        case ie: InterruptedException => // Cancelled
+        case NonFatal(e) => logWarning(s"Failed to connect to master $masterAddress", e)
+      }
+    })
+  }
+}
+```
+
+Master 接收消息:
+
+全路径 org.apache.spark.deploy.master.Master
+
+```scala
+override def receive: PartialFunction[Any, Unit] = {
+  //其他case忽略
+
+  case RegisterApplication(description, driver) =>
+  // TODO Prevent repeated registrations from some driver
+  if (state == RecoveryState.STANDBY) {
+    // ignore, don't send response
+  } else {
+    logInfo("Registering app " + description.name)
+    // 创建 ApplicationInfo 实例
+    val app = createApplication(description, driver)
+    //
+    registerApplication(app)
+    
+    logInfo("Registered app " + description.name + " with ID " + app.id)
+    persistenceEngine.addApplication(app)
+    driver.send(RegisteredApplication(app.id, self))
+    schedule()
+  }
+}
+
+private def registerApplication(app: ApplicationInfo): Unit = {
+  val appAddress = app.driver.address
+  if (addressToApp.contains(appAddress)) {
+    logInfo("Attempted to re-register application at same address: " + appAddress)
+    return
+  }
+
+  applicationMetricsSystem.registerSource(app.appSource)
+  apps += app
+  idToApp(app.id) = app
+  endpointToApp(app.driver) = app
+  addressToApp(appAddress) = app
+  waitingApps += app
+  if (reverseProxy) {
+    webUi.addProxyTargets(app.id, app.desc.appUiUrl)
+  }
+}
+```
 
 
 
 
-## SchedulerBackend接口
-
-SchedulerBackend有几个实现类，分别针对不同的资源管理器，如下 
-
-![image-20190130172838414](3、启动用户编写的App/SchedulerBackend类.png)
 
 
-
-1. **ExecutorAllocationClient**: 负责向资源管理器申请Executor。
-2. **DriverEndpoint**: 底层提交task到Executor，接收Executor返回的计算结果。
-3. **CoarseGrainedSchedulerBackend**: 粗粒度的SchedulerBackend实现，使用集合executorDataMap维护和Executor通信的RpcEndpointRef，主要实现有SparkDeploySchedulerBackend、YarnSchedulerBackend、SimrSchedulerBackend。
-4. **SparkDeploySchedulerBackend**: 用于和Standalone资源管理器及Executor通信，其他实现YarnSchedulerBackend**、**MesosSchedulerBackend等分别对应Yarn和Mesos。
 
 
 
@@ -411,3 +520,7 @@ SchedulerBackend有几个实现类，分别针对不同的资源管理器，如�
 
 ②，Driver向Master注册APP的流程。
 
+
+## 参考 
+
+[参考一](http://www.louisvv.com/archives/1191.html)
