@@ -400,7 +400,7 @@ override def start() {
 }
 ```
 
-ClientEndpoint.onStart() 方法
+**ClientEndpoint.onStart() 方法**
 
 ```scala
 override def onStart(): Unit = {
@@ -434,6 +434,7 @@ private def registerWithMaster(nthRetry: Int) {
   }, REGISTRATION_TIMEOUT_SECONDS, TimeUnit.SECONDS))
 }
 
+//向所有的master异步注册
 private def tryRegisterAllMasters(): Array[JFuture[_]] = {
   for (masterAddress <- masterRpcAddresses) yield {
     registerMasterThreadPool.submit(new Runnable {
@@ -443,6 +444,7 @@ private def tryRegisterAllMasters(): Array[JFuture[_]] = {
         }
         logInfo("Connecting to master " + masterAddress.toSparkURL + "...")
         val masterRef = rpcEnv.setupEndpointRef(masterAddress, Master.ENDPOINT_NAME)
+        //向 master 发送 RegisterApplication(appDescription, self) 消息
         masterRef.send(RegisterApplication(appDescription, self))
       } catch {
         case ie: InterruptedException => // Cancelled
@@ -453,7 +455,7 @@ private def tryRegisterAllMasters(): Array[JFuture[_]] = {
 }
 ```
 
-Master 接收消息:
+**Master 接收消息:**
 
 全路径 org.apache.spark.deploy.master.Master
 
@@ -469,12 +471,20 @@ override def receive: PartialFunction[Any, Unit] = {
     logInfo("Registering app " + description.name)
     // 创建 ApplicationInfo 实例
     val app = createApplication(description, driver)
-    //
+    // 注册 app
     registerApplication(app)
     
     logInfo("Registered app " + description.name + " with ID " + app.id)
+    //PersistenceEngine作用
+    // - 当Master发生故障时，来读取持久化的Application，Worker，Driver的详细信息。
+    // - 负责写入持久化Application，Worker，Driver的详细信息。
     persistenceEngine.addApplication(app)
+    //向StandaloneAppClient发送消息RegisteredApplication，表示已注册Application
     driver.send(RegisteredApplication(app.id, self))
+    /**
+   * Schedule the currently available resources among waiting apps. This method will be called
+   * every time a new app joins or resource availability changes.
+   */
     schedule()
   }
 }
@@ -497,12 +507,6 @@ private def registerApplication(app: ApplicationInfo): Unit = {
   }
 }
 ```
-
-
-
-
-
-
 
 
 
