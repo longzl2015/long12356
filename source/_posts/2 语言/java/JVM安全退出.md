@@ -24,3 +24,9 @@ tags: [java]
 ## 下一步
 
 理清 @PreDestroy 、 hook 钩子 和
+
+
+
+## 参考 
+
+[java优雅的退出程序](https://jiyiren.github.io/2018/06/18/jvm-exit/)
