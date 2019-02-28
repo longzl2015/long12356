@@ -12,38 +12,44 @@ tags: [maven,scope]
 
 
 
-
+Dependency scope通常被用于限制一个依赖的传递性，同时影响 the classpath used for various build tasks
 
 <!--more-->
 
-
-Dependency scope is used to limit the transitivity of a dependency, and also to affect the classpath used for various build tasks.
-
-There are 6 scopes available:
+Scope 有以下六种:
 
 ## compile
 
-This is the default scope, used if none is specified. Compile dependencies are available in all classpaths of a project. Furthermore, those dependencies are propagated to dependent projects.
+默认的**scope**，表示 dependency 都可以在生命周期中使用。而且，这些dependencies 会传递到依赖的项目中。
 
 ##provided
 
-This is much like compile, but indicates you expect the JDK or a container to provide the dependency at runtime. For example, when building a web application for the Java Enterprise Edition, you would set the dependency on the Servlet API and related Java EE APIs to scope provided because the web container provides those classes. This scope is only available on the compilation and test classpath, and is not transitive.
+跟compile相似，表示依赖由jdk或者容器提供。如: 当构建java web项目时，我们需要将 Servlet API和 Java EE APIs设置为 provided，因为tomcat会提供这些依赖jar。provided 只在 编译和测试环境生效，同时不具备传递性。
 
 ##runtime
 
-This scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath.
+runtime，表示被依赖项目不会参与整个项目的编译，但项目的测试期和运行时期会参与。与compile相比，跳过了编译这个环节。
 
-运行域，表示被依赖项目不会参与项目的编译，但项目的测试期和运行时期会参与。与compile相比，跳过了编译这个环节。
+- 编译: 对代码做一些简单的语法检测和翻译工作
+- 运行: 将代码跑起来
 
 
 ##test
+仅在测试环境生效。不具备传递性。
+
 This scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases. This scope is not transitive.
 
 ##system
-This scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository.
+跟provided 相似，但是**在系统中要以外部JAR包的形式提供**，maven不会在repository查找它。 例如：
+
+
 
 ##import (only available in Maven 2.0.9 or later)
-This scope is only supported on a dependency of type pom in the <dependencyManagement> section. It indicates the dependency to be replaced with the effective list of dependencies in the specified POM's <dependencyManagement> section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.
+仅作用在 `<dependencyManagement> `中，且仅用于`type=pom`的dependency。
+
+主要作用: 解决pom单继承的问题。
+
+ It indicates the dependency to be replaced with the effective list of dependencies in the specified POM's <dependencyManagement> section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.
 
 以下为 import 实例
 
@@ -167,3 +173,6 @@ This scope is only supported on a dependency of type pom in the <dependencyManag
  
 </project>
 ```
+
+
+[import scope 解决单继承问题](https://www.cnblogs.com/huahua035/p/7680607.html)

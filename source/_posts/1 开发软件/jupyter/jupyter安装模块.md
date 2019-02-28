@@ -10,10 +10,9 @@ tags: [jupyter]
 
 ---
 
-
-本文来自 
-https://nbviewer.jupyter.org/format/script/url/jakevdp.github.com/downloads/notebooks/JupyterInstallation.ipynb。
-复制到此处用于备份。
+> 本文来自 
+> https://nbviewer.jupyter.org/format/script/url/jakevdp.github.com/downloads/notebooks/JupyterInstallation.ipynb。
+> 复制到此处用于备份。
 
 主要介绍 如何在 jupyter 中安装 python模块。
 
@@ -35,7 +34,7 @@ In software, it's said that [all abstractions are leaky](https://www.joelonsoftw
 I most often see this manifest itself with the following issue:
 
 > I installed *package X* and now I can't import it in the notebook. Help!
-    
+
 This issue is a perrennial source of StackOverflow questions (e.g. [this](https://stackoverflow.com/questions/39007571/running-jupyter-with-multiple-python-and-ipython-paths/), [that](https://stackoverflow.com/questions/42500142/importerror-no-module-named-jwt-in-jupyter), [here](https://stackoverflow.com/questions/32777807/importerror-no-module-named-cv2-using-jupyter), [there](https://stackoverflow.com/questions/42500649/failed-to-import-numpy-as-np-when-i-worked-with-jupyter-notebook), [another](https://stackoverflow.com/questions/46634660/jupyter-notebook-wrong-sys-path-and-sys-executable), [this one](https://stackoverflow.com/questions/44222513/cannot-import-datashader-installed-using-miniconda), [that one](https://stackoverflow.com/questions/42178070/jupyter-notebook-importerror-no-module-named-sklearn), [and this](https://stackoverflow.com/questions/42034508/fail-pandas-in-python3-jupyter-notebook)... etc.).
 
 Fundamentally the problem is usually rooted in the fact that the **Jupyter kernels are disconnected from Jupyter's shell**; in other words, the installer points to a different Python version than is being used in the notebook.
@@ -45,7 +44,7 @@ In other words, the Jupyter notebook, like all abstractions, is leaky.
 In the wake of several discussions on this topic with colleagues, some online ([exhibit A](https://twitter.com/amuellerml/status/932637063748444160), [exhibit B](https://twitter.com/jakevdp/status/922846245848150016)) and some off, I decided to treat this issue in depth here.
 This post will address a couple things:
 
-- **First**, I'll provide a quick, bare-bones answer to the general question, *how can I install a Python package so it works with my jupyter notebook, using pip and/or conda?*.
+- **First**, I'll provide a quick, bare-bones answer to the general question, **how can I install a Python package so it works with my jupyter notebook, using pip and/or conda?**.
 
 - **Second**, I'll dive into some of the background of exactly *what* the Jupyter notebook abstraction is doing, how it interacts with the complexities of the operating system, and how you can think about where the "leaks" are, and thus better understand what's happening when things stop working.
 
@@ -56,11 +55,11 @@ Other package managers exist (including platform-specific tools like [yum](http:
 
 ## Quick Fix: How To Install Packages from the Jupyter Notebook
 
-If you're just looking for a quick answer to the question, *how do I install packages so they work with the notebook*, then look no further.
+If you're just looking for a quick answer to the question, **how do I install packages so they work with the notebook**, then look no further.
 
 ### pip vs. conda
 
-First, a few words on ``pip`` vs. ``conda``.
+First, a few words on `pip` vs. `conda`.
 For many users, the choice between pip and conda can be a confusing one.
 I wrote [way more than you ever want to know](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/) about these in a post last year, but the essential difference between the two is this:
 
@@ -152,11 +151,11 @@ That bit of extra boiler-plate makes certain that you are running the ``pip`` ve
 This is related to the fact that, even setting Jupyter notebooks aside, it's better to install packages using
 
     $ python -m pip install <package>
-    
+
 rather than
 
     $ pip install <package>
-    
+
 because the former is more explicit about where the package will be installed (more on this below).
 
 ## The Details: Why is Installation from Jupyter so Messy?
