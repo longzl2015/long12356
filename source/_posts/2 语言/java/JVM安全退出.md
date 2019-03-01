@@ -23,10 +23,64 @@ tags: [java]
 
 ## 下一步
 
-理清 @PreDestroy 、 hook 钩子 和
+理清 @PreDestroy 、 hook 钩子 
 
 
+
+
+
+
+
+
+## 测试
+
+编写 简单的spring boot demo如下:
+
+```java
+@Component
+public class AsyncService {
+    @Async
+    public void ss() {
+        long l = System.currentTimeMillis() + 1000 * 600;
+        boolean flag = false;
+        try {
+            while (l > System.currentTimeMillis()) {
+                System.out.println(l);
+                try {
+                    System.out.println("当前时间1:" + System.currentTimeMillis());
+                    Thread.sleep(1);
+                    System.out.println("当前时间2:" + System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    flag = true;
+                }
+
+                if (flag) {
+                    System.out.println("kill");
+                }
+            }
+        }finally {
+            System.out.println("finally 语句");
+        }
+    }
+    
+    @PreDestroy
+    public void tt() {
+        System.out.println("PreDestroy 语句");
+    }
+}
+```
+
+当程序在运行中时，使用 kill命令:
+
+1. Thread.sleep() 程序会抛出一次中断异常 
+2. finally 语句不会执行
+3. PreDestroy注解 一定会执行
 
 ## 参考 
 
 [java优雅的退出程序](https://jiyiren.github.io/2018/06/18/jvm-exit/)
+
+
+
+
