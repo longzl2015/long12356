@@ -15,6 +15,48 @@ MLLib Pipeline的实现分析(转)
 
 [TOC]
 
+
+```puml
+@startuml
+class PipelineStage{
+  + StructType transformSchema()
+}
+
+class Estimator{
+  + Model fit()
+}
+
+class Transformer{
+  + DataFrame transform()
+}
+
+class PipelineModel{
+  + DataFrame transform()
+  + StructType transformSchema()
+  + PipelineModel copy()
+  + MLWriter write()
+}
+
+class Pipeline{
+  + stages
+  + Array[PipelineStage] getStages()
+  + this setStages()
+  + PipelineModel fit()
+  + Pipeline copy()
+  + StructType transformSchema()
+  + MLWriter write()
+}
+
+PipelineStage <|-- Estimator
+PipelineStage <|-- Transformer
+Transformer <|-- Model
+Model <|-- PipelineModel
+Estimator <|-- Pipeline
+@enduml
+```
+
+以下为原文:
+
 在2014年11月,他就在Spark MLLib代码中CI了一个全新的package:"org.apache.spark.ml", 和传统的"org.apache.spark.mllib"独立, 这个包即Spark MLLib的
 [Pipeline and Parameters](https://docs.google.com/document/d/1rVwXRjWKfIb-7PI6b86ipytwbUH7irSNLF1_6dLmh8o/edit#heading=h.kaihowy4sg6c)
 
@@ -39,6 +81,8 @@ class LogisticRegressionModel (
   extends GeneralizedLinearModel(weights, intercept) with ClassificationModel with Serializable {
 
   private var threshold: Option[Double] = Some(0.5)
+  //...
+  }
 ```
 
 上面是传统的org.apache.spark.mllib包中一个分类器:LogisticRegressionModel, 如果理解logistics分类器,那么我知道其中的threshold为模型一个很重要的参数.
@@ -70,10 +114,10 @@ class Param[T] (val parent: Params,val name: String,val doc: String,
 
 Param表示一个参数,从概念上来说,一个参数有下面几个属性:
 
-+   param的类型:即上面的[T], 它表示param值是何种类型
-+   param的名称:即name
-+   param的描述信息,和name相比, 它可以更长更详细, 即doc
-+   param的默认值, 即defaultValue
+- param的类型:即上面的[T], 它表示param值是何种类型
+- param的名称:即name
+- param的描述信息,和name相比, 它可以更长更详细, 即doc
+- param的默认值, 即defaultValue
 
 针对param的类型,ml提供了一组默认的子类, 如IntParam,FloatParam之类的.就不详细展开
 
@@ -107,10 +151,11 @@ private[ml] trait HasMaxIter extends Params {
 }
 ```
 
-我们看到每个具体的RegParam都是继承自Params, 这个继承感觉意义不大,所有这里就不纠结它的继承机制, 核心是它的val regParam: DoubleParam常量的定义,这里的常量会被编译为一个函数,
+我们看到每个具体的RegParam都是继承自Params, 这个继承感觉意义不大,所有这里就不纠结它的继承机制, 核心是它的`val regParam: DoubleParam`常量的定义,这里的常量会被编译为一个函数,
 其中函数为public, 返回值为DoubleParam, 参数为空. 为什么要强调这个呢?这是规范. 一个具体的Param只有这样的实现, 它才会被组件的Params容器捕获. 怎么捕获呢? 在Params中有这样一个代码:
 ​    
 ```scala
+// 使用 java 反射的方法列出所有的(没有入参和返回值为Param)的方法
 def params: Array[Param[_]] = {
     val methods = this.getClass.getMethods
     methods.filter { m =>
@@ -158,8 +203,8 @@ abstract class PipelineStage extends Serializable with Logging {
 
 上面我们也谈到, 具体的stage是在PipelineStage基础上划分为两大类, 即数据到数据的转换(transform)以及数据到模型的转换(fit).
 
-+   Transformer:  数据到数据的转换
-+   Estimator:       数据到模型的转换
+- Transformer:  数据到数据的转换
+- Estimator:    数据到模型的转换
 
 
 #### 2.1.1 Transformer
