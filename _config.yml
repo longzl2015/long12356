@@ -86,5 +86,5 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/longzl2015/longzl2015.git
+  repo: git@github.com:longzl2015/longzl2015.github.io.git
   branch: master
