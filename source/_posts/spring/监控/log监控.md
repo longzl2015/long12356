@@ -5,7 +5,7 @@ date: 2018-08-05 02:56:13
 
 tags: [log监控]
 
-categories: [springboot]
+categories: [springboot,监控]
 
 ---
 

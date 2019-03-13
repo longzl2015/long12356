@@ -4,7 +4,7 @@ title: kafaka架构和应用(翻译)
 
 date: 2018-09-28 14:04:00
 
-categories: [kafka]
+categories: [消息中间件,kafka]
 
 tags: [kafka]
 

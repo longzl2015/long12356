@@ -4,7 +4,7 @@ title: spring-2-依赖注入-注解-自动装配
 
 date: 2018-08-15 17:45:50
 
-categories: [spring]
+categories: [spring,springmvc]
 
 tags: [spring,依赖注入,注解]
 

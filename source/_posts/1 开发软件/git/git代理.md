@@ -4,9 +4,9 @@ title: git代理
 
 date: 2018-08-05 03:30:09
 
-tags: [git]
+categories: [开发软件,git]
 
-categories: [版本管理]
+tags: [git]
 
 ---
 

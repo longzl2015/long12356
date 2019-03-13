@@ -3,8 +3,7 @@ title: Mac下加快HomeBrew下载速度
 date: 2017-01-05 03:30:09
 tags: 
   -  黑苹果
-categories:
-  - 系统
+categories: [黑苹果]
 ---
 
 ## 使用代理 

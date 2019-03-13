@@ -3,8 +3,7 @@ title: top工具
 date: 2017-06-04 23:22:58
 tags: 
   - top
-categories:
-  - linux
+categories: [linux,命令]
 ---
 
 top命令简单介绍

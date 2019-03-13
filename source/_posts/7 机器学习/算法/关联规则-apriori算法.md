@@ -4,8 +4,7 @@ date: 2018-04-02 16:03:07
 tags: 
   - 关联规则
   - Apriori算法
-categories:
-  - 算法
+categories: [机器学习,算法]
 ---
 
 

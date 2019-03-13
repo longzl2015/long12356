@@ -2,7 +2,7 @@
 title: spring-1-mvc-HelloWorld
 date: 2015-08-14 09:09:28
 tags: spring
-categories: spring
+categories: [spring,springmvc]
 
 ---
 

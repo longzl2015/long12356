@@ -4,7 +4,7 @@ title: InterruptedException(译)
 
 date: 2018-08-22 17:06:00
 
-categories: [java]
+categories: [语言,java,其他]
 
 tags: [java,InterruptedException]
 

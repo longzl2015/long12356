@@ -4,7 +4,7 @@ title: ps
 
 date: 2018-11-20 11:56:00
 
-categories: [ps]
+categories: [linux,命令]
 
 tags: [ps]
 

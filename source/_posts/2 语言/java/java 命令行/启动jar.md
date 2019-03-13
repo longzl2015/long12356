@@ -4,7 +4,7 @@ title: 启动jar
 
 date: 2018-08-21 15:18:00
 
-categories: [java]
+categories: [语言,java,命令行]
 
 tags: [java,命令行]
 

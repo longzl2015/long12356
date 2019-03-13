@@ -3,8 +3,7 @@ title: db2 使用bat脚本批量导入
 date: 2018-01-05 03:30:09
 tags: 
   - db2
-categories:
-  - 数据库
+categories: [数据库,rdbms,db2]
 ---
 
 运行 bat ，调用sql文件即可。

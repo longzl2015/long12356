@@ -4,7 +4,7 @@ title: sparkSql函数
 
 date: 2018-12-17 11:46:00
 
-categories: [sparksql]
+categories: [spark,语法解释]
 
 tags: [sparksql]
 

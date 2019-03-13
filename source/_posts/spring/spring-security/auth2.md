@@ -4,7 +4,7 @@ title: auth2
 
 date: 2019-01-10 15:49:00
 
-categories: [springsecurity]
+categories: [springboot,springsecurity]
 
 tags: [springsecurity]
 

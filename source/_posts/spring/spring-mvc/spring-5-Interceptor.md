@@ -4,7 +4,7 @@ title: spring-5-Interceptor
 
 date: 2019-01-11 17:38:00
 
-categories: [springmvc]
+categories: [spring,springmvc]
 
 tags: [springmvc,todo]
 

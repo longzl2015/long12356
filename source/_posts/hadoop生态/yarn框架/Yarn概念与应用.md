@@ -3,8 +3,7 @@ title: yarn概念与应用
 date: 2016-04-02 22:46:48
 tags: 
   - yarn
-categories:
-  - hadoop
+categories: [hadoop生态,yarn]
 ---
 
 如前面所描述的, YARN 实质上是管理分布式app的系统。他由一个全局的**ResourceManager**和 每一个节点上的**NodeManager**组成。**ResourceManager**用于管理集群所有的可用资源，而每一个节点上的 **NodeManager**用于与ResourceManager沟通并负责管理单节点的可用资源。

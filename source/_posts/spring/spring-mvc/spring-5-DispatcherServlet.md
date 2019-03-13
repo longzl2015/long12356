@@ -4,7 +4,7 @@ title: spring-5-DispatcherServlet
 
 date: 2018-10-19 13:33:00
 
-categories: [springmvc]
+categories: [spring,springmvc]
 
 tags: [springmvc,todo]
 

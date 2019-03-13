@@ -4,8 +4,7 @@ title: parquet文件结构相关类
 date: 2016-04-02 22:46:48
 tags: 
   - parquet
-categories:
-  - hadoop
+categories: [hadoop生态,parquet]
 ---
 
 ![parquet_classes](parquet源码阅读/parquet_classes.png)

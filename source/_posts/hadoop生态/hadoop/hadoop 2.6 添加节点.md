@@ -3,8 +3,7 @@ title: hadoop 2.6版本 添加节点
 date: 2016-04-02 22:46:48
 tags: 
   - hadoop
-categories:
-  - hadoop
+categories: [hadoop生态,hadoop]
 ---
 
 本文主要从基础准备，添加DataNode和添加NodeManager三个部分详细说明在Hadoop2.6.0环境下，如何动态新增节点到集群中。

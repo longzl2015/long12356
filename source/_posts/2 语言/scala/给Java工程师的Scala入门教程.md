@@ -4,7 +4,7 @@ title: 给Java工程师的Scala入门教程
 
 date: 2019-02-28 17:58:00
 
-categories: [scala]
+categories: [语言,scala]
 
 tags: [scala]
 

@@ -4,8 +4,7 @@ title: sqoop 常用操作
 date: 2016-04-02 22:46:48
 tags: 
   - sqoop
-categories:
-  - hadoop
+categories: [hadoop生态,sqoop]
 ---
 
 ## sqoop导入到hdfs命令

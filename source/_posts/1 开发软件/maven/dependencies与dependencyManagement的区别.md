@@ -4,7 +4,7 @@ title: dependencies与dependencyManagement的区别
 
 date: 2018-08-29 15:56:00
 
-categories: [maven]
+categories: [开发软件,maven]
 
 tags: [maven]
 

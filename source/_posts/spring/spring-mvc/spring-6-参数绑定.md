@@ -3,7 +3,7 @@ title: spring-6-参数绑定
 
 date: 2019-1-15 10:21:00
 
-categories: [springmvc]
+categories: [spring,springmvc]
 
 tags: [springmvc,todo]
 

@@ -4,7 +4,7 @@ title: uml图例
 
 date: 2018-09-02 23:30:00
 
-categories: [uml]
+categories: [语言,uml]
 
 tags: [uml]
 

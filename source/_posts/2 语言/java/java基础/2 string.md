@@ -2,6 +2,7 @@
 title: string
 date: 2016-08-05 03:30:09
 tags: [string]
+categories: [语言,java,java基础]
 ---
 
 <!-- MarkdownTOC -->

@@ -4,7 +4,7 @@ title: mock几个关键类
 
 date: 2019-02-14 13:25:00
 
-categories: [mock]
+categories: [springboot,mock]
 
 tags: [mock]
 

@@ -2,6 +2,7 @@
 title: tomcat
 date: 2015-06-04 23:22:58
 tags: [tomcat]
+categories: [web,tomcat]
 ---
 
 [TOC]

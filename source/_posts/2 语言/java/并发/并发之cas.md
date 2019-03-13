@@ -4,7 +4,7 @@ title: 并发之cas
 
 date: 2018-11-14 14:04:00
 
-categories: [并发]
+categories: [语言,java,并发]
 
 tags: [并发]
 

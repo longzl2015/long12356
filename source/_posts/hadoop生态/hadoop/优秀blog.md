@@ -4,7 +4,7 @@ title: 优秀blog
 
 date: 2019-02-20 17:09:00
 
-categories: [hadoop]
+categories: [hadoop生态,hadoop]
 
 tags: [hadoop]
 

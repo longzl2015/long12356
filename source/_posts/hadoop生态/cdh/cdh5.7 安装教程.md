@@ -4,8 +4,7 @@ date: 2016-04-02 22:46:48
 tags: 
   - cloudera
   - cdh
-categories:
-  - hadoop
+categories: [hadoop生态,cdh]
 ---
 
 详细可参考cloudera的path B安装方法

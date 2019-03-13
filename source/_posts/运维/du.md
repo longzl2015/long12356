@@ -4,7 +4,7 @@ title: du
 
 date: 2018-08-17 13:26:00
 
-categories: [linux]
+categories: [linux,命令]
 
 tags: [linux,du]
 

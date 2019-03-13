@@ -4,7 +4,7 @@ title: jpmml-sparkml源码结构介绍
 
 date: 2019-03-13 16:50:00
 
-categories: [jpmml,sparkml]
+categories: [spark,sparkml]
 
 tags: [jpmml,sparkml]
 

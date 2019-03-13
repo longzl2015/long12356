@@ -3,8 +3,7 @@ title: Request 和 response
 date: 2018-06-04 23:22:58
 tags: 
   - web
-categories:
-  - web
+categories: [web,其他]
 ---
 
 主要的与请求和接口相关的类及接口

@@ -3,8 +3,7 @@ title: kafka 初步使用
 date: 2018-02-05 03:30:09
 tags: 
   - kafka
-categories:
-  - 消息中间件
+categories: [消息中间件,kafka]
 ---
 
 

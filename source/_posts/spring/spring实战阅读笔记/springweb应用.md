@@ -4,7 +4,7 @@ title: springweb应用
 
 date: 2018-10-25 19:38:00
 
-categories: [spring]
+categories: [springboot,spring实战阅读笔记]
 
 tags: [spring]
 

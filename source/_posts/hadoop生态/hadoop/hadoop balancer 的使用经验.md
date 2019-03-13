@@ -4,8 +4,7 @@ title: hadoop balancer 的使用经验
 date: 2016-04-02 22:46:48
 tags: 
   - balancer
-categories:
-  - hadoop
+categories: [hadoop生态,hadoop]
 ---
 
 由于历史原因，hadoop集群中的机器的磁盘空间的大小各不相同，而HDFS在进行写入操作时，并没有考虑到这种情况，所以随着数据量的逐渐增加，磁盘较小的datanode机器上的磁盘空间很快将被写满，从而触发了报警。

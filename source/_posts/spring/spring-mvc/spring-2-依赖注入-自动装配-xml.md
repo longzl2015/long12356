@@ -2,7 +2,7 @@
 title: spring-2-依赖注入-自动装配-xml
 date: 2015-08-10 13:26:58
 tags: [自动装配,autowired]
-categories: spring
+categories: [spring,springmvc]
 ---
 
 自动装配的好处是 无须在Spring配置文件中描述javaBean之间的依赖关系（如配置<property>、<constructor-arg>）。IOC容器会自动建立javabean之间的关联关系.

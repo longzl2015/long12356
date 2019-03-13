@@ -4,7 +4,7 @@ title: web三大组件-listener
 
 date: 2018-09-06 17:42:00
 
-categories: [web]
+categories: [web,web三大组件]
 
 tags: [web,listener]
 

@@ -4,7 +4,7 @@ title: JVM安全退出
 
 date: 2018-08-26 15:46:00
 
-categories: [java]
+categories: [语言,java,其他]
 
 tags: [java]
 

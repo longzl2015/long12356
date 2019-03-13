@@ -3,8 +3,7 @@ title: spark1-提交Driver过程
 date: 2018-06-05 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # spark-submit的提交过程 

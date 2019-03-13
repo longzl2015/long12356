@@ -1,7 +1,7 @@
 ---
 title: servlet与tomcat交互.md
 date: 2016-03-20 23:06:14
-categories: [tomcat]
+categories: [web,tomcat]
 tags: [servlet,tomcat]
 ---
 

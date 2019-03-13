@@ -4,7 +4,7 @@ title: SparkStreaming优秀博客
 
 date: 2019-02-19 16:36:00
 
-categories: [SparkStreaming]
+categories: [spark,SparkStreaming]
 
 tags: [SparkStreaming]
 

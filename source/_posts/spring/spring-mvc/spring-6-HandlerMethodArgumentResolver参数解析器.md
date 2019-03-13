@@ -3,8 +3,7 @@ title: HandlerMethodArgumentResolver参数解析器
 date: 2018-06-04 23:22:58
 tags: 
   - springmvc
-categories:
-  - springmvc
+categories: [spring,springmvc]
 
 ---
 

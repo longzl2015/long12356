@@ -2,6 +2,7 @@
 title: hashtable.md
 date: 2016-03-19 22:27:09
 tags: [hashtable,集合]
+categories: [语言,java,集合]
 ---
 
 [TOC]

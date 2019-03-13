@@ -4,7 +4,7 @@ title: java基本特性
 
 date: 2018-09-06 22:45:00
 
-categories: [java]
+categories: [语言,java,java基础]
 
 tags: [java]
 

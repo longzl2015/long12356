@@ -2,7 +2,7 @@
 title: spring-2-自动扫描组件或Bean
 date: 2015-08-10 15:26:58
 tag: [自动扫描,components]
-categories: spring
+categories: [spring,springmvc]
 
 ---
 

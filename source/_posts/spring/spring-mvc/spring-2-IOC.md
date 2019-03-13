@@ -2,6 +2,7 @@
 title: spring-2-IOC.md
 date: 2016-03-16 20:56:37
 tags: [spring,ioc]
+categories: [spring,springmvc]
 ---
 
 [TOC]

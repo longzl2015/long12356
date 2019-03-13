@@ -4,7 +4,7 @@ title: spark使用kryo序列化
 
 date: 2019-01-15 17:56:00
 
-categories: [spark]
+categories: [spark,数据处理实践]
 
 tags: [spark,todo]
 

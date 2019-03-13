@@ -3,8 +3,7 @@ title: Spark性能优化指南——高级篇（转）
 date: 2017-06-04 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,数据处理实践]
 ---
 
 # 一、数据倾斜调优

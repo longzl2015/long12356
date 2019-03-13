@@ -3,8 +3,7 @@ title: 缓存方法
 date: 2017-06-04 23:22:58
 tags:
   - spark
-categories:
-  - spark
+categories: [spark,语法解释]
 ---
 
 # 缓存方法

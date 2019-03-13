@@ -4,7 +4,7 @@ title: dependency scope作用域
 
 date: 2018-08-29 16:09:00
 
-categories: [maven]
+categories: [开发软件,maven]
 
 tags: [maven,scope]
 

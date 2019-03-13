@@ -2,6 +2,7 @@
 title: docker.md
 date: 2016-04-12 16:45:57
 tags: [docker]
+categories: [docker]
 ---
 
 [TOC]

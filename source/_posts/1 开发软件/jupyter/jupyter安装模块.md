@@ -4,7 +4,7 @@ title: jupyter安装模块
 
 date: 2019-01-08 13:01:00
 
-categories: [jupyter]
+categories: [开发软件,jupyter]
 
 tags: [jupyter]
 

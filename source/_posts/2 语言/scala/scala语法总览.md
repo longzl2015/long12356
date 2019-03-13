@@ -3,8 +3,7 @@ title: scala语法总览
 date: 2018-01-05 03:30:09
 tags: 
   - scala
-categories:
-  - scala
+categories: [语言,scala]
 ---
 
 # Scala

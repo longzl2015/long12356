@@ -2,7 +2,7 @@
 title: spring-4-事务管理
 date: 2015-08-12 20:59:28
 tags: [aop,事务管理]
-categories: spring
+categories: [spring,springmvc]
 ---
 
 事务管理是企业级应用程序开发中必不可少的技术,用来确保数据的完整性和一致性.

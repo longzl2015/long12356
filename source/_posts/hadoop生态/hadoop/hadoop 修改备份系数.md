@@ -4,8 +4,7 @@ title: hadoop 修改备份系数
 date: 2016-04-02 22:46:48
 tags: 
   - hadoop
-categories:
-  - hadoop
+categories: [hadoop生态,hadoop]
 ---
 
 ### 查看文件备份数

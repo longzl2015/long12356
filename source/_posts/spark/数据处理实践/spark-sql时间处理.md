@@ -3,8 +3,7 @@ title: Date and Time Functions
 date: 2017-06-04 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,数据处理实践]
 ---
 
 ## Date and Time Functions

@@ -4,7 +4,7 @@ title: xgboost
 
 date: 2019-03-13 13:40:00
 
-categories: [xgboost]
+categories: [spark,sparkml]
 
 tags: [xgboost]
 

@@ -4,7 +4,7 @@ title: maven插件索引更新
 
 date: 2018-08-09 13:30:42
 
-categories: [intellij]
+categories: [开发软件,intellij]
 
 tags: [maven,intellij]
 

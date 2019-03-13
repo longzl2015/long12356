@@ -2,6 +2,7 @@
 title: spring-3-AOP-基本概念.md
 date: 2016-03-16 22:51:16
 tags: [spring,aop]
+categories: [spring,springmvc]
 ---
 
 [TOC]
@@ -26,7 +27,9 @@ tags: [spring,aop]
 
 ----
 
-
+## 来源
+[](http://www.importnew.com/28342.html)
+[](http://www.uml.org.cn/j2ee/201301102.asp)
 
 
 

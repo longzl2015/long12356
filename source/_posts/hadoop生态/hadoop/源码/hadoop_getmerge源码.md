@@ -3,8 +3,7 @@ title: hadoop 源码 - 命令getMerge
 date: 2016-04-02 22:46:48
 tags: 
   - hadoop
-categories:
-  - hadoop
+categories: [hadoop生态,hadoop]
 ---
 
 `hadoop fs -getMerge` 源码位于 `hadoop-common` 包的 `org.apache.hadoop.fs.shell.CopyCommands `类中，以下文章以2.7.3版本为例。
