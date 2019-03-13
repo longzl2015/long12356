@@ -12,6 +12,11 @@ hexo g
 echo "发布到github"
 hexo deploy
 
+
+
+basePath=`dirname $0`
+cd ${basePath}
+
 git commit -a -m 'update' & git push origin master
 
 
