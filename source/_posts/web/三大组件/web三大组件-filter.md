@@ -144,7 +144,9 @@ public class TimeLogFilter implements Filter {
 1. 权限控制
 2. 接口的耗时统计
 3. 统计不同IP访问次数
-4. 等等
+4. 对非标准流编码的请求解码
+5. 等等
+
 
 ## 拦截器注意点
 
