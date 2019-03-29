@@ -1,6 +1,6 @@
 ---
 
-title: SpringBoot Bean生命周期(转)
+title: SpringBoot-Bean生命周期-转
 
 date: 2019-03-27 15:37:00
 
@@ -16,4 +16,4 @@ tags: [spring,springboot]
 
 <!--more-->
 
-![](SpringBoot Bean生命周期(转)/0640fe33.png)
+![](SpringBoot-Bean生命周期-转/0640fe33.png)
