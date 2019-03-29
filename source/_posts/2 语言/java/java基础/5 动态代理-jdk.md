@@ -5,26 +5,29 @@ tags: [动态代理,java]
 categories: [语言,java,java基础]
 ---
 
-[TOC]
 
-
-JDK动态代理可以在`运行期间`创建一个代理类，这个代理类实现了一组给定的接口方法。
+JDK动态代理可以在`运行期间`创建一个代理类，这个代理类实现了一组给定的`接口`方法。
 
 当调用这个代理类的接口方法时，这个调用都会被定向到 InvocationHandler.invoke()方法。在这个invoke方法中，我们可以添加任何逻辑，如打印日志、安全检查等等。
 之后，invoke方法会调用真实对象的方法。
 
-从上面的描述可以看出，动态代理是基于接口实现代理类的。因此当被代理对象没有继承接口时，JDK动态代理就无法使用，这时可以使用 CGLIB 代理，关于CGLIB 代理在下一章中介绍。
+动态代理是基于接口实现代理类的。因此当被代理对象没有继承接口时，JDK动态代理就无法使用，这时可以使用 CGLIB 代理，关于CGLIB 代理在下一章中介绍。
 
 <!--more-->
 
+## 主要构成
 
 JDK动态代理主要有 `Proxy类的newProxyInstance(...)方法` 和 `实现InvocationHandler接口` 这两个要点。
 
-newProxyInstance()方法用于根据传入的接口类型interfaces返回一个动态创建的代理类的实例，方法的参数解释
+### Proxy类的newProxyInstance()方法
+
+newProxyInstance()方法用于根据传入的接口类型 interfaces 返回一个动态创建的代理类的实例，方法的参数解释
 
 - 第一个参数loader表示代理类的类加载器，
 - 第二个参数interfaces表示被代理类实现的接口列表，
-- 第三个参数h表示所指派的调用处理程序类。
+- 第三个参数h表示所指派的调用处理程序类InvocationHandler。
+
+### InvocationHandler接口的 invoke() 方法
 
 实现InvocationHandler接口主要是重写 invoke 方法，在invoke 方法中，可以添加任何逻辑，如打印日志、安全检查等等。
 如果不进行拦截的话，一定要 调用 `Object invoke = method.invoke(target, args);`来执行真正的方法
@@ -51,7 +54,7 @@ public class Hello implements IHello{
 }
 ```
 
-JDK动态代理类必须管理一个 InvocationHandler类。
+JDK动态代理类必须管理一个 InvocationHandler 类。
 
 ```java
 
@@ -66,7 +69,7 @@ public class MyInvocationHandler implements InvocationHandler {
     }
 
     @Override
-    public Object invoke(Object o, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object target, Method method, Object[] args) throws Throwable {
         /**代理环绕**/
         //执行实际的方法
         Object invoke = method.invoke(target, args);
@@ -95,7 +98,7 @@ public class Test {
 }
 ```
 
-## 源码
+## Proxy 源码
 
 ```java
 public class Proxy implements java.io.Serializable {
@@ -169,6 +172,116 @@ public class Proxy implements java.io.Serializable {
         return proxyClassCache.get(loader, interfaces);
     }    
 }
+```
+
+## 生成代理类的字节码，并保存
+
+### 如何生成 
+
+```java
+public interface IUser {
+    void add();
+    String update(String aa);
+}
+
+public class Main {
+    public static void main(String[] args) {
+        String proxyName = "Ttest";
+        Class<?>[] interfaces = {IUser.class};
+
+        byte[] classFile = ProxyGenerator.generateProxyClass(proxyName, interfaces);
+        String paths = IUser.class.getResource(".").getPath();
+        System.out.println(paths);
+
+        try (FileOutputStream out = new FileOutputStream(paths + proxyName + ".class")) {
+            out.write(classFile);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 生成结果
+
+```java
+public final class Ttest extends Proxy implements IUser {
+    private static Method m1;
+    private static Method m2;
+    private static Method m3;
+    private static Method m4;
+    private static Method m0;
+
+    public Ttest(InvocationHandler var1) throws  {
+        super(var1);
+    }
+
+    public final boolean equals(Object var1) throws  {
+        try {
+            return (Boolean)super.h.invoke(this, m1, new Object[]{var1});
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final String toString() throws  {
+        try {
+            return (String)super.h.invoke(this, m2, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final void add() throws  {
+        try {
+            super.h.invoke(this, m3, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    public final String update(String var1) throws  {
+        try {
+            return (String)super.h.invoke(this, m4, new Object[]{var1});
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
+
+    public final int hashCode() throws  {
+        try {
+            return (Integer)super.h.invoke(this, m0, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
+
+    static {
+        try {
+            m1 = Class.forName("java.lang.Object").getMethod("equals", Class.forName("java.lang.Object"));
+            m2 = Class.forName("java.lang.Object").getMethod("toString");
+            m3 = Class.forName("IUser").getMethod("add");
+            m4 = Class.forName("IUser").getMethod("update", Class.forName("java.lang.String"));
+            m0 = Class.forName("java.lang.Object").getMethod("hashCode");
+        } catch (NoSuchMethodException var2) {
+            throw new NoSuchMethodError(var2.getMessage());
+        } catch (ClassNotFoundException var3) {
+            throw new NoClassDefFoundError(var3.getMessage());
+        }
+    }
+}
+
 ```
 
 ## 来源
