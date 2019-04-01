@@ -4,9 +4,9 @@ title: 微服务-Feign源码解析
 
 date: 2019-03-29 12:44:00
 
-categories: [spring,springcloud]
+categories: [spring,springcloud,feign]
 
-tags: [spring,springcloud]
+tags: [spring,springcloud,feign]
 
 ---
 

@@ -4,9 +4,9 @@ title: 微服务-Hystrix原理
 
 date: 2019-03-28 13:48:00
 
-categories: [spring,springcloud]
+categories: [spring,springcloud,hystrix]
 
-tags: [spring,springcloud]
+tags: [spring,springcloud,hystrix]
 
 ---
 
