@@ -202,6 +202,8 @@ private int incrementAndGetModulo(int modulo) {
 
 ## 其他
 
+### 立即加载
+
 默认情况下Ribbon是懒加载的——首次请求Ribbon相关类才会初始化，这会导致首次请求过慢的问题，你可以配置饥饿加载，让Ribbon在应用启动时就初始化。
 
 ```yaml
@@ -210,6 +212,35 @@ ribbon:
     enabled: true
     # 多个用,分隔
     clients: microservice-provider-user
+```
+
+### 默认配置
+
+| Bean Type   | Bean Name | Class Name |
+| -------------------------- | ------------------------- | -------------------------------- |
+| IClientConfig            | ribbonClientConfig      | DefaultClientConfigImpl        |
+| IRule                    | ribbonRule              | ZoneAvoidanceRule              |
+| IPing                    | ribbonPing              | DummyPing                      |
+| ServerList<Server>       | ribbonServerList        | ConfigurationBasedServerList   |
+| ServerListFilter<Server> | ribbonServerListFilter  | ZonePreferenceServerListFilter |
+| ILoadBalancer            | ribbonLoadBalancer      | ZoneAwareLoadBalancer          |
+| ServerListUpdater        | ribbonServerListUpdater | PollingServerListUpdater       |
+
+### 自定义配置
+
+```java
+public class CloudProviderConfiguration {
+    @Bean
+    public IRule ribbonRule(IClientConfig config) {
+        return new BestAvailableRule();
+    }
+}
+
+@FeignClient(name = "cloud-provider")
+@RibbonClient(name = "cloud-provider", configuration = CloudProviderConfiguration.class)
+public interface UserFeignClient {
+// ..
+}
 ```
 
 

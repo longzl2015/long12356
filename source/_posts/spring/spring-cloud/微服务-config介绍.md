@@ -31,7 +31,7 @@ SpringCloudConfig 的 工作流程:
 
 ## 配置刷新原理
 
-当触发热更新的时候，会调用 ContextRefresher的 refresh()。方法的实现如下:
+当触发热更新的时候，会调用 ContextRefresher 的 refresh()。方法的实现如下:
 
 ```java
 public synchronized Set<String> refresh() {
@@ -251,6 +251,24 @@ Spring Cloud 扩展了Scope，从而控制了整个 Bean 的生命周期。当�
 [Scope 的相关介绍](<https://www.cnblogs.com/noahsark/p/spring-scope-analysis.html>)
 
 ![](微服务-config介绍/d7c77000.png)
+
+### 其他
+
+需要在配置中心中添加 force-pull 信息
+
+```yml
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # 由于默认将git文件下载到tmp目录，某些os会修改文件，因此需要 强制 pull
+          force-pull: true
+```
+
+
+
+
 
 ## 参考
 
