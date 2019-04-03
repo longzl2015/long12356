@@ -1,6 +1,6 @@
 ---
 
-title: 微服务-Ribbon均衡规则
+title: 微服务-Ribbon
 
 date: 2019-03-20 20:36:00
 
@@ -19,12 +19,17 @@ tags: [spring,springcloud,ribbon]
 
 总体图:
 
-![](微服务-Ribbon均衡规则/cdd4b059.png)
+![](微服务-Ribbon/cdd4b059.png)
 
+
+## 时序图
+
+![](微服务-Ribbon/9161873b.png)
+![](微服务-Ribbon/f8e06bb4.png)
 
 ## 均衡负载器
 
-![](微服务-Ribbon均衡规则/c5ca7e83.png)
+![](微服务-Ribbon/c5ca7e83.png)
 
 ### PingTask
 
@@ -108,7 +113,7 @@ public Server chooseServer(Object key) {
 
 SpringCloud默认的均衡规则为 ZoneAvoidanceRule。
 
-![](微服务-Ribbon均衡规则/61707573.png)
+![](微服务-Ribbon/61707573.png)
 
 ### RoundRobinRule
 
@@ -251,3 +256,7 @@ https://blog.csdn.net/luanlouis/article/details/83060310
 https://github.com/Netflix/ribbon/wiki/Working-with-load-balancers
 
 http://www.itmuch.com/spring-cloud/finchley-8/
+
+https://my.oschina.net/javamaster/blog/2985895
+
+http://blog.didispace.com/springcloud-sourcecode-ribbon/

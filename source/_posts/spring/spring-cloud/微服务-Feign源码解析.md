@@ -19,4 +19,6 @@ Feign源码解析
 
 http://www.iocoder.cn/Ribbon/laoyuan/spring-cloud-feign-and-ribbon/
 
+https://blog.csdn.net/alex_xfboy/article/details/81506076
 
+![](微服务-Feign源码解析/4d627828.png)
