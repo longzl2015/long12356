@@ -10,4 +10,5 @@
 !README.md
 !run_service.sh
 !push2git.sh
+!id_rsa
 /source/test.puml
