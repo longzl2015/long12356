@@ -260,3 +260,5 @@ http://www.itmuch.com/spring-cloud/finchley-8/
 https://my.oschina.net/javamaster/blog/2985895
 
 http://blog.didispace.com/springcloud-sourcecode-ribbon/
+
+[ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)

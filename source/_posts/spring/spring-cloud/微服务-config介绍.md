@@ -273,3 +273,5 @@ spring:
 ## 参考
 
 [Spring Cloud 是如何实现热更新的](http://www.scienjus.com/spring-cloud-refresh/)
+
+[ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)

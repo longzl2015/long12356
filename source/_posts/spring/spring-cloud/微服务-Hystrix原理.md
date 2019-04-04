@@ -75,3 +75,5 @@ https://design.codelytics.io/hystrix/how-it-works
 超时机制
 
 https://www.jianshu.com/p/60074fe1bd86
+
+[ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)
