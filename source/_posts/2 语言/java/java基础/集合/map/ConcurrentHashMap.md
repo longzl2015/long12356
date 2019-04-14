@@ -2,6 +2,7 @@
 title: ConcurrentHashMap.md
 date: 2016-03-21 22:27:06
 tags: [map,并发,线程安全,集合]
+categories: [语言,java,集合]
 ---
 
 [TOC]

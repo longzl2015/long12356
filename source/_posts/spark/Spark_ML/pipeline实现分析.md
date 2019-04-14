@@ -4,16 +4,54 @@ title: MLLib Pipeline的实现分析(转)
 date: 2017-06-04 23:22:58
 tags: 
   - spark_ml
-categories:
-  - spark
+categories: [spark,sparkml]
 ---
 
-MLLib Pipeline的实现分析(转)
-===============
 
 **文章来源：**https://github.com/ColZer/DigAndBuried/blob/master/spark/mllib-pipeline.md
 
-[TOC]
+
+
+```puml
+@startuml
+class PipelineStage{
+  + StructType transformSchema()
+}
+
+class Estimator{
+  + Model fit()
+}
+
+class Transformer{
+  + DataFrame transform()
+}
+
+class PipelineModel{
+  + DataFrame transform()
+  + StructType transformSchema()
+  + PipelineModel copy()
+  + MLWriter write()
+}
+
+class Pipeline{
+  + stages
+  + Array[PipelineStage] getStages()
+  + this setStages()
+  + PipelineModel fit()
+  + Pipeline copy()
+  + StructType transformSchema()
+  + MLWriter write()
+}
+
+PipelineStage <|-- Estimator
+PipelineStage <|-- Transformer
+Transformer <|-- Model
+Model <|-- PipelineModel
+Estimator <|-- Pipeline
+@enduml
+```
+
+以下为原文:
 
 在2014年11月,他就在Spark MLLib代码中CI了一个全新的package:"org.apache.spark.ml", 和传统的"org.apache.spark.mllib"独立, 这个包即Spark MLLib的
 [Pipeline and Parameters](https://docs.google.com/document/d/1rVwXRjWKfIb-7PI6b86ipytwbUH7irSNLF1_6dLmh8o/edit#heading=h.kaihowy4sg6c)
@@ -39,6 +77,8 @@ class LogisticRegressionModel (
   extends GeneralizedLinearModel(weights, intercept) with ClassificationModel with Serializable {
 
   private var threshold: Option[Double] = Some(0.5)
+  //...
+  }
 ```
 
 上面是传统的org.apache.spark.mllib包中一个分类器:LogisticRegressionModel, 如果理解logistics分类器,那么我知道其中的threshold为模型一个很重要的参数.
@@ -70,10 +110,10 @@ class Param[T] (val parent: Params,val name: String,val doc: String,
 
 Param表示一个参数,从概念上来说,一个参数有下面几个属性:
 
-+   param的类型:即上面的[T], 它表示param值是何种类型
-+   param的名称:即name
-+   param的描述信息,和name相比, 它可以更长更详细, 即doc
-+   param的默认值, 即defaultValue
+- param的类型:即上面的[T], 它表示param值是何种类型
+- param的名称:即name
+- param的描述信息,和name相比, 它可以更长更详细, 即doc
+- param的默认值, 即defaultValue
 
 针对param的类型,ml提供了一组默认的子类, 如IntParam,FloatParam之类的.就不详细展开
 
@@ -107,10 +147,11 @@ private[ml] trait HasMaxIter extends Params {
 }
 ```
 
-我们看到每个具体的RegParam都是继承自Params, 这个继承感觉意义不大,所有这里就不纠结它的继承机制, 核心是它的val regParam: DoubleParam常量的定义,这里的常量会被编译为一个函数,
+我们看到每个具体的RegParam都是继承自Params, 这个继承感觉意义不大,所有这里就不纠结它的继承机制, 核心是它的`val regParam: DoubleParam`常量的定义,这里的常量会被编译为一个函数,
 其中函数为public, 返回值为DoubleParam, 参数为空. 为什么要强调这个呢?这是规范. 一个具体的Param只有这样的实现, 它才会被组件的Params容器捕获. 怎么捕获呢? 在Params中有这样一个代码:
 ​    
 ```scala
+// 使用 java 反射的方法列出所有的(没有入参和返回值为Param)的方法
 def params: Array[Param[_]] = {
     val methods = this.getClass.getMethods
     methods.filter { m =>
@@ -144,6 +185,15 @@ trait Params extends Identifiable with Serializable {
 整体来说Parameters的功能就是组件参数标准化
 
 ## 二、Pipeline
+
+模型训练是整个数据挖掘和机器学习的目标, 如果把整个过程看着为一个黑盒, 内部可以包含了很多很多的特征提取, 模型训练等子stage,
+但是站在黑盒的外面, 整个黑盒的输出就是一个模型(Model), 我们目标就是训练出一个完美的模型, 然后再利于该模型去做服务. 
+
+这句话就是pipeline的核心, 首先pipeline是一个黑盒生成的过程, 它对外提供fit接口, 完成黑盒的训练, 生成一个黑盒模型, 即PipelineModel
+
+如果站在白盒的角度来看, pipeline的黑盒中肯定维护了一组stage, 这些stage可以是原子的stage,也可能继续是一个黑盒模型, 在fit接口调用时候, 
+会按照流水线的顺序依次调用每个stage的fit/transform函数,最后输出PipelineModel. 
+
 ### 2.1 PipelineStage
 
 如上所言, mllib pipeline是基于Spark SQL中的schemeRDD来实现, pipeline中每一次处理操作都表现为对schemeRDD的scheme或数据进行处理, 这里的操作步骤被抽象为Stage, 即PipelineStage
@@ -158,8 +208,8 @@ abstract class PipelineStage extends Serializable with Logging {
 
 上面我们也谈到, 具体的stage是在PipelineStage基础上划分为两大类, 即数据到数据的转换(transform)以及数据到模型的转换(fit).
 
-+   Transformer:  数据到数据的转换
-+   Estimator:       数据到模型的转换
+- Transformer:  数据到数据的转换
+- Estimator:    数据到模型的转换
 
 
 #### 2.1.1 Transformer
@@ -174,7 +224,8 @@ abstract class Transformer extends PipelineStage with Params {
 
 **特殊的Transformer：模型**：
 
-在mllib中, 有一种特殊的Transformer, 即**模型(Model)**, 下面我们会看到模型是Estimator stage的产物,但是model本身是一个Transformer, 模型是经过训练和挖掘以后的一个对象, 它的一个主要功能就是预测/推荐服务, 即它可以对传入的dataset:SchemaRDD进行预测, 填充dataset中残缺的决策字段或评分字段, 返回更新后的SchemaRDD
+在mllib中, 有一种特殊的Transformer, 即**模型(Model)**, 下面我们会看到模型是Estimator stage的产物,但是model本身是一个Transformer, 
+模型是经过训练和挖掘以后的一个对象, 它的一个主要功能就是预测/推荐服务, 即它可以对传入的dataset:SchemaRDD进行预测, 填充dataset中残缺的决策字段或评分字段, 返回更新后的SchemaRDD
 
 #### 2.1.2 Estimator 
 
@@ -186,17 +237,36 @@ abstract class Estimator[M <: Model[M]] extends PipelineStage with Params {
 }
 ```
 
-模型训练是整个数据挖掘和机器学习的目标, 如果把整个过程看着为一个黑盒, 内部可以包含了很多很多的特征提取, 模型训练等子stage, 但是站在黑盒的外面, 整个黑盒的输出就是一个模型(Model), 我们目标就是训练出一个完美的模型, 然后再利于该模型去做服务. 
+### 2.2 PipelineModel
 
-这句话就是pipeline的核心, 首先pipeline是一个黑盒生成的过程, 它对外提供fit接口, 完成黑盒的训练, 生成一个黑盒模型, 即PipelineModel
+PipelineModel是由一组Transformer组成, 在对dataset进行预测(transform)时,  是按照Transformer的有序性(Array)逐步的对dataset进行处理. 
 
-如果站在白盒的角度来看, pipeline的黑盒中肯定维护了一组stage, 这些stage可以是原子的stage,也可能继续是一个黑盒模型, 在fit接口调用时候, 会按照流水线的顺序依次调用每个stage的fit/transform函数,最后输出PipelineModel.  
+ ```scala
+ class PipelineModel private[ml] (
+     override val parent: Pipeline,
+     override val fittingParamMap: ParamMap,
+     private[ml] val stages: Array[Transformer])
+   extends Model[PipelineModel] with Logging {
+       
+   override def transform(dataset: SchemaRDD, paramMap: ParamMap): SchemaRDD = {
+     // Precedence of ParamMaps: paramMap > this.paramMap > fittingParamMap
+     val map = (fittingParamMap ++ this.paramMap) ++ paramMap
+     transformSchema(dataset.schema, map, logging = true)
+     stages.foldLeft(dataset)((cur, transformer) => transformer.transform(cur, map))
+   }
+ }
+ ```
+ 
+### 2.3 Pipeline
+ 
+Pipeline首先是一个Estimator, fit输出的模型为 PipelineModel,  其次Pipeline也继承Params类, 即被参数化, 
+ 其中有一个参数, 即stages, 它的值为Array[PipelineStage], 该参数存储了Pipeline拥有的所有的stage;
+ 
+Pipeline提供了`fit`和`transformSchema`两个接口: 
 
-### 2.3 实现
+- transformSchema 接口: 使用foldLeft函数, 对schema进行转换. 
+- fit 接口: 遍历 stages列表。将 Estimator 类型的stage 转换为 model(model其实就是一种Transformer)
 
-下面我们就来分析 pipeline和PipelineModel具体的实现.
-
-### 2.3.1 Pipeline 实现 
 
 ```scala
 class Pipeline extends Estimator[PipelineModel] {
@@ -204,7 +274,47 @@ class Pipeline extends Estimator[PipelineModel] {
  def setStages(value: Array[PipelineStage]): this.type = { set(stages, value); this }
  def getStages: Array[PipelineStage] = get(stages)
       
- override def fit(dataset: SchemaRDD, paramMap: ParamMap): PipelineModel = {..}
+ override def fit(dataset: SchemaRDD, paramMap: ParamMap): PipelineModel = {
+     transformSchema(dataset.schema, paramMap, logging = true)
+     val map = this.paramMap ++ paramMap
+     val theStages = map(stages)
+     // 记录最后一个 Estimator 的位置
+     var indexOfLastEstimator = -1
+     theStages.view.zipWithIndex.foreach { case (stage, index) =>
+       stage match {
+         case _: Estimator[_] =>
+           indexOfLastEstimator = index
+         case _ =>
+       }
+     }
+     var curDataset = dataset
+     val transformers = ListBuffer.empty[Transformer]
+     //遍历所有的stages
+     theStages.view.zipWithIndex.foreach { case (stage, index) =>
+       // 遍历在 indexOfLastEstimator 之前的stage
+       if (index <= indexOfLastEstimator) {
+         val transformer = stage match {
+           // 若 stage 为 Estimator，则将 estimator.fit的结果返回 
+           case estimator: Estimator[_] =>
+             estimator.fit(curDataset, paramMap)
+           // 若 stage 为 Transformer，直接返回
+           case t: Transformer =>
+             t
+           case _ =>
+             throw new IllegalArgumentException(
+               s"Do not support stage $stage of type ${stage.getClass}")
+         }
+         curDataset = transformer.transform(curDataset, paramMap)
+         // 将返回的 transformer 加入 transformers列表
+         transformers += transformer
+       } else {
+         //直接将 stage 转为 Transformer
+         transformers += stage.asInstanceOf[Transformer]
+       }
+     }
+ 
+     new PipelineModel(this, map, transformers.toArray)
+   }
     
  private[ml] override def transformSchema(schema: StructType, paramMap: ParamMap): StructType = {
      val map = this.paramMap ++ paramMap
@@ -214,75 +324,14 @@ class Pipeline extends Estimator[PipelineModel] {
      theStages.foldLeft(schema)((cur, stage) => stage.transformSchema(cur, paramMap))
         }
 }
-```
+``` 
+ 
 
-Pipeline首先是一个Estimator, fit输出的模型为PipelineModel,  其次Pipeline也继承Params类, 即被参数化, 其中有一个参数, 即stages, 它的值为Array[PipelineStage],即该参数存储了Pipeline拥有的所有的stage;
-
-Pipeline提供了`fit`和`transformSchema`两个接口,其中transformSchema接口使用foldLeft函数, 对schema进行转换. 但是对fit接口的理解,需要先对PipelineModel进行理解, 分析完PipelineModel, 我们再回头来看fit接口的实现. 先多说一句, 虽然pipeline里面的元素都是stage, 但是两种不同类型stage在里面功能不一样, 所在位置也会有不同的结果,不过这点还是挺好理解的. 
-
-### 2.3.2 PipelineModel实现 
-
-```scala
-class PipelineModel private[ml] (
-    override val parent: Pipeline,
-    override val fittingParamMap: ParamMap,
-    private[ml] val stages: Array[Transformer])
-  extends Model[PipelineModel] with Logging {
-      
-  override def transform(dataset: SchemaRDD, paramMap: ParamMap): SchemaRDD = {
-    // Precedence of ParamMaps: paramMap > this.paramMap > fittingParamMap
-    val map = (fittingParamMap ++ this.paramMap) ++ paramMap
-    transformSchema(dataset.schema, map, logging = true)
-    stages.foldLeft(dataset)((cur, transformer) => transformer.transform(cur, map))
-  }
-}
-```
-
-我们看到PipelineModel是由一组Transformer组成, 在对dataset进行预测(transform)时,  是按照Transformer的有序性(Array)逐步的对dataset进行处理. 换句话说, Pipeline的输出是一组Transformer, 进而构造成PipelineModel. 那么我再回头来看看Pipeline的fit接口. 
-
-```scala
-override def fit(dataset: SchemaRDD, paramMap: ParamMap): PipelineModel = {
-    transformSchema(dataset.schema, paramMap, logging = true)
-    val map = this.paramMap ++ paramMap
-    val theStages = map(stages)
-    // Search for the last estimator.
-    var indexOfLastEstimator = -1
-    theStages.view.zipWithIndex.foreach { case (stage, index) =>
-      stage match {
-        case _: Estimator[_] =>
-          indexOfLastEstimator = index
-        case _ =>
-      }
-    }
-    var curDataset = dataset
-    val transformers = ListBuffer.empty[Transformer]
-    theStages.view.zipWithIndex.foreach { case (stage, index) =>
-      if (index <= indexOfLastEstimator) {
-        val transformer = stage match {
-          case estimator: Estimator[_] =>
-            estimator.fit(curDataset, paramMap)
-          case t: Transformer =>
-            t
-          case _ =>
-            throw new IllegalArgumentException(
-              s"Do not support stage $stage of type ${stage.getClass}")
-        }
-        curDataset = transformer.transform(curDataset, paramMap)
-        transformers += transformer
-      } else {
-        transformers += stage.asInstanceOf[Transformer]
-      }
-    }
-
-    new PipelineModel(this, map, transformers.toArray)
-  }
-```
-
-拿实例来解析:
+### 2.3 实例讲解
 
     Transformer1 ---> Estimator1 --> Transformer2 --> Transformer3 --> Estimator2 --> Transformer4
 
-我们知道Estimator和Transformer的区别是, Estimator需要经过一次fit操作, 才会输出一个Transformer, 而Transformer就直接就是Transformer;
+我们知道Estimator和Transformer的区别是, Estimator需要经过一次fit操作, 才会输出一个Transformer, 而Transformer直接就是Transformer;
 
 对于训练过程中的Transformer,只有一个数据经过Transformer操作后会被后面的Estimator拿来做fit操作的前提下,该Transformer操作才是有意义的,否则训练数据不应该经过该Transformer.
 
@@ -295,7 +344,9 @@ override def fit(dataset: SchemaRDD, paramMap: ParamMap): PipelineModel = {
 
 > 但是对于最后一个Estimator,其实是没有必要做这个"curDataset = transformer.transform(curDataset, paramMap)"操作的, 所以这里还是可以有优化的!!嘿嘿!!!
 
-总结:好了,到目前为止,已经将Pipeline讲解的比较清楚了, 利用Pipeline可以将数据挖掘中各个步骤进行流水线化, api方便还是很简介清晰的!
+##三、总结
+
+到目前为止,已经将Pipeline讲解的比较清楚了, 利用Pipeline可以将数据挖掘中各个步骤进行流水线化, api方便还是很简介清晰的!
 
 最后拿孟祥瑞CI的描述信息中一个例子做结尾,其中pipeline包含两个stage,顺序为StandardScaler和LogisticRegression
 

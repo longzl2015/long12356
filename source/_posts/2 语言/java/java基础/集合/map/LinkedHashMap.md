@@ -4,7 +4,7 @@ title: LinkedHashMap
 
 date: 2016-03-19 22:27:07
 
-categories: [集合]
+categories: [语言,java,集合]
 
 tags: [集合,LinkedHashMap]
 

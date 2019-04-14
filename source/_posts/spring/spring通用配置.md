@@ -4,7 +4,7 @@ title: spring通用配置
 
 date: 2018-12-14 11:26:00
 
-categories: [springboot]
+categories: [springboot,其他]
 
 tags: [springboot]
 

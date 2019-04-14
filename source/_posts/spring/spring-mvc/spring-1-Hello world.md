@@ -1,8 +1,8 @@
 ---
 title: spring-1-Hello world
 date: 2015-08-09 11:09:28
-tags:
-categories: spring
+tags: spring
+categories: [spring,springmvc]
 ---
 
 创建一个spring的hello world项目。

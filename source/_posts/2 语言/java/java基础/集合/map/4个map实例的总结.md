@@ -2,6 +2,7 @@
 title: 4个map实例的总结.md
 date: 2016-03-20 22:27:09
 tags: [map,集合]
+categories: [语言,java,集合]
 ---
 
 [TOC]

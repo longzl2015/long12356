@@ -1,10 +1,12 @@
 ---
 title: git命令使用
 date: 2018-08-05 03:30:09
+
 tags: 
 - git
-categories:
-- 版本管理
+
+categories: [开发软件,git]
+
 ---
 
 [TOC]

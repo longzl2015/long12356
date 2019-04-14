@@ -4,7 +4,7 @@ title: spring-2-依赖注入-注解-自动装配
 
 date: 2018-08-15 17:45:50
 
-categories: [spring]
+categories: [spring,springmvc]
 
 tags: [spring,依赖注入,注解]
 
@@ -141,23 +141,3 @@ public class MovieRecommender {
 }
 ```
 
-## 其他
-
-@Autowired 也可以用在一些众所周知的接口上(BeanFactory, ApplicationContext, Environment, ResourceLoader, ApplicationEventPublisher, and MessageSource),
-或者他们的 extended interfaces 上。
-
-such as ConfigurableApplicationContext or ResourcePatternResolver, are automatically resolved, with no special setup necessary.
-
-```java
-public class MovieRecommender {
-
-    @Autowired
-    private ApplicationContext context;
-
-    public MovieRecommender() {
-    }
-
-    // ...
-
-}
-```

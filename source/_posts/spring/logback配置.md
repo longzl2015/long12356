@@ -4,7 +4,7 @@ title: logback配置
 
 date: 2018-08-21 11:40:00
 
-categories: [spring]
+categories: [springboot,其他]
 
 tags: [spring,logback]
 

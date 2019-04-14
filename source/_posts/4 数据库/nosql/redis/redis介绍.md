@@ -4,7 +4,7 @@ title: redis介绍
 
 date: 2018-09-27 10:31:00
 
-categories: [redis]
+categories: [数据库,nosql,redis]
 
 tags: [redis,nosql]
 

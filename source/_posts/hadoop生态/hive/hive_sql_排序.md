@@ -5,8 +5,7 @@ date: 2016-04-02 22:46:48
 tags: 
   - hive
   - sql
-categories:
-  - hadoop
+categories: [hadoop生态,hive]
 ---
 
 ### 1. 准备数据

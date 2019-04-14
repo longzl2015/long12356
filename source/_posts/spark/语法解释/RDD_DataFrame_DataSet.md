@@ -3,8 +3,7 @@ title: rdd dataframe dataset介绍
 date: 2017-06-04 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,语法解释]
 ---
 
 # rdd dataframe dataset介绍

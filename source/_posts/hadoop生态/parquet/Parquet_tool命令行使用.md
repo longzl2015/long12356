@@ -3,8 +3,7 @@ title: Parquet-tool命令行使用
 date: 2016-04-02 22:46:48
 tags: 
   - parquet
-categories:
-  - hadoop
+categories: [hadoop生态,parquet]
 ---
 
 To examine the internal structure and data of Parquet files, you can use the parquet-tools command that comes with CDH. Make sure this command is in your $PATH. (Typically, it is symlinked from /usr/bin; sometimes, depending on your installation setup, you might need to locate it under a CDH-specific bin directory.) The arguments to this command let you perform operations such as:

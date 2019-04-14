@@ -3,8 +3,7 @@ title: spark 提交任务后，Linux中java 进程说明
 date: 2017-06-04 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # spark 提交任务后，Linux中java 进程说明

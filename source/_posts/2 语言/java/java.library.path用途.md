@@ -3,8 +3,7 @@ title: java.library.path 用途
 date: 2016-08-05 03:30:09
 tags: 
   - java
-categories:
-  - java
+categories: [语言,java,其他]
 ---
 
 

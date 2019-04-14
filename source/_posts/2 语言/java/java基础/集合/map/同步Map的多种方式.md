@@ -4,7 +4,7 @@ title: 同步Map的多种方式
 
 date: 2018-11-12 11:07:00
 
-categories: [map]
+categories: [语言,java,集合]
 
 tags: [map,并发]
 

@@ -2,6 +2,7 @@
 title: ArrayList and Vector.md
 date: 2016-03-16 22:12:26
 tags: [list,集合]
+categories: [语言,java,集合]
 ---
 
 [TOC]

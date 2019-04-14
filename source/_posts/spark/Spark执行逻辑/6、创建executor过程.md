@@ -1,10 +1,9 @@
 ---
-title: 创建executor 过程
-date: 2017-06-04 23:23:03
+title: spark6-创建executor 过程
+date: 2018-06-10 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # spark 创建executor 过程

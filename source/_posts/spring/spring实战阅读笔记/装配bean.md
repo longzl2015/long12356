@@ -4,7 +4,7 @@ title: 装配bean
 
 date: 2018-10-24 17:19:00
 
-categories: [spring]
+categories: [springboot,spring实战阅读笔记]
 
 tags: [spring]
 

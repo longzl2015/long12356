@@ -1,17 +1,16 @@
 ---
-title: 启动Executor
-date: 2017-06-04 23:23:01
+title: spark4-启动Executor
+date: 2018-06-08 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # 启动Executor
 
 ## 一、回顾
 
-在《1、提交driver》已经介绍过，Master的receiveAndReply方法接收Client发送的消息RequestSubmitDriver。
+在《1、提交driver》已经介绍过，org.apache.spark.deploy.master.Master 的 receiveAndReply方法接收Client发送的消息RequestSubmitDriver。
 
 前面已经介绍了schedule()中launchDriver的流程，即《2、启动driver》。
 

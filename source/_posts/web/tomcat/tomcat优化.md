@@ -4,7 +4,7 @@ title: tomcat优化
 
 date: 2018-09-29 15:24:00
 
-categories: [tomcat]
+categories: [web,tomcat]
 
 tags: [tomcat]
 

@@ -2,6 +2,7 @@
 title: HashMap.md
 date: 2016-03-19 22:27:06
 tags: [HashMap,集合]
+categories: [语言,java,集合]
 ---
 
 [TOC]

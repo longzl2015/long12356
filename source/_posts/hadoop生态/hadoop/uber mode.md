@@ -3,8 +3,7 @@ title: MapReduce 作业Uber模式介绍
 date: 2016-04-02 22:46:48
 tags: 
   - MapReduce
-categories:
-  - hadoop
+categories: [hadoop生态,hadoop]
 ---
 
 提交MapReduce作业时 肯定看过如下的输出：

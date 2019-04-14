@@ -4,7 +4,7 @@ title: spring-5-DispatcherServlet
 
 date: 2018-10-19 13:33:00
 
-categories: [springmvc]
+categories: [spring,springmvc]
 
 tags: [springmvc,todo]
 
@@ -65,7 +65,7 @@ HttpServlet 实现了`void service(ServletRequest req, ServletResponse res)`方�
 - post: 更新资源
 - delete: 删除资源
 - put: 局部更新资源
-- options: 用于获取当前URL所支持的方法。是否支持 get、post等
+- options: 用于获取当前URL所支持的方法。是否支持 get、post等，非简单跨域访问就用到了该method。
 - Trace: 用于Debug
 
 

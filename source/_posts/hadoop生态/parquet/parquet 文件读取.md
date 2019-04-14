@@ -4,8 +4,7 @@ title: parquet 文件读取
 date: 2016-04-02 22:46:48
 tags: 
   - parquet
-categories:
-  - hadoop
+categories: [hadoop生态,parquet]
 ---
 
 ## 获取文件行数 - ParquetFileReader.readFooters

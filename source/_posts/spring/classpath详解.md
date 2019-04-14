@@ -2,7 +2,7 @@
 title: classpath详解
 date: 2015-08-24 13:45:09
 tags: [spring,classpath]
-categories: spring
+categories: [springboot,其他]
 
 ---
 classpath:和`classpath*`:的区别

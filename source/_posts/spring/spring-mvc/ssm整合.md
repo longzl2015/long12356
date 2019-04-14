@@ -2,7 +2,7 @@
 title: "ssm整合-未写完"
 date: 2015-09-04 23:22:58
 tag: [mybatis,spring,springmvc]
-categories: mybatis
+categories: [spring,springmvc]
 ---
 
 该文章只讲解整合流程，文章的代码，不是一个完整的例子。

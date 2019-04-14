@@ -3,8 +3,7 @@ title: 相关handler处理
 date: 2018-06-04 23:22:58
 tags: 
   - SpringSecurity
-categories:
-  - springboot
+categories: [springboot,springsecurity]
 ---
 
 ## AccessDeniedHandler

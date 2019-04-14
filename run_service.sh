@@ -12,3 +12,4 @@ hexo g
 echo "启动服务"
 hexo server
 
+

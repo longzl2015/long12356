@@ -4,7 +4,7 @@ title: spring-7-SpringBean的销毁过程(转)
 
 date: 2018-08-22 15:20:00
 
-categories: [spring]
+categories: [spring,springmvc]
 
 tags: [spring,bean]
 

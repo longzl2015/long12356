@@ -3,8 +3,7 @@ title: java.ext.dirs介绍
 date: 2016-08-05 03:30:09
 tags: 
   - java
-categories:
-  - java
+categories: [语言,java,其他]
 ---
 
 java.ext.dirs 用于加载指定路径下的jar文件，默认是 $JAVA_HOME/jre/lib/ext 。

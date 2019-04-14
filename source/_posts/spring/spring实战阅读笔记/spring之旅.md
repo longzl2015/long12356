@@ -4,7 +4,7 @@ title: spring读书笔记-spring之旅
 
 date: 2018-10-23 20:33:00
 
-categories: [spring]
+categories: [springboot,spring实战阅读笔记]
 
 tags: [spring,读书笔记]
 

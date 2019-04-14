@@ -3,8 +3,7 @@ title: hive metaStore结构介绍
 date: 2016-04-02 22:46:48
 tags: 
   - hive
-categories:
-  - hadoop
+categories: [hadoop生态,hive]
 ---
 ## 主要表
 

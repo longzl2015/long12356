@@ -2,6 +2,7 @@
 title: web_xml.md
 date: 2016-03-20 23:20:12
 tags: [tomcat]
+categories: [web,tomcat]
 ---
 
 [TOC]

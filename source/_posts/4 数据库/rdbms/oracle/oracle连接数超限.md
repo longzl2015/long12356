@@ -4,7 +4,7 @@ title: oracle连接数超限
 
 date: 2018-08-14 22:46:48
 
-categories: [oracle]
+categories: [数据库,rdbms,oracle]
 
 tags: [oracle]
 

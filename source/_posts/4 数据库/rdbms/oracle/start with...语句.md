@@ -4,7 +4,7 @@ title: start with...语句
 
 date: 2018-12-13 11:08:00
 
-categories: [oracle]
+categories: [数据库,rdbms,oracle]
 
 tags: [oracle]
 

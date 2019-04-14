@@ -2,7 +2,7 @@
 title: spring-3-AOP-切面通知详解
 date: 2015-8-11 21:21:44
 tags: aop
-categories: spring
+categories: [spring,springmvc]
 ---
 
 ## 前置通知:

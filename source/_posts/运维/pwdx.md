@@ -4,7 +4,7 @@ title: pwdx
 
 date: 2018-08-14 22:46:48
 
-categories: [pwdx]
+categories: [linux,命令]
 
 tags: [pwdx,mac]
 

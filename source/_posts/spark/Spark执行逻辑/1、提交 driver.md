@@ -1,11 +1,9 @@
-
 ---
-title: spark-submit的提交过程
-date: 2017-06-04 23:22:58
+title: spark1-提交Driver过程
+date: 2018-06-05 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # spark-submit的提交过程 
@@ -28,43 +26,43 @@ categories:
   1000
 ```
 
-注意，上图中的deploy-mode为**cluster**，查看spark-submit脚本内容 
+注意，上图中的deploy-mode为**cluster**，spark-submit脚本的过程可参见 上一篇文章《spark0-spark_submit脚本执行逻辑》。
 
-```shell
-if [ -z "${SPARK_HOME}" ]; then
-  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
-fi
+最终运行为：
 
-# disable randomized hash for string in Python 3.3+
-export PYTHONHASHSEED=0
+```bash
+/opt/jdk1.8/bin/java \
+  -Dhdp.version=2.6.0.3-8 \
+  -cp /usr/hdp/current/spark2-historyserver/conf/:/usr/hdp/2.6.0.3-8/spark2/jars/*:/usr/hdp/current/hadoop-client/conf/ \
+  org.apache.spark.deploy.SparkSubmit \
+  --class org.apache.spark.examples.SparkPi \
+  --master spark:xxxx \
+  --deploy-mode cluster \
+  --supervise \
+  --executor-memory 20G \
+  --total-executor-core 100 \
+  /path/to/examples.jar \
+  1000
 
-# spark-shell传入的参数为 --class org.apache.spark.repl.Main --name "Spark shell" "$@"
-exec "${SPARK_HOME}"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"
-```
-
-spark-submit中调用shell spark-class，spark-class中对Java环境变量和spark主目录等进行了相关设置。最后一行处，调用exec执行命令，如下 
-
-```shell
-# 执行org.apache.spark.launcher.Main作为Spark应用程序的主入口
-CMD=()
-while IFS= read -d '' -r ARG; do
-  CMD+=("$ARG")
-## java -cp 指定这个class文件所需要的所有类的包路径-即系统类加载器的路径（涉及到类加载机制）
-done < <("$RUNNER" -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@")
-exec "${CMD[@]}"
-```
-
- 最终运行为：
-
-```shell
-java -cp ${SPARK_HOME}/launcher/target/scala-$SPARK_SCALA_VERSION/classes:$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main org.apache.spark.deploy.SparkSubmit --class org.apache.spark.repl.Main --name "Spark shell" "$@"
 ```
 
 ## 二、org.apache.spark.deploy.SparkSubmit
 
-shell中调用了SparkSubmit的main函数，main函数主要逻辑在处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等，当deploy-mode为cluster时，会借助于**RestSubmissionClient**或**Client**提交Driver，如下 
+shell中调用了 SparkSubmit 的main函数，main函数主要逻辑:
+处理传入的配置信息并设置为环境变量(Driver、RestSubmissionClient或Client通过环境变量读取此配置)、使用类加载器加载配置的jar等。
 
 ```scala
+    // 解析执行下面的四个参数: 需要注意的是 childMainClass。
+    // childMainClass 根据spark的模式 会分为多种情况: 
+    // - org.apache.spark.deploy.Client 
+    // - org.apache.spark.deploy.yarn.Client
+    // - org.apache.spark.deploy.rest.RestSubmissionClient
+    // - 用户自定义的app类
+    //
+    // 在本例子中为 org.apache.spark.deploy.Client 
+    val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)
+ 
+    //声明doRunMain()方法
     def doRunMain(): Unit = {
       if (args.proxyUser != null) {
         val proxyUser = UserGroupInformation.createProxyUser(args.proxyUser,
@@ -79,11 +77,14 @@ shell中调用了SparkSubmit的main函数，main函数主要逻辑在处理传�
          //忽略
         }
       } else {
+        // 一般默认走这里
         runMain(childArgs, childClasspath, sysProps, childMainClass, args.verbose)
       }
     }
+
     if (args.isStandaloneCluster && args.useRest) {
       try {
+        printStream.println("Running Spark using the REST application submission protocol.")
         doRunMain()
       } catch {
        //忽略
@@ -94,7 +95,9 @@ shell中调用了SparkSubmit的main函数，main函数主要逻辑在处理传�
     }
 ```
 
-通过反射启动**childMainClass**
+通过反射启动**childMainClass**:
+
+在例子中 childMainClass 代表 `org.apache.spark.deploy.Client`
 
 ```scala
 private def runMain(
@@ -103,7 +106,7 @@ private def runMain(
       sysProps: Map[String, String],
       childMainClass: String,
       verbose: Boolean): Unit = {
-   ...
+   //...
     val loader =
       if (sysProps.getOrElse("spark.driver.userClassPathFirst", "false").toBoolean) {
         new ChildFirstURLClassLoader(new Array[URL](0),
@@ -130,15 +133,14 @@ private def runMain(
       //忽略
     }
     // 忽略
-    ...
     
     val mainMethod = mainClass.getMethod("main", new Array[String](0).getClass)
     if (!Modifier.isStatic(mainMethod.getModifiers)) {
       throw new IllegalStateException("The main method in the given main class must be static")
     }
     //忽略
-    ... 
     
+    // 反射启动主类
     try {
       mainMethod.invoke(null, childArgs.toArray)
     } catch {
@@ -149,11 +151,24 @@ private def runMain(
 
 
 
-## 三、org.apache.spark.deploy.Client
+## 三、SparkSubmit发送消息 向 master 注册 Driver
 
-我们选择Standalone-client这条执行路径，SparkSubmit使用反射运行Client的main方法，Client的main方法先处理传入的参数(和SparkSubmit中处理参数相似)，然后创建RpcEnv对象，如下
+SparkSubmit的反射子类(childMainClass)根据不同模式 会有多种类型
+
+- org.apache.spark.deploy.Client
+- org.apache.spark.deploy.yarn.Client
+- org.apache.spark.deploy.rest.RestSubmissionClient
+- 用户自定义的app类
+
+这里 我们选择StandaloneCluster模式进行说明，SparkSubmit使用反射运行`org.apache.spark.deploy.Client.main()`
+Client的main方法先处理传入的参数，然后创建RpcEnv对象。
+如下: 
 
 ```scala
+object Client {
+  def main(args: Array[String]) {
+    //....
+    
     val conf = new SparkConf()
     val driverArgs = new ClientArguments(args)
     if (!conf.contains("spark.rpc.askTimeout")) {
@@ -170,14 +185,19 @@ private def runMain(
     rpcEnv.setupEndpoint("client", new ClientEndpoint(rpcEnv, driverArgs, masterEndpoints, conf))
 
     rpcEnv.awaitTermination()
+  }
+}
 ```
 
-ClientEndpoint的onStart()方法会 发送消息给Master，注册Driver
+ClientEndpoint 的 onStart()方法会 发送消息给Master，注册Driver
 
 ```scala
 override def onStart(): Unit = {
     driverArgs.cmd match {
       case "launch" =>
+        //Spark使用**DriverWrapper**启动用户APP的main函数，而不是直接启动，
+        // 这是为了Driver程序和启动Driver的Worker程序共命运(源码注释中称为**share fate**).
+        // 即如果此Worker挂了，对应的Driver也会停止。
         val mainClass = "org.apache.spark.deploy.worker.DriverWrapper"
 
         val classPathConf = "spark.driver.extraClassPath"
@@ -196,6 +216,7 @@ override def onStart(): Unit = {
         val sparkJavaOpts = Utils.sparkJavaOpts(conf)
         val javaOpts = sparkJavaOpts ++ extraJavaOpts
         // 运行命令
+        //  这里的mainClass为org.apache.spark.deploy.worker.DriverWrapper
         val command = new Command(mainClass,
           Seq("{{WORKER_URL}}", "{{USER_JAR}}", driverArgs.mainClass) ++ driverArgs.driverOptions,
           sys.env, classPathEntries, libraryPathEntries, javaOpts)
@@ -231,20 +252,20 @@ private[spark] case class Command(
 } 
 ```
 
-Spark使用**DriverWrapper**启动用户APP的main函数，而不是直接启动，这是为了Driver程序和启动Driver的Worker程序共命运(源码注释中称为**share fate**)，即如果此Worker挂了，对应的Driver也会停止。至此，Client提交Driver流程结束了。
+至此，Client提交 Driver 流程结束了。
 
 ## 四、Master处理RequestSubmitDriver消息
 
-Master的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
+Master(`org.apache.spark.deploy.master.Master`)的receiveAndReply方法接收Client发送的消息**RequestSubmitDriver**，将收到的Driver注册到waitingDrivers。
 
 ```scala
 override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = {
     case RegisterWorker(
         id, workerHost, workerPort, workerRef, cores, memory, workerWebUiUrl) =>
-     ... 
 
     case RequestSubmitDriver(description) =>
       if (state != RecoveryState.ALIVE) {
+        // 判断 Master 的运行状态，非 ALIVE 则 报错。
         val msg = s"${Utils.BACKUP_STANDALONE_MASTER_PREFIX}: $state. " +
           "Can only accept driver submissions in ALIVE state."
         context.reply(SubmitDriverResponse(self, false, None, msg))
@@ -256,29 +277,29 @@ override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit
         // 注册 Driver
         waitingDrivers += driver
         drivers.add(driver)
-        // launch Driver 和 Executor
+        // launch Driver 和 Executor，这个下一章分析
         schedule()
         context.reply(SubmitDriverResponse(self, true, Some(driver.id),
           s"Driver successfully submitted as ${driver.id}"))
       }
 
     case RequestKillDriver(driverId) =>
-      ...
+     //...
 
     case RequestDriverStatus(driverId) =>
-     ...
+     //...
 
     case RequestMasterState =>
-     ...
+     //...
 
     case BoundPortsRequest =>
-      ...
+     //...
 
     case RequestExecutors(appId, requestedTotal) =>
-     ...
+     //...
 
     case KillExecutors(appId, executorIds) =>
-     ...
+     //...
   }
 ```
 

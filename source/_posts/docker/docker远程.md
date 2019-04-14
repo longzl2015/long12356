@@ -3,8 +3,7 @@ title: docker 远程访问
 date: 2016-04-02 22:46:48
 tags: 
   - docker
-categories:
-  - docker
+categories: [docker]
 ---
 
 ## 前言

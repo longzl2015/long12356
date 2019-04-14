@@ -3,8 +3,7 @@ title: spark-history
 date: 2017-06-04 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,环境配置]
 ---
 
 在运行Spark应用程序的时候，driver会提供一个webUI给出应用程序的运行信息，但是该webUI随着应用程序的完成而关闭端口，也就是 说，Spark应用程序运行完后，将无法查看应用程序的历史记录。Spark history server就是为了应对这种情况而产生的，通过配置，Spark应用程序在运行完应用程序之后，将应用程序的运行信息写入指定目录，而Spark history server可以将这些运行信息装载并以web的方式供用户浏览。

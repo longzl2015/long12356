@@ -3,8 +3,7 @@ title: 日志获取API
 date: 2016-04-02 22:46:48
 tags: 
   - yarn
-categories:
-  - hadoop
+categories: [hadoop生态,yarn]
 ---
 
 ```java

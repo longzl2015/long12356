@@ -2,6 +2,7 @@
 title: jvm对象探秘
 date: 2016-08-05 03:30:09
 tags: ["jvm","对象的创建","对象的内存布局","对象的访问定位"]
+categories: [语言,java,jvm]
 ---
 
 [TOC]

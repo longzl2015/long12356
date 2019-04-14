@@ -3,8 +3,7 @@ title: Spring Cloud实战小技巧(解决feign GET传pojo、继承接口方法�
 date: 2017-11-04 23:22:58
 tags: 
   - springcloud
-categories:
-  - springboot
+categories: [spring,springcloud]
 ---
 
 ## 1. 项目结构

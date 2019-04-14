@@ -1,10 +1,9 @@
 ---
-title: 启动CoarseGrainedExecutorBackend进程
-date: 2017-06-04 23:23:02
+title: spark5-启动CoarseGrainedExecutorBackend进程
+date: 2018-06-09 23:22:58
 tags: 
   - spark
-categories:
-  - spark
+categories: [spark,源码解析]
 ---
 
 # 启动CoarseGrainedExecutorBackend进程

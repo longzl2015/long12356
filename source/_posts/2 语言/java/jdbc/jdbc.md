@@ -2,6 +2,7 @@
 title: 第一个jdbc.md
 date: 2016-03-18 22:39:44
 tags: [jdbc,数据库]
+categories: [语言,java,jdbc]
 ---
 
 [TOC]

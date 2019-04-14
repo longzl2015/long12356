@@ -2,7 +2,7 @@
 title: spring-2-自动扫描组件或Bean
 date: 2015-08-10 15:26:58
 tag: [自动扫描,components]
-categories: spring
+categories: [spring,springmvc]
 
 ---
 
@@ -11,13 +11,13 @@ Spring Filter Components In Auto Scanning —— 在自动扫描中过滤组件
 
 <!--more-->
 
-## 自动扫描组件
+
 
 通常你可以在xml配置文件中，声明一个bean或者component，然后Spring容器会检查和注册你的bean或component。实际上，Spring支持自动扫描bean或component，你可以不必再在xml文件中繁琐的声明bean，Spring会自动扫描、检查你指定包的bean或component。
 
 以下列举一个简单的Spring Project，包含了Customer、Service、DAO层，让我们来看一下手动配置和自动扫描的不同。
 
-### 手动配置component
+## 手动配置组件
 
 先看一下正常手动配置一个bean
 
@@ -100,7 +100,7 @@ public class App
 
 输出结果：`CustomerService [customerDAO=Hello , This is CustomerDAO]`
 
-### 自动扫描组件
+## 自动扫描组件
 
 现在，看一下怎样运用Spring的自动扫描。
 
