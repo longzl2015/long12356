@@ -35,3 +35,6 @@ org.springframework.security.web.access.ExceptionTranslationFilter
 org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 ```
 
+## 参考
+
+[springSecurity原理](http://www.importnew.com/20612.html)

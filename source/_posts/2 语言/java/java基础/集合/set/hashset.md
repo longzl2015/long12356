@@ -1,6 +1,6 @@
 ---
 title: hashset.md
-date: 2016-03-17 15:58:06
+date: 2016-03-22 15:58:06
 tags: [hashset,集合]
 categories: [语言,java,集合]
 ---
@@ -9,7 +9,7 @@ categories: [语言,java,集合]
 
 <!--more-->
 
-## hashset的底层实现
+## 底层实现
 
 基于 HashMap 实现，HashSet 底层使用 HashMap 来保存所有元素。默认情况下初始容量为16，负载因子为0.75。
 
