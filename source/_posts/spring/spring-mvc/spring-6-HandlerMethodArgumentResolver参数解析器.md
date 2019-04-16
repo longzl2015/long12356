@@ -1,6 +1,6 @@
 ---
 title: spring-6-HandlerMethodArgumentResolver参数解析器
-date: 2018-06-04 23:22:58
+date: 2018-12-29 23:22:58
 tags: 
   - springmvc
 categories: [spring,springmvc]
@@ -9,7 +9,9 @@ categories: [spring,springmvc]
 
 # HandlerMethodArgumentResolver参数解析器
 
-本文章主要介绍HandlerMethodArgumentResolver在SpringMVC中的使用，介绍几个HandlerMethodArgumentResolver具体的使用情况，然后说明HandlerMethodArgumentResolver的注册来源以及如何自定义注册。
+前文《spring-6-controller参数解析原理》介绍了 Controller 的整体参数解析原理。
+
+本文章主要介绍集中介绍 HandlerMethodArgumentResolver在SpringMVC中的使用，介绍几个HandlerMethodArgumentResolver具体的使用情况，然后说明HandlerMethodArgumentResolver的注册来源以及如何自定义注册。
 
 ## 一、类图
 
