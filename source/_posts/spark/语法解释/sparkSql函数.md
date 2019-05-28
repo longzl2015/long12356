@@ -17,6 +17,8 @@ spark-sql 函数介绍
 <!--more-->
 
 
+https://spark.apache.org/docs/2.3.0/api/sql/#log1p
+
 https://liam8.github.io/2018/03/23/spark-sql-functions-api/index.html
 
 或者 直接查看源码

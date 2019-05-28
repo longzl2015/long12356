@@ -1,0 +1,1 @@
+https://yanbin.blog/spring-work-with-factorybean/
