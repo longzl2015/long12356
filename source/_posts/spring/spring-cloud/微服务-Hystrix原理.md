@@ -315,4 +315,12 @@ https://design.codelytics.io/hystrix/how-it-works
 
 https://www.jianshu.com/p/60074fe1bd86
 
+**Hystrix yml属性配置详情**
+
+https://github.com/Netflix/Hystrix/wiki/Configuration
+
 [ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)
+
+Hystrix入门与分析（二）：依赖隔离之线程池隔离
+
+https://www.cnblogs.com/haoxinyue/p/8260974.html
