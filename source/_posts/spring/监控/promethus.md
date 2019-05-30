@@ -56,6 +56,16 @@ rate(http_requests_total{job="api-server"}[5m])
 irate(http_requests_total{job="api-server"}[5m])
 ```
 
+### histogram_quantile
+
+用于获取某一数值，小于该数值的观察对象占 指定百分位
+
+```text
+过去10分钟内，请求持续时间的 90th 百分位数(暂且称为A)。即 90% 的请求持续时间小于 A
+
+histogram_quantile(0.9, rate(http_request_duration_seconds_bucket[10m]))
+```
+
 
 ## 参考资料
 
