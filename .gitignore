@@ -5,9 +5,6 @@
 !.npmignore
 !.gitignore
 !_config.yml
-!package-lock.json
-!package.json
 !README.md
-!run_service.sh
-!push2git.sh
-/source/test.puml
+!*.sh
+
