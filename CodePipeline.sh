@@ -3,10 +3,74 @@
 echo "=== auth ssh "
 
 mkdir ~/.ssh/
-mv kk ~/.ssh/id_rsa
-echo "StrictHostKeyChecking no" > ~/.ssh/config
-chmod 400 ~/.ssh/id_rsa
+cat >> ~/.ssh/id_rsa_github <<EOF
+-----BEGIN RSA PRIVATE KEY-----
+MIIJKgIBAAKCAgEA+y8ozXDFFcez3//uekEOyrIlN1XlDrOea4fuQsCwEw/msonB
+buWKEcLNIpxviVsGpqMP+LxDLjjlqVzbr3skqkpCNKVJz29aWTdTiEBsrnAl6cGC
+krBx7egdaHmJPrGYy4JcO48dqTEohVJvRwb6ajIFnXI8mUOc9m3JgKWO6wNgGniz
+53h2ipjj5/dfDjKj7mCdktc8TIzR1J9e343gvDOrlmPKBX9/lrPRC8OMx/3Efi3Q
+6UtCaZTHn4oSe0+zvKarWcc9uwafWCMtgRuEqTbyhZ7UpwpU5zEs1Ibsu56MqEGg
+7lkQWW0PX/c1d6p1aWhKAPFBlYexSJWwFlbjRm9W2SLZSYuSVaqmbZXTDzJj132D
+9xIWcFrkBuqfHmgLsKbAdoVbT/IgfooNNJH6trUYiSxxXN7aJx+VrTkBgX3cbXVP
+qOugyny7nahEEjR7mpco2nVtU3lBx587pUH2S7NUKUL0pZHo99lVU2Ur00aFyc8g
+58saXLKMv2OMS1ylLr+CupAoG7EmzuXFLvw6cLD4O8GiVNH5U7YW92ivyQH9zcyi
+PGUEDPQAPG8F00wGZ3Ab4wK2ESASP2bXmhupQOkpRjmPq5Sz7voVobL8kh+lrZW4
+G+xi1PpCyLU3uQrsJboWcfYg+DDfsQgGSJCxoldG11onSxXHbjXR1sU2GYcCAwEA
+AQKCAgEAhhB2o6gT2Pscu2rbOu8sWO1aRb2XoxAldtk3RvOXRqVPCW3TC0CCP9aM
+LHP4aARoeVpA9Q5ugOYnVgzUyEVenXFDAtxRl+CkBUgtUmSoXTZIVgpNicOZG1Sv
+FYsAwLCDj+NFHRjWyO4O5ZHJCMzlrPaD3rQROfBHf5O7X+l9bVwA2EAiLWIzSugt
+hCqY1nga3Ok+URiF+4mRmP1y4rjUAT9Gzt71/Zc+Xw4cfj3iDwAX9wy3Gz1q9fVN
+0o4cLSquEPuYKzPXc9ImDCHCcM1iMfq82Kqcb4dpJ3gsqEZXZhBKnKdioLRysHgw
+I5VLOVKGljrufLBHw+qHqekS8elwJaIlbGwf+4NJvq9nCm8GjT4lNu4jAnzlvLOC
+LkcF/OiHna4vYHgSOR/LILhvI30koB9WrUR8Syui3rnQPdXP1238eMdpKllkt7J7
+aze6DF39DzoBWFR0Un1Ph8O2BgWD++zNzLQnlLD1fLgNtAIGVGTwoDL26D6iLobb
+a9QnbNa4ZdZrAug8q8cdGyAbnP3f8gfR+5+EcXfrlmEbXUUluBfqn0PIfqV8iDAn
+pfvQZD29B5pbZlGLs5/ovsotnI7FYT4yH7+FXjZUblRx/FK+I404j7+N7tHGhRPr
+TF9toNFNIIMGKt3MIeRnZ0TnJ+Jx3ezQTAhQlVtz1UELZnW0s2ECggEBAP/+lvvs
+nNLtE+KhInrbD2GYzj71WFYPgupFDSyD+nLbTgz+cizV3kN9jhclC6S48gXH2XLk
+iBI3XciLbc6rm36wIEFXLprmigF1Aozde8zXbd4J5EPrBnkcxpB8HrXOB595EO3h
+eOaK4bPP6yUut5Xvu/YfFhd0Ycvtc03/7Mz7LWJy2hO+4cNqyv7lcX91tolD7vDM
+Y6H9SpNIBSEm8sIQX5EcoKSbLYySc6g+bz+cymL5p+yCUc6REodntVSdFGVJjqh6
+bqsvyhMFGOXDNwOPPr+KQSWvsBcZjrwFZ/nppM2GinykrRbiUBjPdYkuOqnrY4mk
+DTkS8PvB3xTLjLECggEBAPswiwjknLadysdQEcrUT7r+p3i59Ome6trJXe0thKX5
+ofH6DwF9ZGBvQEFCDGWCXkobTo+Uqi0HplvqHS2fRhH/VlwKcIiTbPaHXv2IAQBI
+qQ9FsI7CQHWDlxTWvgxjRfAkiMT9ckub0IjgWyEq0yrDlSLsyoLHR2U4mpSA6Ivk
+qvIowg2YP6km5xvN+D7WmZ4zbfc4wG9g5GYAxsnBfTD/25IRKGUOfyiMR7rtXBW2
+bYVfSvu5F6Z8ghePov6VBpXlqQURiWFCeeUyLhaxX2rz7tUGbRfiJU0h+pS/aWEt
+0SDbPlNXMKA9zM86elg0GrsfPiZEtpkbvGNMX0jCt7cCggEAKXicCxns2frQQuGp
+zU9ZsYzotKhYdDC1G7CuDq0e0KaYgWBjLMJE7JgVgchdl4TiqG8U2hkNti3EAq4b
+zuRcH2z2/L7b7Po2F0BWdm2XFbs8sEDX+uzDMrGntVZ2PyuubnZVeMQTKv4KzG99
+f5uO4DpjL98fXBNdmITSLiusuBRk6NMEYziEKH1Pf3W6KlTuilQ4DEiAR4jaIPwE
+4LcHksrGQKLrn18IRQKgu/vJV/vVia06OAVwrU8xOkBhzuBXooUFGGQlM5RdXzFv
+NCGo8ums16jVHv7UPxnD1s/lZUYljaojG0guRkvJgAtz1hJoLIjWqkCqZ7ma0p44
+voyvMQKCAQEAss20OqlZcJjT7prtf18wPiDln4dnciFgdkse5CUhpnATOkdRBTN4
+DzlCGPHmFx/89G2Jt6UQmis23XjCOmaFH2yN0cjQoDepObfVA04bwFL4nNlzu7tE
+3SHFmtzdvb2w3Cd1gBwVjwKkJ7rkw7BTTr6YW5sI8JzgEop/ZrR4VJR6pxQiRkEZ
+F9SMcHtmeXyTL0zWu0OXn/DtxDpLRvTHo+iNKOWzxnPSSk/JA6PQh9grD+RsYNE5
+p5Y7mH/ze5sja/JmJSh9jVEfqenVauvpyx1G5jbD01t0R/qm/9ldLwLJOcU3EWYg
+RACZ2O18h2rXmFm+CMmi3UwkBt8neIi68wKCAQEAuXxwbyJcDglajIaOwNBamsTd
++2izWufBsvYblxIStH+MQ2xFre/A44+YZXIaH4A2ADktSKanVP1H6FCxFmte9m66
+9x1c2yP4S38DBvrTe4EMflKkp9DVR/666sloYW6l6bMvzow4KvLzXOueGViNRaa6
+Tzq3TkIDVnEG7UttI69uDpFAu5J1XaEiPZfX7JGY090nr1a8UMRgvcwYHcwclMSa
+jPMIkVuZ36+FqXK87RZcA8CzTKQhDJBLXE4MLztwanYffNAwWgMlH/0yflWpeVJs
+YmbS/fiUBypuiai0QASxsLo1wGLpIJj97amZDyPnAjKU+wH/kr0ASrbj7hRbvA==
+-----END RSA PRIVATE KEY-----
+
+EOF
+
+chmod 400 ~/.ssh/id_rsa_github
+
+cat >> ~/.ssh/config <<EOF
+StrictHostKeyChecking no
+Host github.com
+    HostName github.com
+    User longzl
+    IdentityFile ~/.ssh/id_rsa_github
+EOF
+
 ssh -T git@github.com
+
+
 
 echo "=== git config"
 
