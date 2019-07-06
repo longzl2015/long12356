@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-npm install
-
 echo "=== auth ssh "
 
 mkdir ~/.ssh/
-mv key ~/.ssh/id_rsa
+mv kk ~/.ssh/id_rsa
 echo "StrictHostKeyChecking no" > ~/.ssh/config
 chmod 400 ~/.ssh/id_rsa
 ssh -T git@github.com
