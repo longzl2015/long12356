@@ -1,13 +1,7 @@
-/*
-!scaffolds/
-!source/
-!themes/
-!.npmignore
-!.gitignore
-!_config.yml
-!README.md
-!*.sh
-!package.json
-
+.idea
+node_modules
+public
+db.json
+package-lock.json
 
 

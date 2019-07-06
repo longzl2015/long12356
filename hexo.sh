@@ -7,6 +7,9 @@ set -x;
 
 alias ccnpm="npm --registry=https://registry.npm.taobao.org"
 
+echo ""
+
+
 ccnpm install --save ;
 
 ccnpm install hexo-deployer-git --save;
