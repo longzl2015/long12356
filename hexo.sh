@@ -2,6 +2,8 @@
 
 set -x;
 
+
+
 npm install hexo --save;
 
 npm install hexo-deployer-git --save;
@@ -18,4 +20,4 @@ npm install hexo-renderer-stylus --save;
 
 cat package.json
 npm list;
-node_modules/hexo/bin/hexo g -d;
+#node_modules/hexo/bin/hexo g -d;
