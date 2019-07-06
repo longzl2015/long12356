@@ -11,6 +11,7 @@ ccnpm install --save ;
 
 ccnpm install hexo-deployer-git --save;
 ccnpm install hexo-filter-plantuml --save;
+ccnpm install hexo-generator-searchdb --save;
 
 cat package.json
 
