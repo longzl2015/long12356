@@ -38,6 +38,16 @@ curl http://localhost:2376/version
 
 
 
+
+
+## 使用本地 docker 客户端连接远程docker daemon
+
+很简单，只需在环境 bash_profile 中添加 DOCKER_HOST 即可
+
+> export DOCKER_HOST="tcp://10.100.1.130:2376"
+
+
+
 ##参考文章：
 
 https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd
