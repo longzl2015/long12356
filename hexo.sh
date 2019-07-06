@@ -1,5 +1,8 @@
 #!/bin/sh
 
+basePath=`dirname $0`
+cd ${basePath}
+
 set -x;
 
 
