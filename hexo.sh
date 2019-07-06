@@ -5,22 +5,13 @@ cd ${basePath}
 
 set -x;
 
+alias ccnpm="npm --registry=https://registry.npm.taobao.org"
 
+ccnpm install --save ;
 
-npm install hexo --save;
-
-npm install hexo-deployer-git --save;
-npm install hexo-filter-plantuml --save;
-
-npm install hexo-generator-archive --save;
-npm install hexo-generator-category --save;
-npm install hexo-generator-index --save;
-npm install hexo-generator-tag --save;
-
-npm install hexo-renderer-ejs --save;
-npm install hexo-renderer-marked --save;
-npm install hexo-renderer-stylus --save;
+ccnpm install hexo-deployer-git --save;
+ccnpm install hexo-filter-plantuml --save;
 
 cat package.json
-npm list;
-#node_modules/hexo/bin/hexo g -d;
+
+node_modules/hexo/bin/hexo g -d;
