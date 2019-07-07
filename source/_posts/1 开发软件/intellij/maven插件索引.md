@@ -35,6 +35,6 @@ Maven缺省的本地仓库地址为`${user.home}/.m2/repository`。也就是说�
 
 `setting -> maven -> repositories`
 
-![图](maven插件索引/图.png)
+![图](/images/maven插件索引/图.png)
 
 注意这是一个非常耗时的过程，建议利用晚上或者出去午饭时间下载。下载过程及下载完成之后状态如下图所示。本次下载整体耗时在一个小时左右。
