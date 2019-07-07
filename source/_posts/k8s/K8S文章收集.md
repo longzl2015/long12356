@@ -1,3 +1,15 @@
+---
+
+title: K8S文章收集
+
+date: 2019-07-07 16:00:48
+
+categories: [k8s]
+
+tags: [k8s]
+
+---
+
 
 
 蘑菇街 K8S 为什么不选择 flannel 网络模型

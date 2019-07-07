@@ -1,3 +1,15 @@
+---
+
+title: k8s常用命令
+
+date: 2019-07-07 16:00:38
+
+categories: [k8s]
+
+tags: [k8s]
+
+---
+
 
 
 

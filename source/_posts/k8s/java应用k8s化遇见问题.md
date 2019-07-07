@@ -1,3 +1,19 @@
+---
+
+title: java应用k8s化遇见问题
+
+date: 2019-07-07 16:00:28
+
+categories: [k8s]
+
+tags: [k8s]
+
+---
+
+
+
+
+
 ## eureka
 
 配置
