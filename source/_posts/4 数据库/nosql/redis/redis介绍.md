@@ -25,13 +25,13 @@ redis 本身支持 replication、Luau 脚本、LRU eviction、事务和不同lev
 
 如下图所示，我们在碰到需要执行耗时特别久，且结果不频繁变动的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够迅速响应。
 
-![](redis介绍/性能.png)
+![](/images/redis介绍/性能.png)
 
 ### 并发
 
 如下图所示，在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问数据库。
 
-![](redis介绍/并发.png)
+![](/images/redis介绍/并发.png)
 
 ## 常用类型介绍
 
@@ -47,7 +47,7 @@ Redis最为常用的数据类型主要有以下：
 
 在具体描述这几种数据类型之前，我们先通过一张图了解下Redis内部内存管理中是如何描述这些不同数据类型的：
 
-![](redis介绍/redisObject.png)
+![](/images/redis介绍/redisObject.png)
 
 首先Redis内部使用一个redisObject对象来表示所有的key和value,redisObject最主要的信息如上图所示：
 
@@ -95,18 +95,18 @@ hget,hset,hgetall 等。
 我们简单举个实例来描述下Hash的应用场景，比如我们要存储一个用户信息对象数据，包含以下信息：
 用户ID为查找的key，存储的value用户对象包含姓名，年龄，生日等信息，如果用普通的key/value结构来存储，主要有以下2种存储方式：
 
-![](redis介绍/method_1.png)
+![](/images/redis介绍/method_1.png)
 
 第一种方式将用户ID作为查找key,把其他信息封装成一个对象以序列化的方式存储.
 这种方式的缺点是，增加了序列化/反序列化的开销，并且在需要修改其中一项信息时，需要把整个对象取回，并且修改操作需要对并发进行保护，引入CAS等复杂问题。
 
-![](redis介绍/cb6c113c.png)
+![](/images/redis介绍/cb6c113c.png)
 
 第二种方法是这个用户信息对象有多少成员就存成多少个key-value对儿，用用户ID+对应属性的名称作为唯一标识来取得对应属性的值，虽然省去了序列化开销和并发问题，但是用户ID为重复存储，如果存在大量这样的数据，内存浪费还是非常可观的。
 
 那么Redis提供的Hash很好的解决了这个问题，Redis的Hash实际是内部存储的Value为一个HashMap，并提供了直接存取这个Map成员的接口，如下图：
 
-![](redis介绍/redis_hashmap.png)
+![](/images/redis介绍/redis_hashmap.png)
 
 也就是说，Key仍然是用户ID, value是一个Map，这个Map的key是成员的属性名，value是属性值，这样对数据的修改和存取都可以直接通过其内部Map的Key(Redis里称内部Map的key为field), 也就是通过 key(用户ID) + field(属性标签) 就可以操作对应属性数据了，既不需要重复存储数据，也不会带来序列化和并发修改控制的问题。很好的解决了问题。
 

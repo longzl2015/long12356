@@ -35,9 +35,9 @@ token 是对session方式的一种改进。
 
 特点是 利用cpu计算时间 换取 session存储空间 的方法。
 
-![img](cookie_session_token/1350514-20180504123206667-444188772.png)
+![img](/images/cookie_session_token/1350514-20180504123206667-444188772.png)
 
-![img](cookie_session_token/1350514-20180504123326596-1492094512.png)
+![img](/images/cookie_session_token/1350514-20180504123326596-1492094512.png)
 
 
 

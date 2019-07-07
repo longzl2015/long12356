@@ -37,7 +37,7 @@ static final int MAXIMUM_CAPACITY = 1 << 30;
 
 首先，HashMap 是 Map 的一个实现类，它代表的是一种键值对的数据存储形式。Key 不允许重复出现，Value 随意。jdk 8 之前，其内部是由数组+链表来实现的，而 jdk 8 对于链表长度超过 8 的链表将转储为红黑树。大致的数据存储形式如下：
 
-![](hashmap/hashmap.png)
+![](/images/hashmap/hashmap.png)
 
 主体为table数组结构，数组的每一项元素是一个链表。
 
@@ -130,7 +130,7 @@ static final int hash(Object key) {
 int index = (n - 1) & hash(key)
 ```
 
-![](hashmap/index计算.png)
+![](/images/hashmap/index计算.png)
 
 1. hash函数实现：高16bit不变，低16bit和高16bit做了一个异或
 2. (n-1)&hash: n 表示table的大小，即是取hash的低（n-1）位作为index
@@ -147,11 +147,11 @@ int index = (n - 1) & hash(key)
 
 其中hash1是key1对应的哈希与高位运算结果。
 
-![](hashmap/resize2.png)
+![](/images/hashmap/resize2.png)
 
 元素在重新计算hash之后，因为n变为2倍，那么n-1的mask范围在高位多1bit(红色)，因此新的index就会发生这样的变化：
 
-![](hashmap/resize3.png)
+![](/images/hashmap/resize3.png)
 
 因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”
 

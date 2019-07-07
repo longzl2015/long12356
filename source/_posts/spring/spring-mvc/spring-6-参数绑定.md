@@ -20,7 +20,7 @@ Controller方法的参数类型可以是基本类型，也可以是封装后的�
 
 ## WebDataBinder 类图
 
-![](spring-6-参数绑定/webDataBinder.png)
+![](/images/spring-6-参数绑定/webDataBinder.png)
 
 
 

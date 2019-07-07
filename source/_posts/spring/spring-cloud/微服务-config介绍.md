@@ -20,7 +20,7 @@ SpringCloudConfig 主要用于应用的配置热更新。本章主要介绍Sprin
 
 SpringCloudConfig 的 工作流程:
 
-![](微服务-config介绍/54c212da.png)
+![](/images/微服务-config介绍/54c212da.png)
 
 1. 将修改的配置信息提交到Git，触发 WebHook。WebHook用 Http 的形式向 ConfigServer 发送 refresh 请求。
 2. ConfigServer 将这个消息发送给 spring cloud bus（用kafka或者rabbitMQ实现）
@@ -250,7 +250,7 @@ Spring Cloud 扩展了Scope，从而控制了整个 Bean 的生命周期。当�
 
 [Scope 的相关介绍](<https://www.cnblogs.com/noahsark/p/spring-scope-analysis.html>)
 
-![](微服务-config介绍/d7c77000.png)
+![](/images/微服务-config介绍/d7c77000.png)
 
 ### 其他
 

@@ -18,7 +18,7 @@ ff
 
 ## PropertyValue
 
-![](spring-7-bean/PropertyValue.png)
+![](/images/spring-7-bean/PropertyValue.png)
 
 ### AttributeAccessor接口
 

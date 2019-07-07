@@ -11,7 +11,7 @@ Prometheus 是一个开源系统监控和警报工具包。跟springboot 有很�
 
 ## 架构
 
-![](promethus/fb150642.png)
+![](/images/promethus/fb150642.png)
 
 ## 最佳实践
 

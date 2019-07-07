@@ -15,4 +15,4 @@ todo
 
 <!--more-->
 
-![](spring-8-HandlerExceptionResolver/f8fb7734.png)
+![](/images/spring-8-HandlerExceptionResolver/f8fb7734.png)

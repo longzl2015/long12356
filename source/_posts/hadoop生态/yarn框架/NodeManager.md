@@ -8,7 +8,7 @@ categories: [hadoop生态,yarn]
 
 NodeManager（NM）是YARN中每个节点上的代理，它管理Hadoop集群中单个计算节点，包括与ResourceManger保持通信，监督Container的生命周期管理，监控每个Container的资源使用（内存、CPU等）情况，追踪节点健康状况，管理日志和不同应用程序用到的附属服务（auxiliary service）。
 
-![NodeManager](NodeManager/yarn-state-machine.task-attempt.png)
+![NodeManager](/images/NodeManager/yarn-state-machine.task-attempt.png)
 
 
 ## 1 NodeManager内各组件功能

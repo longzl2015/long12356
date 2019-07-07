@@ -19,7 +19,7 @@ tags: [spring]
 
 ## spring 请求过程
 
-![](springweb应用/请求过程.png)
+![](/images/springweb应用/请求过程.png)
 
 ### 第一步
 请求离开浏览器，携带用户请求的信息前往 DispatcherServlet

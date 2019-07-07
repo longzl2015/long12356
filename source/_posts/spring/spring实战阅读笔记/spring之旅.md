@@ -89,6 +89,6 @@ WebApplicationContext 后缀的应用上下文，主要用于Web应用。会在�
 
 ## spring 模块
 
-![](spring之旅/spring模块.png)
+![](/images/spring之旅/spring模块.png)
 
 具体介绍 阅读 <<spring实战>>。

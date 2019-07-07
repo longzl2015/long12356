@@ -20,13 +20,13 @@ tags: [springmvc,todo]
 
 下图为DispatcherServlet 完整的UML图。
 
-![](spring-6-DispatcherServlet/DispatcherServlet.png)
+![](/images/spring-6-DispatcherServlet/DispatcherServlet.png)
 
 ### HttpServlet
 
 HttpServlet 完整UML图如下。
 
-![](spring-6-DispatcherServlet/HTTPServlet.png)
+![](/images/spring-6-DispatcherServlet/HTTPServlet.png)
 
 我们先从最底层的接口看起，最后再看HTTPServlet。
 
@@ -71,7 +71,7 @@ HttpServlet 实现了`void service(ServletRequest req, ServletResponse res)`方�
 
 ### FrameworkServlet
 
-![](spring-6-DispatcherServlet/FrameworkServlet.png)
+![](/images/spring-6-DispatcherServlet/FrameworkServlet.png)
 
 Aware接口: 实现该接口的bean能够从spring容器中获取对应的资源
 

@@ -17,7 +17,7 @@ Servlet是Java Web的三大组件（Servlet,Filter,Listener）之一，属于动
 
 > 接受请求数据、处理请求、完成响应
 
-![](web三大组件-servlet/请求过程.png)
+![](/images/web三大组件-servlet/请求过程.png)
 
 ## 实现 servlet 
 
@@ -59,7 +59,7 @@ public class Servlet extends HttpServlet {
 
 ## servlet调用图
 
-![servlet调用图](web三大组件-servlet/servlet调用图.png)
+![servlet调用图](/images/web三大组件-servlet/servlet调用图.png)
 
 Servlet访问的过程：
 

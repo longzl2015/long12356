@@ -52,7 +52,7 @@ Hashtable .up.> Map
 
 ## hashtable 结构
 
-![Hashtable](hashtable/hashtable.png)
+![Hashtable](/images/hashtable/hashtable.png)
 
 结构与 hashmap 一样：一个数组 + 链表。
 

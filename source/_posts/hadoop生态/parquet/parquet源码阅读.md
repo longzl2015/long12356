@@ -7,7 +7,7 @@ tags:
 categories: [hadoop生态,parquet]
 ---
 
-![parquet_classes](parquet源码阅读/parquet_classes.png)
+![parquet_classes](/images/parquet源码阅读/parquet_classes.png)
 
 ## 1、parquet文件结构相关类
 

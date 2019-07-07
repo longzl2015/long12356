@@ -21,7 +21,7 @@ tags: [web]
 
 ## 总览
 
-![](web请求处理流程/ed993c98.png)
+![](/images/web请求处理流程/ed993c98.png)
 
 
 ```text

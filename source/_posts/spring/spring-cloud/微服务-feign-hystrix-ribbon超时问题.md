@@ -66,7 +66,7 @@ public class FeignLoadBalancer extends
 Hystrix 任务的执行 分为 两个部分: 业务线程和超时检测线程。这两个部分是并发执行的。
 谁先更改任务执行的状态，就会主动停止另一方的执行。如下图:
 
-![](微服务-feign-hystrix-ribbon超时问题/51462a15.png)
+![](/images/微服务-feign-hystrix-ribbon超时问题/51462a15.png)
 
 
 ### AbstractCommand.executeCommandAndObserve()

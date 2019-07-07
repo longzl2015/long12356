@@ -12,8 +12,8 @@ tags: [spark,yarn]
 
 **Client Mode**
 
-![Client mode](spark_on_yarn架构/kWliz.png)
+![Client mode](/images/spark_on_yarn架构/kWliz.png)
 
 **Cluster Mode**
 
-![Cluster mode](spark_on_yarn架构/Pa0oi.png)
+![Cluster mode](/images/spark_on_yarn架构/Pa0oi.png)

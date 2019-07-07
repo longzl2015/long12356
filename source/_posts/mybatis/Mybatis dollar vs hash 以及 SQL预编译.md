@@ -228,7 +228,7 @@ public synchronized java.sql.PreparedStatement prepareStatement(String sql,
 
 流程图如下所示：
 
-![](Mybatis dollar vs hash 以及 SQL预编译/SQL预编译.png)
+![](/images/Mybatis dollar vs hash 以及 SQL预编译/SQL预编译.png)
 
 ## mybatis之sql动态解析以及预编译源码
 ### mybatis sql 动态解析

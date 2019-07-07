@@ -94,7 +94,7 @@ public class ServletInvocableHandlerMethod extends InvocableHandlerMethod {
 
 本文以 RequestResponseBodyMethodProcessor 为例讲解 。
 
-![image-20190114164841309](spring-6-controller参数解析原理/RequestResponseBodyMethodProcessor.png)
+![image-20190114164841309](/images/spring-6-controller参数解析原理/RequestResponseBodyMethodProcessor.png)
 
 
 

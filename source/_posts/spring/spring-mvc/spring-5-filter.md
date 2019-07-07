@@ -17,7 +17,7 @@ spring 常见filter
 
 <!--more-->
 
-![](spring-5-filter/filter.png)
+![](/images/spring-5-filter/filter.png)
 
 spring实现了非常多的filter类。本章会介绍如下的 filter 实现:
 

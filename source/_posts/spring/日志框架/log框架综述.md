@@ -8,7 +8,7 @@ categories: [log]
 
 
 
-![日志框架](log框架综述/日志框架.png)
+![日志框架](/images/log框架综述/日志框架.png)
 
 
 

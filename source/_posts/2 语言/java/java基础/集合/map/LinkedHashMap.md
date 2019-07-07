@@ -20,7 +20,7 @@ LinkedHashMap,见名知义，带链表的 HashMap, 所以LinkedHashMap是有序�
 
 ## 数据结构
 
-![](LinkedHashMap/数据结构.png)
+![](/images/LinkedHashMap/数据结构.png)
 
 LinkedHashMap 改造了 `HashMap.Node<K,V>` ，添加了两个 `Entry<K,V>`，用于记录插入顺序，
 `before` 和 `after`是构成双向链表的关键。

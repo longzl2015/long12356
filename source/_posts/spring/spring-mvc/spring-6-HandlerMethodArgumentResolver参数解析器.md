@@ -15,7 +15,7 @@ categories: [spring,springmvc]
 
 ## 一、类图
 
-![springmvc_handlerMethod](spring-6-HandlerMethodArgumentResolver参数解析器/springmvc_handlerMethod.png)
+![springmvc_handlerMethod](/images/spring-6-HandlerMethodArgumentResolver参数解析器/springmvc_handlerMethod.png)
 
 ## 二、HandlerMethodArgumentResolver 及其子类 
 

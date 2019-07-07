@@ -13,7 +13,7 @@ categories: [hadoop生态,yarn]
 1. NodeManager:  接收来自ResourceManager的信息，并管理单个节点上的可用资源
 2. ApplicationMasters: 负责向ResourceManager申请相关资源，并与NodeManagers一起处理containers的启动
 
-![resource_manager](ResourceManager/resource_manager.gif)
+![resource_manager](/images/ResourceManager/resource_manager.gif)
 
 
 

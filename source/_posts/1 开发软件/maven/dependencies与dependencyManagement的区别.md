@@ -29,11 +29,8 @@ dependencies与dependencyManagement的区别
 
 来看看我们项目中的应用：
 
-![](dependencies与dependencyManagement的区别/depManage.png)                                                            
-
-
-
-                                                  
+![](/images/dependencies与dependencyManagement的区别/depManage.png)                                                            
+                             
 
 Itoo-base-parent(pom.xml)
 

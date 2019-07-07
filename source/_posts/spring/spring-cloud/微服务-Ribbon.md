@@ -19,17 +19,17 @@ tags: [spring,springcloud,ribbon]
 
 总体图:
 
-![](微服务-Ribbon/cdd4b059.png)
+![](/images/微服务-Ribbon/cdd4b059.png)
 
 
 ## 时序图
 
-![](微服务-Ribbon/9161873b.png)
-![](微服务-Ribbon/f8e06bb4.png)
+![](/images/微服务-Ribbon/9161873b.png)
+![](/images/微服务-Ribbon/f8e06bb4.png)
 
 ## 均衡负载器
 
-![](微服务-Ribbon/c5ca7e83.png)
+![](/images/微服务-Ribbon/c5ca7e83.png)
 
 ### PingTask
 
@@ -113,7 +113,7 @@ public Server chooseServer(Object key) {
 
 SpringCloud默认的均衡规则为 ZoneAvoidanceRule。
 
-![](微服务-Ribbon/61707573.png)
+![](/images/微服务-Ribbon/61707573.png)
 
 ### RoundRobinRule
 

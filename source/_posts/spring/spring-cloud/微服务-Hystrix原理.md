@@ -18,11 +18,11 @@ Hystrix 原理 在 https://segmentfault.com/a/1190000012439580 非常详细。�
 
 ## 总流程
 
-![](微服务-Hystrix原理/9d9f149a.png)
+![](/images/微服务-Hystrix原理/9d9f149a.png)
 
 ## 断路器 
 
-![](微服务-Hystrix原理/ea7115cf.png)
+![](/images/微服务-Hystrix原理/ea7115cf.png)
 
 
 ## Command 
@@ -56,7 +56,7 @@ Observable 来自 [RxJava](https://github.com/ReactiveX/RxJava) 框架。
 
 ## 船舱隔离
 
-![](微服务-Hystrix原理/a7ed2f90.png)
+![](/images/微服务-Hystrix原理/a7ed2f90.png)
 
 
 ## 执行超时部分源码
@@ -64,7 +64,7 @@ Observable 来自 [RxJava](https://github.com/ReactiveX/RxJava) 框架。
 Hystrix 任务的执行 分为 两个部分: 业务线程和超时检测线程。这两个部分是并发执行的。
 谁先更改任务执行的状态，就会主动停止另一方的执行。如下图:
 
-![](微服务-Hystrix原理/51462a15.png)
+![](/images/微服务-Hystrix原理/51462a15.png)
 
 
 ### AbstractCommand.executeCommandAndObserve()

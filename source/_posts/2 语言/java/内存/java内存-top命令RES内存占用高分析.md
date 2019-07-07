@@ -211,12 +211,12 @@ VIART= JAVA中申请的内存大小，即 -Xmx  -Xms + 其它
 其它 = 永久代内存+ 本地方法栈内存+线程栈内存 +堆外内存 +socket 缓冲区内存 +JVM进程内存
 ```
 
-![](java内存-top命令RES内存占用高分析/3ad5eeb1.png)
+![](/images/java内存-top命令RES内存占用高分析/3ad5eeb1.png)
 
 
 ### JVM内存模型（1.7与1.8之间的区别）
 
-![](java内存-top命令RES内存占用高分析/261a6d08.png)
+![](/images/java内存-top命令RES内存占用高分析/261a6d08.png)
 
 
 算一下求和可以得知前者总共给Java环境分配了128M的内存，而ps输出的VSZ和RSS分别是3615M和404M。

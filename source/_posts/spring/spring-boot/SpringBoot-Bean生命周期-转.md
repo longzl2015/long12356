@@ -16,4 +16,4 @@ tags: [spring,springboot]
 
 <!--more-->
 
-![](SpringBoot-Bean生命周期-转/0640fe33.png)
+![](/images/SpringBoot-Bean生命周期-转/0640fe33.png)

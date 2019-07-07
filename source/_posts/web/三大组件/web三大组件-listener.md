@@ -31,7 +31,7 @@ JavaWeb中的监听器 主要有8个.
 
 ## 启动顺序
 
-![](web三大组件-listener/启动顺序.png)
+![](/images/web三大组件-listener/启动顺序.png)
 
 ## 生命周期监听
 

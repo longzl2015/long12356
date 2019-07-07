@@ -515,7 +515,7 @@ private def registerApplication(app: ApplicationInfo): Unit = {
 
 **注**：图中的 SparkDeploySchedulerBackend 应该为 StandaloneSchedulerBackend。
 
-![img](3、启动用户编写的App/spark注册App.png)
+![img](/images/3、启动用户编写的App/spark注册App.png)
 
 注释：
 

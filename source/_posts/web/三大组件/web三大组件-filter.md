@@ -19,7 +19,7 @@ filter 用于动态 拦截请求和响应。其可以在
 
 ## 简介
 
-![](web三大组件-filter/filter.png)
+![](/images/web三大组件-filter/filter.png)
 
 ## 过滤器接口
 

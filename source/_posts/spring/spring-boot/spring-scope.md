@@ -17,7 +17,7 @@ Scope  是一种 策略接口，主要用于管理 bean的声明周期。Scope�
 
 
 
-![](spring-scope/1951ca12.png)
+![](/images/spring-scope/1951ca12.png)
 
 
 

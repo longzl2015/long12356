@@ -14,7 +14,7 @@ categories: [spark,语法解释]
 
 ### 1.1 RDD和DataFrame内部结构
 
-![rdd_dataframe](RDD_DataFrame_DataSet/rdd_dataframe.png)
+![rdd_dataframe](/images/RDD_DataFrame_DataSet/rdd_dataframe.png)
 
 左侧的RDD[Person]虽然以Person为类型参数，但Spark框架本身不了解Person类的内部结构。而右侧的DataFrame却提供了详细的结构信息，使得Spark SQL可以清楚地知道该数据集中包含哪些列，每列的名称和类型各是什么。DataFrame多了数据的结构信息，即schema。
 
@@ -28,7 +28,7 @@ Dataset可以认为是DataFrame的一个特例，主要区别是Dataset每一个
 
 Dataset API都是lambda函数和JVM typed object，任何typed-parameters不匹配即会在编译阶段报错。因此使用Dataset节约开发时间。
 
-![spark类型安全](RDD_DataFrame_DataSet/spark类型安全.png)
+![spark类型安全](/images/RDD_DataFrame_DataSet/spark类型安全.png)
 
 ## 二、RDD
 

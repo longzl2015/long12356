@@ -117,12 +117,12 @@ public class AA{
 Spring的切面由包裹了目标对象的代理类实现。
 代理类处理方法的调用，执行额外的切面逻辑，并调用目标方法。
 
-![](面向切面的spring/springAOP调用.png)
+![](/images/面向切面的spring/springAOP调用.png)
 
 
 ## 通过切点选择连接点
 
-![](面向切面的spring/定义切点.png)
+![](/images/面向切面的spring/定义切点.png)
 
 
 继承自AspectJ 的指示器
