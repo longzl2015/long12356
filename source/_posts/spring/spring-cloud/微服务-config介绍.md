@@ -252,7 +252,13 @@ Spring Cloud 扩展了Scope，从而控制了整个 Bean 的生命周期。当�
 
 ![](/images/微服务-config介绍/d7c77000.png)
 
-### 其他
+## 数据源 种类
+
+- 使用 jdbc
+- 使用 远程git
+- 使用 本地文件 
+
+## 实践问题
 
 需要在配置中心中添加 force-pull 信息
 
@@ -265,9 +271,6 @@ spring:
           # 由于默认将git文件下载到tmp目录，某些os会修改文件，因此需要 强制 pull
           force-pull: true
 ```
-
-
-
 
 
 ## 参考
