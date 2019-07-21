@@ -81,3 +81,9 @@ kubectl cp ingress-nginx/nginx-ingress-controller-mp5zd:/etc/nginx/nginx.conf ~/
 上述命令会出现以下警告，可以忽略
 
 >  tar: Removing leading / from member names
+
+
+
+官方文档
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply

@@ -21,3 +21,7 @@ https://springcloud.cc/spring-security-zhcn.html
 https://spring.io/guides/topicals/spring-security-architecture/
 
 https://blog.csdn.net/qq_32734365/article/details/81413248
+
+Spring Security 源码分析十：认证跳转逻辑 (login redirect)
+
+https://www.shangyang.me/2019/03/28/spring-security-sca-10-login-redirect/

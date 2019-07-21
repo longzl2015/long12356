@@ -43,3 +43,11 @@ http://docs.kubernetes.org.cn/819.html
 k8s 日志收集
 
 https://www.alibabacloud.com/blog/using-sidecar-mode-for-kubernetes-log-collection_594173
+
+vol的权限问题
+
+https://stackoverflow.com/questions/46769339/how-to-change-permission-of-mapped-volume-in-kubernetes-docker
+
+Pvc 无法删除文图
+
+https://stackoverflow.com/questions/51358856/kubernetes-cant-delete-persistentvolumeclaim-pvc
