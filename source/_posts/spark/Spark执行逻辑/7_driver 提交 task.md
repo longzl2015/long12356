@@ -148,4 +148,4 @@ Executor的创建过程请参考[Spark 任务调度之创建Executor](http://blo
 
 介绍了从RDD的action开始，到Executor接收到task的流程，其中省略了DAG相关的部分，后续单独介绍，整理流程大致如下 
 
-![img](7、driver 提交 task.assets/SouthEast.png)
+![img](7_driver提交task/SouthEast.png)

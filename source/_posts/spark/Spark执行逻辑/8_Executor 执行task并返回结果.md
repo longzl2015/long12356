@@ -115,14 +115,14 @@ def launchTask(context: ExecutorBackend, taskDescription: TaskDescription): Unit
 如上图注释，调用Task的run方法执行计算，Task是抽象类，其实现类有两个，**ShuffleMapTask**和**ResultTask**，分别对应shuffle和非shuffle任务。
 
 Task的run方法调用其runTask方法执行task，我们以Task的子类**ResultTask**为例(ShuffleMapTask相比ResultTask多了一个步骤，使用**ShuffleWriter**将结果写到本地)，如下 
-![这里写图片描述](8、Executor 执行task并返回结果.assets/SouthEast-20180531115515975.png)
+![这里写图片描述](8_Executor执行task并返回结果/SouthEast-20180531115515975.png)
 为了说明上图中的**func**，我们以RDD的map方法为例，如下 
-![这里写图片描述](8、Executor 执行task并返回结果.assets/SouthEast-20180531115521822.png) 
+![这里写图片描述](8_Executor执行task并返回结果/SouthEast-20180531115521822.png) 
 至此，task的计算就完成了，task的run方法返回计算结果。
 
 # sendback result
 
-![这里写图片描述](8、Executor 执行task并返回结果.assets/SouthEast-20180531115525240.png)
+![这里写图片描述](8_Executor执行task并返回结果/SouthEast-20180531115525240.png)
 如上图注释，对计算结果进行序列化，再根据其大小采取相应方式处理，最后调用**CoarseGrainedExecutorBackend**的statusUpdate方法返回result给Driver。
 
 # 总结
