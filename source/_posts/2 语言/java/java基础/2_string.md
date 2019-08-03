@@ -1,6 +1,6 @@
 ---
 title: 2_string
-date: 2016-09-08 03:30:09
+date: 2018-09-08 03:30:09
 tags: [string]
 categories: [语言,java,java基础]
 ---
