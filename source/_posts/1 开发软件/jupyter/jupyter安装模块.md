@@ -14,14 +14,17 @@ tags: [jupyter]
 > https://nbviewer.jupyter.org/format/script/url/jakevdp.github.com/downloads/notebooks/JupyterInstallation.ipynb。
 > 复制到此处用于备份。
 
-主要介绍 如何在 jupyter 中安装 python模块。
+**该用 conda 还是 pip？**
 
-先说结论: 
+> 如果使用 Anaconda 安装的 python，就用 conda。如果 conda instal 找不到包，才用 pip
+>
+> 如果使用其他方式安装的python，则用 pip.
 
-```text
-import sys
-!{sys.executable} -m pip install hdfs3 --user
-```
+ **如何在 jupyter 中安装 python模块？**
+
+> import sys
+> !{sys.executable} -m pip install hdfs3 --user
+
 
 <!--more-->
 

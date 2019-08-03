@@ -52,11 +52,19 @@ GenericArrayType -up-> Type
 
 ## 参数化泛型ParameterizedType
 
+
+
 ## TypeVariable
+
+
 
 ## 泛型数组GenericArrayType
 
+
+
 ## WildcardType
+
+
 
 ## Class
 

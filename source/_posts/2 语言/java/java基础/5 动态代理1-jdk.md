@@ -1,5 +1,5 @@
 ---
-title: 动态代理-jdk
+title: 动态代理1-jdk
 date: 2016-08-05 03:30:09
 tags: [动态代理,java]
 categories: [语言,java,java基础]
@@ -21,6 +21,15 @@ JDK动态代理主要有 `Proxy类的newProxyInstance(...)方法` 和 `实现Inv
 
 ### Proxy类的newProxyInstance()方法
 
+```java
+public static Object newProxyInstance(
+  ClassLoader loader,
+  Class<?>[] interfaces,
+  InvocationHandler h){
+  //...
+}
+```
+
 newProxyInstance()方法用于根据传入的接口类型 interfaces 返回一个动态创建的代理类的实例，方法的参数解释
 
 - 第一个参数loader表示代理类的类加载器，
@@ -33,6 +42,8 @@ newProxyInstance()方法用于根据传入的接口类型 interfaces 返回一�
 如果不进行拦截的话，一定要 调用 `Object invoke = method.invoke(target, args);`来执行真正的方法
 
 ## 简单例子
+
+![jdk动态代理](/images/5 动态代理1-jdk/jdk动态代理.png)
 
 主题接口类：
 

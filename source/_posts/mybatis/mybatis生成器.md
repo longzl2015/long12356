@@ -345,3 +345,12 @@ Mybatis生成java文件时，数据库表字段类型与java类型对照表
 | 5-9         | integer    |
 | 10-18       | long       |
 | 18+         | bigDecimal |
+
+
+
+## 生成器 类型转换 规则
+
+详见 类
+
+`org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl`
+

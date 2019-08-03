@@ -45,25 +45,15 @@ categories: [语言,java,java基础]
 
 深拷贝：新对象与与对象的值相同，而且新对象中引用的对象是重新创建的。
 
+###浅拷贝
+
 实现浅拷贝：
 1. object 的clone方法能够实现浅拷贝
 2. 派生类中重写父类的clone方法
 2. 派生类实现 Cloneable 接口
 3. 在clone方法中调用super.clone()即可。
 
-```java
-public Object clone(){
-           Book b = null;
-           try{
-               b = (Book)super.clone();
-           }catch(CloneNotSupportedExceptione){
-               e.printStackTrace();
-           }
-            return b;
-         }
-```
-
-## 实现深拷贝的实践：序列化
+### 深拷贝
 
 先使对象实现Serializable接口，然后把对象写到一个流里，再从流里读出来，便可以重建对象。
 前提需要确定对象和对象内部的引用对象都是可序列化的。
@@ -82,6 +72,16 @@ public Object clone(){
     }
 ```
 
+Apache-common-lang封装 序列化拷贝的方法，直接引用也可。
+
+```java
+@Test
+public void serializableCopy() {
+    Address address = new Address("杭州", "中国");
+    User user = new User("大山", address);
+    User copyUser = (User) SerializationUtils.clone(user);
+}
+```
 
 ## equal
 
@@ -103,7 +103,7 @@ public boolean equals(Object obj) {
 - 对称性: x.equal(y) 和 y.equal(x) 返回的结果相同
 - 传递性: x.equal(y) 返回 true, y.equal(z) 返回 true 那么 x.equal(z) 返回 true
 - 一致性: x.equal(y) 只要没有改动 x和y，那么无论调用多少次，其结果始终相同。
-- 非空与null相 equal 必须放回 false。
+- 非空与null， equal 必须放回 false。
 
 **需要注意的是：**
 由于 存在 Float.Nan, -0.0f 以及类似的 double 常量
@@ -123,8 +123,6 @@ public boolean equals(Object obj) {
 
 需要注意的是在极少数情况下，两个对象根据 equal 方法 比较返会的是 false，这两个对象的hashcode有可能会相同。
 
+## 参考
 
-# 抽象类和接口
-
-## 抽象类
-
+https://juejin.im/entry/5bc3db04f265da0aaa053baa
