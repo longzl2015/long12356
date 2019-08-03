@@ -6,3 +6,4 @@ package-lock.json
 .deploy_git
 tmp
 *.iml
+debug.log
