@@ -1,6 +1,6 @@
 ---
-title: java基础
-date: 2016-08-05 03:30:09
+title: 1_java对象
+date: 2016-09-07 03:30:09
 tags: [java]
 categories: [语言,java,java基础]
 ---

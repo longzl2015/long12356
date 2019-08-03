@@ -1,6 +1,6 @@
 ---
 
-title: java基本特性
+title: 0_java基本特性
 
 date: 2018-09-06 22:45:00
 

@@ -1,8 +1,8 @@
 ---
 
-title: java的type体系
+title: 7_java的type体系
 
-date: 2018-09-20 12:53:00
+date: 2018-09-14 12:53:00
 
 categories: [语言,java,java基础]
 
