@@ -6,17 +6,31 @@ tags:
 categories: [docker]
 ---
 
+[TOC]
+
 ## 1. 镜像基本操作
-- 搜索镜像:   docker search 关键字
-- 下载一个镜像:   docker pull 镜像名
-- 本地镜像列表:   docker images
-- 删除镜像:   docker rmi 镜像名
+
+### 1.1 搜索镜像:  
+
+ docker search 关键字
+
+### 1.2 下载一个镜像
+
+docker pull 镜像名
+
+###1.3 本地镜像列表
+
+docker images
+
+### 1.4 删除镜像
+
+docker rmi 镜像名
 
 ## 2. 容器基本操作
 ### 2.1 创建并运行一个容器
-> docker run - -name 容器名 -d 镜像名
+> docker run --rm --name 容器名 -d 镜像名
 
-	-d表示deamon，以后台启动这个container， 执行这个container是永远不会停止的，
+	-d表示deamon，以后台启动这个container
 	-i表示同步container的stdin
 	-t表示同步container的输出
 	--rm=true 表示容器运行完后，自动删除
@@ -47,7 +61,7 @@ docker logs  container-id/container-name
 ### 2.8 将容器保存为一个镜像
 docker commit  container-id/container-name
 
-## 3.自定义一个镜像（安装自己想要的环境）
+## 3.自定义一个镜像
 ### 3.1 commit方式
 1. 进入bash交互环境
   docker run -t -i 镜像名 /bin/bash
@@ -82,59 +96,32 @@ docker build -t="dockerfile/nginx" github.com/dockerfile/nginx
 ```
 
 ## 4.容器和宿主机的资源拷贝
+
+https://docs.docker.com/engine/reference/commandline/cp/
+
 ### 从container往host拷贝文件
 
 ```Sh
-docker cp <container_id>:/root/hello.txt .
+docker cp <container_id>:/root/hello.txt 宿主机路径
 ```
 
 ### 从host往container里拷贝文件
 ```Sh
-docker stop <container_name_or_ID>
-#执行命令找到程序pid
-ContainerID=$(docker inspect --format {{.Id}} <container_name_or_ID>)
-cp /tmp/tmp.txt /var/lib/docker/aufs/mnt/<ContainerID>/tmp/
-#如果为centos则修改为：
-#/var/lib/docker/devicemapper/mnt/<ContainerID>/rootfs/
+docker cp 宿主机路径 <container_id>:/root/hello.txt 
 ```
 
 ## 5.将多个 container 连接起来
-先下载一个redis数据库image，这也是以后做项目的常规用法，数据库单独用一个image，程序一个image，利用docker的link属性将他们连接起来。
-> docker pull redis #下载官方的redis镜像，耐心等待一段时间
+`--link` 已不被推荐。
 
+使用 自定义 bridge ，可以使 不同的容器以容器名的方法相互访问。
 
-接着我们执行命令启动redis镜像到一个container，开启redis-server持久化服务
-> docker run --name redis-server -d redis redis-server --appendonly yes
-
-
-然后再启动一个redis镜像的container作为客户端连接它
+```bash
+docker network create --driver bridge busybox_bridge
+docker run -itd --network busybox_bridge --name busybox5 busybox
+docker run -itd --network busybox_bridge --name busybox6 busybox
 ```
-docker run -it --link redis-server:redis --rm redis /bin/bash
- 
-redis@7441b8880e4e:/data$ env  #想要知道当前我们在主机还是container，注意$前面的host和name
-REDIS_PORT_6379_TCP_PROTO=tcp
-HOSTNAME=7441b8880e4e
-TERM=xterm
-REDIS_NAME=/boring_perlman/redis
-REDIS_PORT_6379_TCP_ADDR=172.17.0.34    #redis服务器ip
-REDIS_PORT_6379_TCP_PORT=6379                #redis服务器端口
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PWD=/data
-REDIS_PORT_6379_TCP=tcp://172.17.0.34:6379
-SHLVL=1
-REDIS_PORT=tcp://172.17.0.34:6379
-HOME=/
-_=/usr/bin/env
- 
-$redis-cli -h "$REDIS_PORT_6379_TCP_ADDR" -p "$REDIS_PORT_6379_TCP_PORT"
- 
-172.17.0.34:6379> set a 1 #成功连入redis数据库服务器
-OK
-172.17.0.34:6379> get a
-"1"
-172.17.0.34:6379>
-```
-通过这样的方法，我们就可以将发布的应用程序和数据库分开，单独进行管理，以后对数据库进行升级或者对程序进行调整两者都没有冲突，系统环境变量我们可以通过程序的os模块来获得。
+
+busybox5 就可以使用`域名busybox6`访问`容器busybox6`了
 
 
 ## 6.文件卷标加载
@@ -153,20 +140,6 @@ host.conf    ld.so.cache  passwd         rpc          sudoers
 如果想要挂载后的文件是只读，需要在这样挂载：
 >-v /etc/:/opt/etc/:ro #read only
 
-
-我们也可以挂载其他container中的文件系统，需要用到 -volumes-from 参数，我们先创建一个container，他共享/var/目录给其他container。
->$ docker run -d -i -t -p 1337:1337 --name nodedev -v /var/ fa node /var/nodejs/app.js
-
-
-然后我们启动一个ls-var的container来挂载nodedev共享的目录：
-
-> $ docker run --rm=true -i -t --volumes-from nodedev --name=aaa1 centos ls /var
-> adm    db     games   kerberos  local  log   nis     opt       run    tmp  yp
-> cache  empty  gopher  lib       lock   mail  nodejs  preserve  spool  var
-
-
-我们打印var目录，会发现多了一个nodejs的目录，就是从nodedev中的container挂载过来的。其实我们挂载其他container的路径都是在根目录上的。
-
 ## 7.发布到docker hub上去
 
 我们做完镜像，就需要将镜像发布到docker hub上，供服务器下载然后运行，这类似git仓库，将自己开发的东西丢到云服务器上，然后自己在其他机器或者其他开发者可以下载镜像，并且从这个镜像开始运行程序或者再进行2次制作镜像。
@@ -177,21 +150,5 @@ $ docker login #输入你在docker官网注册的帐号和密码就可以登录�
 $ docker push <用户名>/<镜像名> #将你制作的镜像提交到docker hub上
  ```
 非官方不允许直接提交根目录镜像，所以必须以<用户名>/<镜像名>这样的方式提交，比如 doublespout/dev 这样
-
-
-## 8.小窍门
-### 如何像使用linux虚拟机那样运行一个container
-比如我们想要直接登录container执行多个任务，又不想直接借助 docker run 命令，以后我们还想登录到这个container来查看运行情况，比如执行top，ps -aux命令等等。
-docker run -d -i -t -p 1337:1337 fa /bin/bash
-docker attach 58
-bash-4.2#
-这样我们就可以通过进入container来调试程序了。但是一旦执行ctrl+d或者exit，container就将退出，这个方法也只适用于开发调试的时候。
-### 设置别名
-alias dockerbash='docker run -i -t CONTAINER_ID /bin/bash'
-
-
-http://snoopyxdy.blog.163.com/blog/static/601174402014720113318508/
-
-
 
 

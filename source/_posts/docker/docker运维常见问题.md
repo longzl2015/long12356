@@ -8,6 +8,12 @@ categories: [docker]
 
 [TOC]
 
+## 远程debug java 程序
+
+在 dockerfile 最后加上 如下命令即可
+
+> ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
 ## 删除无用镜像和容器
 
 方法一
@@ -45,7 +51,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-## 远程
+## 调用远程docker
 
 https://success.docker.com/article/how-do-i-enable-the-remote-api-for-dockerd
 https://docs.docker.com/engine/security/https/
@@ -61,7 +67,6 @@ https://docs.docker.com/engine/security/https/
 [Service]
 ExecStart=
 ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2376
-
 ```
 
 2、docker重新读取配置文件，重新启动docker服务

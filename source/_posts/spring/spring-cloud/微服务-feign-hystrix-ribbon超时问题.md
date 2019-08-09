@@ -232,3 +232,6 @@ https://github.com/spring-cloud/spring-cloud-netflix/blob/master/spring-cloud-ne
 
 [Hystrix超时处理和异常类型](http://atbug.com/hystrix-exception-handling/)
 [Hystrix超时机制实现原理](http://www.ligen.pro/2018/10/14/Hystrix%E8%B6%85%E6%97%B6%E6%9C%BA%E5%88%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/)
+
+http://www.itmuch.com/spring-cloud-sum/spring-cloud-timeout/
+

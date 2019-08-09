@@ -292,7 +292,6 @@ private static class HystrixObservableTimeoutOperator<R> implements Operator<R, 
 
     return parent;
   }
-
 }
 ```
 
@@ -315,7 +314,7 @@ https://design.codelytics.io/hystrix/how-it-works
 
 https://www.jianshu.com/p/60074fe1bd86
 
-**Hystrix yml属性配置详情**
+Hystrix yml属性配置详情
 
 https://github.com/Netflix/Hystrix/wiki/Configuration
 

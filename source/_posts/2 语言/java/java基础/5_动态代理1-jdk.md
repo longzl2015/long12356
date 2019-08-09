@@ -45,7 +45,7 @@ newProxyInstance()方法用于根据传入的接口类型 interfaces 返回一�
 
 ![jdk动态代理](/images/5_动态代理1-jdk/jdk动态代理.png)
 
-主题接口类：
+主接口类：
 
 ```java
 public interface IHello {
@@ -129,7 +129,6 @@ public class Proxy implements java.io.Serializable {
         }
 
         // 查找或者生产特定的类，
-        // todo 具体细节
         Class<?> cl = getProxyClass0(loader, intfs);
 
         /*
@@ -185,115 +184,7 @@ public class Proxy implements java.io.Serializable {
 }
 ```
 
-## 生成代理类的字节码，并保存
 
-### 如何生成 
-
-```java
-public interface IUser {
-    void add();
-    String update(String aa);
-}
-
-public class Main {
-    public static void main(String[] args) {
-        String proxyName = "Ttest";
-        Class<?>[] interfaces = {IUser.class};
-
-        byte[] classFile = ProxyGenerator.generateProxyClass(proxyName, interfaces);
-        String paths = IUser.class.getResource(".").getPath();
-        System.out.println(paths);
-
-        try (FileOutputStream out = new FileOutputStream(paths + proxyName + ".class")) {
-            out.write(classFile);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### 生成结果
-
-```java
-public final class Ttest extends Proxy implements IUser {
-    private static Method m1;
-    private static Method m2;
-    private static Method m3;
-    private static Method m4;
-    private static Method m0;
-
-    public Ttest(InvocationHandler var1) throws  {
-        super(var1);
-    }
-
-    public final boolean equals(Object var1) throws  {
-        try {
-            return (Boolean)super.h.invoke(this, m1, new Object[]{var1});
-        } catch (RuntimeException | Error var3) {
-            throw var3;
-        } catch (Throwable var4) {
-            throw new UndeclaredThrowableException(var4);
-        }
-    }
-
-    public final String toString() throws  {
-        try {
-            return (String)super.h.invoke(this, m2, (Object[])null);
-        } catch (RuntimeException | Error var2) {
-            throw var2;
-        } catch (Throwable var3) {
-            throw new UndeclaredThrowableException(var3);
-        }
-    }
-
-    public final void add() throws  {
-        try {
-            super.h.invoke(this, m3, (Object[])null);
-        } catch (RuntimeException | Error var2) {
-            throw var2;
-        } catch (Throwable var3) {
-            throw new UndeclaredThrowableException(var3);
-        }
-    }
-
-    public final String update(String var1) throws  {
-        try {
-            return (String)super.h.invoke(this, m4, new Object[]{var1});
-        } catch (RuntimeException | Error var3) {
-            throw var3;
-        } catch (Throwable var4) {
-            throw new UndeclaredThrowableException(var4);
-        }
-    }
-
-    public final int hashCode() throws  {
-        try {
-            return (Integer)super.h.invoke(this, m0, (Object[])null);
-        } catch (RuntimeException | Error var2) {
-            throw var2;
-        } catch (Throwable var3) {
-            throw new UndeclaredThrowableException(var3);
-        }
-    }
-
-    static {
-        try {
-            m1 = Class.forName("java.lang.Object").getMethod("equals", Class.forName("java.lang.Object"));
-            m2 = Class.forName("java.lang.Object").getMethod("toString");
-            m3 = Class.forName("IUser").getMethod("add");
-            m4 = Class.forName("IUser").getMethod("update", Class.forName("java.lang.String"));
-            m0 = Class.forName("java.lang.Object").getMethod("hashCode");
-        } catch (NoSuchMethodException var2) {
-            throw new NoSuchMethodError(var2.getMessage());
-        } catch (ClassNotFoundException var3) {
-            throw new NoClassDefFoundError(var3.getMessage());
-        }
-    }
-}
-
-```
 
 ## 来源
 
