@@ -2,7 +2,7 @@
 
 title: java安全简单入门
 
-date: 2019-08-10 15:46:00
+date: 2019-02-10 15:46:00
 
 categories: [语言,java]
 
@@ -14,7 +14,7 @@ tags: [java]
 
 Policy文件、安全管理器 SecurityManager、存取控制器AccessController
 
-
+<!--more-->
 
 ## Policy文件
 

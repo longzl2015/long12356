@@ -6,6 +6,12 @@ tags:
 categories: [spring,springcloud]
 ---
 
+[TOC]
+
+Spring Cloud实战小技巧(解决feign GET传pojo、继承接口方法参数注解等问题)
+
+<!--more-->
+
 ## 1. 项目结构
 
 ### 1.1 config 配置中心

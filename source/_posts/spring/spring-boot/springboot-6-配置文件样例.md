@@ -12,7 +12,11 @@ tags: [springboot]
 
 
 
-预设的 application.yml 配置 见 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+预设的 application.yml 配置 
+
+<!--more-->
+
+见 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 
 ```yaml
 # ===================================================================

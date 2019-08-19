@@ -14,6 +14,8 @@ tags: [spring,springcloud,gateway]
 
 在使用gateway的过程中，主要介绍 重试机制、均衡负载器是否作用、超时。
 
+<!--more-->
+
 ##重试机制
 
 gateway 若要实现重试机制，可以使用 `RetryGatewayFilterFactory`
