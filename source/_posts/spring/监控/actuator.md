@@ -14,17 +14,15 @@ categories: [springboot,监控]
 
 Spring Boot有四大神器，分别是auto-configuration、starters、cli、actuator，本文主要讲actuator。actuator是spring boot提供的对应用系统的自省和监控的集成功能，可以对应用系统进行配置查看、相关功能统计等。
 
-
-
 ## 使用actuator
 
 - 添加依赖
 
 ```xml
-       <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
 ```
 
 ## 主要暴露的功能

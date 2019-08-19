@@ -1,6 +1,6 @@
 ---
 title: spring-4-事务管理
-date: 2015-08-12 20:59:28
+date: 2019-06-09 11:09:04
 tags: [aop,事务管理]
 categories: [spring,springmvc]
 ---

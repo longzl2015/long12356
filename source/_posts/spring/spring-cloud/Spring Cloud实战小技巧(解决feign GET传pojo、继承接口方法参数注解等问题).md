@@ -1,6 +1,6 @@
 ---
 title: Spring Cloud实战小技巧(解决feign GET传pojo、继承接口方法参数注解等问题)
-date: 2017-11-04 23:22:58
+date: 2019-08-05 00:10:12
 tags: 
   - springcloud
 categories: [spring,springcloud]

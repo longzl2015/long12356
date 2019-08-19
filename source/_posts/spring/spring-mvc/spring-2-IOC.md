@@ -1,6 +1,6 @@
 ---
 title: spring-2-IOC.md
-date: 2016-03-16 20:56:37
+date: 2019-06-09 11:09:02
 tags: [spring,ioc]
 categories: [spring,springmvc]
 ---

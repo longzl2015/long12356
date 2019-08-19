@@ -2,7 +2,7 @@
 
 title: 微服务-gateway
 
-date: 2019-08-06 12:44:00
+date: 2019-08-05 00:10:06
 
 categories: [spring,springcloud,gateway]
 
@@ -12,7 +12,7 @@ tags: [spring,springcloud,gateway]
 
 [TOC]
 
-在使用gateway的过程中，主要介绍 重试机制、重试时均衡负载器是否作用、超时机制。
+在使用gateway的过程中，主要介绍 重试机制、均衡负载器是否作用、超时。
 
 ##重试机制
 
@@ -22,23 +22,26 @@ gateway 若要实现重试机制，可以使用 `RetryGatewayFilterFactory`
 
 ```yaml
 spring:
-  application:
-    name: gateway
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lowerCaseServiceId: true
-          filters:
-            - name: Retry
-              args:
-                retries: 3
-                series:
-                  - SERVER_ERROR
-                methods:
-                  - GET
-                  - POST
+      routes:
+      - id: retry-demo
+        uri: http://localhost:9090
+        predicates:
+        - Path=/retry/**
+        filters:
+        - name: Retry
+          args:
+           retries: 15
+           series:
+            - SERVER_ERROR
+            - CLIENT_ERROR
+           methods:
+            - GET
+            - POST
+           exceptions:
+            - java.io.IOException
+            - java.util.concurrent.TimeoutException
 ```
 
 - retries：重试次数，默认值是3次
@@ -138,9 +141,10 @@ public class RetryGatewayFilterFactory extends AbstractGatewayFilterFactory<Retr
 - 满足[Series||Statuses] && 满足[Methods] && 小于[MaxIterations]
 - 满足 小于[MaxIterations] && 满足[Exceptions]
 
-##重试: 是否会调用均衡负载
+##均衡负载
+[LoadBalancerClient Filter](https://cloud.spring.io/spring-cloud-gateway/reference/html/#_loadbalancerclient_filter)
 
-我们先了解下 gateway的均衡负载过滤器的实现源码。如下
+gateway可以从注册中心(如eureka)获取服务信息，然后选取其中一个实例，将服务名替换为实例IP。可以其实现源码。如下
 
 ```java
 public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
@@ -182,7 +186,9 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 
 
 
-## 超时机制
+## 超时
+
+###HttpClient 控制超时
 
 gateway的自动配置类为 `org.springframework.cloud.gateway.config.GatewayAutoConfiguration`。
 
@@ -190,6 +196,37 @@ gateway的自动配置类为 `org.springframework.cloud.gateway.config.GatewayAu
 
 - spring.cloud.gateway.httpclient.connectTimeout
 - spring.cloud.gateway.httpclient.responseTimeout
+
+### Hystrix 控制超时
+
+[Hystrix GatewayFilter Factory](https://cloud.spring.io/spring-cloud-gateway/reference/html/#hystrix)
+
+## 服务发现
+
+[DiscoveryClient Route Definition Locator](https://cloud.spring.io/spring-cloud-gateway/reference/html/#_discoveryclient_route_definition_locator)
+
+官方文档说 DiscoveryClient 可以自定义 predicates 和 filters
+
+```yaml
+spring.cloud.gateway.discovery.locator.predicates[0].name: Path
+spring.cloud.gateway.discovery.locator.predicates[0].args[pattern]: "'/'+serviceId+'/**'"
+spring.cloud.gateway.discovery.locator.predicates[1].name: Host
+spring.cloud.gateway.discovery.locator.predicates[1].args[pattern]: "'**.foo.com'"
+spring.cloud.gateway.discovery.locator.filters[0].name: Hystrix
+spring.cloud.gateway.discovery.locator.filters[0].args[name]: serviceId
+spring.cloud.gateway.discovery.locator.filters[1].name: RewritePath
+spring.cloud.gateway.discovery.locator.filters[1].args[regexp]: "'/' + serviceId + '/(?<remaining>.*)'"
+spring.cloud.gateway.discovery.locator.filters[1].args[replacement]: "'/${remaining}'"
+```
+
+需要注意的是 当添加 filters[x].args时，以下两种是不同的书写方式
+
+```yaml
+//表示获取某一对象中的serviceId字段的值，并赋值给 X
+spring.cloud.gateway.discovery.locator.filters[1].args[X]: serviceId 
+//表示直接将 'serviceId' 字符串 赋值给 X
+spring.cloud.gateway.discovery.locator.filters[1].args[X]: "'serviceId'"
+```
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: 5_动态代理1-jdk
-date: 2018-09-11 03:30:09
+date: 2019-08-01 10:10:05
 tags: [动态代理,java]
 categories: [语言,java,java基础]
 ---

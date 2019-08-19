@@ -2,7 +2,7 @@
 
 title: 使某个用户的session立即失效(转)
 
-date: 2018-09-04 16:08:00
+date: 2019-06-10 11:09:08
 
 categories: [springboot,springsecurity]
 

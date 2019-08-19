@@ -1,10 +1,10 @@
 ---
 
-title: 条件注解
+title: springboot-2-条件注解
 
-date: 2018-09-06 10:27:00
+date: 2019-08-05 00:00:02
 
-categories: [springboot,注解]
+categories: [spring,springboot]
 
 tags: [springboot]
 
@@ -30,7 +30,7 @@ springboot 的条件注解
 
 ### ConditionalOnProperty
 
-当结果为 yes 时，表示通过 `@ConditionalOnProperty`注解的类 可以生效。
+当结果为 yes 时，表示通过 `@ConditionalOnProperty`注解的类可以生效。
 
 | Property Value | havingValue="" | havingValue="true" | havingValue="false" | havingValue="foo" |
 | -------------- | -------------- | ------------------ | ------------------- | ----------------- |

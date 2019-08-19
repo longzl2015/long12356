@@ -1,6 +1,6 @@
 ---
 title: hashtable.md
-date: 2016-03-19 22:27:09
+date: 2019-08-01 10:11:06
 tags: [hashtable,集合]
 categories: [语言,java,集合]
 ---
@@ -76,7 +76,6 @@ Hashtable .up.> Map
 1. HashMap 接受 key/value(null/null),而Hashtable不能接受
 2. Hashtable 在主要方法上添加了 synchronized 注解，因此Hashtable是同步的。而HashMap不同步
 3. 由于同步的原因，Hashtable 的性能比 HashMap 低
-
 
 ----
 

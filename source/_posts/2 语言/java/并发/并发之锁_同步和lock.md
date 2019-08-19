@@ -1,6 +1,6 @@
 ---
-title: 并发之锁(同步和lock).md
-date: 2016-03-19 10:50:42
+title: 并发之锁-同步和lock.md
+date: 2019-08-01 10:10:15
 tags: [synchronized,lock]
 categories: [语言,java,并发]
 ---
@@ -8,6 +8,10 @@ categories: [语言,java,并发]
 [TOC]
 
 <!--more-->
+
+##synchronized
+
+![img](/images/并发之锁_同步和lock/2615789-08f16aeac7e0977d-20190810144050197.png)
 
 ## synchronized和ReentrantLock的区别
 

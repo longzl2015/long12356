@@ -1,6 +1,6 @@
 ---
 title: 4个map实例的总结.md
-date: 2016-03-20 22:27:09
+date: 2019-08-01 10:11:02
 tags: [map,集合]
 categories: [语言,java,集合]
 ---
@@ -34,23 +34,3 @@ LinkedHashMap也是一个HashMap,但是内部维持了一个双向链表，保�
 ## treeMap
 
 TreeMap以红-黑树结构为基础，键值按顺序排列，可以按自然排序也可以自定义排序。需要注意的是key的对象需要实现Comparable接口（重写public int compareTo()方法），使key能够相互比较。
-
-## 重新熟悉equals方法
-
-对象的默认equals()方法，是比较两个对象的内存地址，实质是判断是否引用了同一个对象。
-
-equals方法：自反性、对称性、传递性、一致性、非空性
-
-__改写__
-
-1. 用`=`判断对象地址是否相等。
-2. 用`instanceof`判断是否为同一对象或同一接口。
-3. 转换成对应的类型
-4. 对每个关键域进行比较：对于float和double对象使用compare(a,b)方法,其他的使用equals方法。
-
-## hashcode方法
-
-对于每个关键域中的对象进行计算。
-
-1. long型：(int)(f^(f>>>32))；其他整数型：使用 17*_
-2. 其他详见effective java

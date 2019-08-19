@@ -3,7 +3,7 @@ title: kafka 初步使用
 date: 2018-02-05 03:30:09
 tags: 
   - kafka
-categories: [消息中间件,kafka]
+categories: [中间件,kafka]
 ---
 
 
@@ -14,7 +14,7 @@ categories: [消息中间件,kafka]
 brew install kafka
 ```
 
-该命令会自动安装 zookeeper依赖
+该命令会自动安装 zookeeper 依赖
 
 可通过 `brew info kafka`查看 kafka 的相关安装信息。
 
@@ -40,7 +40,7 @@ zkServer start
 kafka-server-start /usr/local/etc/kafka/server.properties
 ```
 
-## 5、 测试kafka
+## 5、测试kafka
 
 启动生产者：
 

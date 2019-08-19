@@ -71,7 +71,7 @@ List<User> select(@Param('sex')String sex,Integer age);1
 {
     0:'sex',
     1:'1'
-}1234
+}
 ```
 
 继续看上面的`convertArgsToSqlCommandParam`方法，这里简要说明3种情况：
@@ -86,7 +86,7 @@ List<User> select(@Param('sex')String sex,Integer age);1
 
 ```
 Object param = method.convertArgsToSqlCommandParam(args);
-result = sqlSession.<E>selectList(command.getName(), param);12
+result = sqlSession.<E>selectList(command.getName(), param);
 ```
 
 从这之后开始按照统一的方式继续处理入参。

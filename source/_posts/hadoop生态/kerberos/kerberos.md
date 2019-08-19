@@ -80,7 +80,8 @@ public synchronized
       login = newLoginContext(HadoopConfiguration.KEYTAB_KERBEROS_CONFIG_NAME,
             subject, new HadoopConfiguration());
       start = Time.now();
-      // 
+      // Krb5LoginModule
+      // HadoopLoginModule
       login.login();
       metrics.loginSuccess.add(Time.now() - start);
       loginUser = new UserGroupInformation(subject);
@@ -98,17 +99,20 @@ public synchronized
   }
 ```
 
+Krb5LoginModule 中几个重要的方法:
+
+- attemptAuthentication()
+- login()
+- commit()
+
+HadoopLoginModule中几个重要的方法:
+
+- login()
+- commit()
 
 
 
-
-
-
-
-
-
-
-
+## 文章收集
 
 UserGroupInformation.doAs
 

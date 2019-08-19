@@ -1,6 +1,6 @@
 ---
 title: 5_动态代理2-cglib
-date: 2018-09-12 03:30:10
+date: 2019-08-01 10:10:05
 tags: [动态代理,java,todo]
 categories: [语言,java,java基础]
 ---

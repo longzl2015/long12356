@@ -1,6 +1,6 @@
 ---
 title: spring-2-依赖注入-自动装配-xml
-date: 2015-08-10 13:26:58
+date: 2019-06-09 11:09:02
 tags: [自动装配,autowired]
 categories: [spring,springmvc]
 ---
@@ -96,7 +96,7 @@ Customer中Property名字是person，但是配置文件中找不到person，只�
 <bean id="customer" class="com.lei.common.Customer" autowire="byType" />
 <bean id="person" class="com.lei.common.Person" />
 <bean id="person_another" class="com.lei.common.Person" />
- ```
+```
 
  一旦配置如上，有两种相同数据类型的bean被配置，将抛出**UnsatisfiedDependencyException**异常，见以下：
 
@@ -118,7 +118,7 @@ Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependen
 ```xml
 <bean id="customer" class="com.lei.common.Customer" autowire="autodetect" />
 <bean id="person" class="com.lei.common.Person" />
- ```
+```
 
 ## 注意：
 
@@ -127,5 +127,5 @@ Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependen
 <bean id="customer" class="com.lei.common.Customer"
 	autowire="autodetect" dependency-check="objects" />
 <bean id="person" class="com.lei.common.Person" />
- ```
+```
 

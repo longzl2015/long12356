@@ -2,7 +2,7 @@
 
 title: LinkedHashMap
 
-date: 2016-03-19 22:27:07
+date: 2019-08-01 10:11:07
 
 categories: [语言,java,集合]
 
@@ -11,7 +11,7 @@ tags: [集合,LinkedHashMap]
 ---
 
 
-LinkedHashMap 也是一个HashMap,但是内部维持了一个双向链表，保存了记录的插入顺序。本文源代码参考值jdk1.8
+LinkedHashMap 也是一个HashMap,但是内部额外维持了一个双向链表，保存了记录的插入顺序。本文源代码参考值jdk1.8
 
 <!--more-->
 
@@ -285,6 +285,18 @@ public Set<Map.Entry<K,V>> entrySet() {
 ```
 
 该方法的实现可以看出，迭代LinkedHashMap，就是从内部维护的双链表的表头开始循环输出
+
+## 获取第一个和最后一个元素
+
+```
+// 第一个元素: 程序执行一次即可找到
+entrySet().iterator().next()
+
+// 最后一个元素: 遍历所有元素，获取最后一个。
+while (iterator.hasNext()) { lastElement = iterator.next() }
+```
+
+
 
 ## 来源
 

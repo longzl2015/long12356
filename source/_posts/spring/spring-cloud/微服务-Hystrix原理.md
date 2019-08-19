@@ -2,7 +2,7 @@
 
 title: 微服务-Hystrix原理
 
-date: 2019-03-28 13:48:00
+date: 2019-08-05 00:10:07
 
 categories: [spring,springcloud,hystrix]
 
@@ -12,7 +12,6 @@ tags: [spring,springcloud,hystrix]
 
 
 Hystrix 原理 在 https://segmentfault.com/a/1190000012439580 非常详细。本文只做摘要。
-
 
 <!--more-->
 
@@ -149,6 +148,7 @@ abstract class AbstractCommand<R> implements HystrixInvokableInfo<R>, HystrixObs
                             executionHook.onThreadStart(_cmd);
                             executionHook.onRunStart(_cmd);
                             executionHook.onExecutionStart(_cmd);
+                            // 执行真正的请求
                             return getUserExecutionObservable(_cmd);
                         } catch (Throwable ex) {
                             return Observable.error(ex);
@@ -298,28 +298,18 @@ private static class HystrixObservableTimeoutOperator<R> implements Operator<R, 
 
 ## 相关文档
 
-详细参见官方文档
+[详细参见官方文档](https://github.com/Netflix/Hystrix/wiki/How-it-Works)
 
-https://github.com/Netflix/Hystrix/wiki/How-it-Works
+[中文翻译](https://segmentfault.com/a/1190000012439580)
 
-中文翻译：
+[动态时序](https://design.codelytics.io/hystrix/how-it-works)
 
-https://segmentfault.com/a/1190000012439580
+[超时机制](https://www.jianshu.com/p/60074fe1bd86)
 
-动态时序图
-
-https://design.codelytics.io/hystrix/how-it-works
-
-超时机制
-
-https://www.jianshu.com/p/60074fe1bd86
-
-Hystrix yml属性配置详情
-
-https://github.com/Netflix/Hystrix/wiki/Configuration
+[Hystrix yml属性配置详情](https://github.com/Netflix/Hystrix/wiki/Configuration)
 
 [ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)
 
-Hystrix入门与分析（二）：依赖隔离之线程池隔离
+[Hystrix入门与分析（二）：依赖隔离之线程池隔离](https://www.cnblogs.com/haoxinyue/p/8260974.html)
 
-https://www.cnblogs.com/haoxinyue/p/8260974.html
+[如何实现一个简单的熔断以及Hystrix原理分析](https://www.jianshu.com/p/4ec81990d69c)

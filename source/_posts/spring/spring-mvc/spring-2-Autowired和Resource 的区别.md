@@ -1,6 +1,6 @@
 ---
 title: spring-2-Autowired和Resource 的区别
-date: 2015-08-10 13:22:58
+date: 2019-06-09 11:09:02
 tag: [autowired,resource]
 categories: [spring,springmvc]
 

@@ -1,6 +1,6 @@
 ---
 title: spring-3-AOP-创建过程（基于注解和基于xml）
-date: 2015-08-11 15:09:28
+date: 2019-06-09 11:09:03
 tags: aop
 categories: [spring,springmvc]
 ---
@@ -161,7 +161,6 @@ public class LogAspect {
 
 }
 ```
-
 
 ----
 [AOP切面通知详解](../AOP切面通知分类)
