@@ -51,3 +51,9 @@ https://stackoverflow.com/questions/46769339/how-to-change-permission-of-mapped-
 Pvc 无法删除文图
 
 https://stackoverflow.com/questions/51358856/kubernetes-cant-delete-persistentvolumeclaim-pvc
+
+一行 kubernetes 1.9 代码引发的血案（与 CentOS 7.x 内核兼容性问题）
+
+http://dockone.io/article/4797
+
+https://github.com/kubernetes/kubernetes/issues/61937
