@@ -1,8 +1,8 @@
 ---
 
-title: mybatis拦截器2
+title: mybatis-3-拦截器2
 
-date: 2018-09-12 17:28:00
+date: 2018-09-03 10:00:03
 
 categories: [mybatis]
 

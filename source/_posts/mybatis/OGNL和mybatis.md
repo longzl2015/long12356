@@ -85,4 +85,4 @@ public class TestConstant {
 
 ## 来源
 
-[](https://www.ibm.com/developerworks/cn/opensource/os-cn-ognl/index.html)
+[OGNL 语言介绍与实践](https://www.ibm.com/developerworks/cn/opensource/os-cn-ognl/index.html)
