@@ -1,8 +1,8 @@
 ---
 
-title: Mybatis dollar vs hash 以及 SQL预编译(转)
+title: mybatis-2-dollar-hash-SQL预编译(转)
 
-date: 2018-08-22 10:39:00
+date: 2018-09-03 10:00:03
 
 categories: [mybatis]
 
@@ -10,7 +10,11 @@ tags: [mybatis]
 
 ---
 
-Mybatis `#` 和 `$` 以及 SQL预编译
+[TOC]
+
+本文介绍 Mybatis `#` 和 `$` 以及 SQL预编译
+
+<!--more-->
 
 mybatis 中使用 sqlMap 进行 sql 查询时，经常需要动态传递参数，例如我们需要根据用户的姓名来筛选用户时，sql 如下：
 
@@ -26,20 +30,17 @@ select * from user where name = #{name};
 或者
 
 select * from user where name = '${name}';
-
 ```
 
 对于上述这种查询情况来说，使用 `#{ }` 和 `${ }` 的结果是相同的，但是在某些情况下，我们只能使用二者其一。
 
-<!--more-->
-
 ## dollar vs hash
-
-### 区别
 
 动态 SQL 是 mybatis 的强大特性之一，也是它优于其他 ORM 框架的一个重要原因。mybatis 在对 sql 语句进行预编译之前，会对 sql 进行动态解析，解析为一个 BoundSql 对象，也是在此处对动态 SQL 进行处理的。
 
 在动态 SQL 解析阶段， `#{ }` 和 `${ }` 会有不同的表现：
+
+###hash
 
 > `#{ }` 解析为一个 JDBC 预编译语句（prepared statement）的参数标记符。
 
@@ -56,6 +57,8 @@ select * from user where name = ?;
 ```
 
 一个 `#{ }` 被解析为一个参数占位符 ? 。
+
+###dollar
 
 > `${ }` 仅仅为一个纯碎的 string 替换，在动态 SQL 解析阶段将会进行变量替换
 
@@ -228,19 +231,9 @@ public synchronized java.sql.PreparedStatement prepareStatement(String sql,
 
 流程图如下所示：
 
-![](/images/Mybatis dollar vs hash 以及 SQL预编译/SQL预编译.png)
-
-## mybatis之sql动态解析以及预编译源码
-### mybatis sql 动态解析
-
-mybatis 在调用 connection 进行 sql 预编译之前，会对sql语句进行动态解析，动态解析主要包含如下的功能：
-
-- 占位符的处理
-- 动态sql的处理
-- 参数类型校验
-
-mybatis强大的动态SQL功能的具体实现就在此。动态解析涉及的东西太多，以后再讨论。
+![](/images/mybatis_dollar_hash_SQL预编译/SQL预编译.png)
 
 ## 来源
 
 [mybatis深入理解(一)之 # 与 $ 区别以及 sql 预编译](https://segmentfault.com/a/1190000004617028)
+

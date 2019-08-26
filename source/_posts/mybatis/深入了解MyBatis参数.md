@@ -1,5 +1,5 @@
 ---
-title: 深入了解MyBatis参数
+title: 深入了解MyBatis参数(转)
 date: 2018-06-04 23:22:58
 tags: 
   - mybatis
@@ -10,10 +10,10 @@ categories:
 
 相信很多人可能都遇到过下面这些异常：
 
-- `"Parameter 'xxx' not found. Available parameters are [...]"`
-- `"Could not get property 'xxx' from xxxClass. Cause:`
-- `"The expression 'xxx' evaluated to a null value."`
-- `"Error evaluating expression 'xxx'. Return value (xxxxx) was not iterable."`
+- Parameter 'xxx' not found. Available parameters are [...]
+- Could not get property 'xxx' from xxxClass. Cause:
+- The expression 'xxx' evaluated to a null value.
+- Error evaluating expression 'xxx'. Return value (xxxxx) was not iterable.
 
 不只是上面提到的这几个，我认为有很多的错误都产生在和参数有关的地方。
 

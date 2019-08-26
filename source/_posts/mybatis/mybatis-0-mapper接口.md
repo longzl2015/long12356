@@ -1,6 +1,6 @@
 ---
-title: mybatis mapper接口
-date: 2015-09-03 23:22:58
+title: mybatis-0-mapper接口
+date: 2018-09-03 10:00:01
 tag: ["mybatis"]
 categories: mybatis
 ---
@@ -217,16 +217,11 @@ public class UserDaoImplTest {
 
 ### 开发规范：
 
-- 在XXXmapper.xml中namespace等于mapper接口地址；
+- 在XXXmapper.xml中namespace等于mapper接口地址。
 
-![mybatis_mapper_1.png](http://7xlgbq.com1.z0.glb.clouddn.com/static/images/mybatis_mapper_1.png)
 - XXXmapper.java接口中的方法和mapper.xml中的statement的Id一致。
 - mapper.java接口中的方法输入参数和mapper.xml中statement的parameterType指定的类型一致。
-- mapper.java接口中的方法的返回值类型和mapper.xml中statement的resultType指定的类型一致。
-![mybatis_mapper_2.png](http://7xlgbq.com1.z0.glb.clouddn.com/static/images/mybatis_mapper_2.png)
-
-![mybatis_mapper_3.png](http://7xlgbq.com1.z0.glb.clouddn.com/static/images/mybatis_mapper_3.png)
-　　
+- mapper.java接口中的方法的返回值类型和mapper.xml中statement的resultType指定的类型一致。　　
 
 以上的开发规范主要是对下面的代码进行统一生成　
 
