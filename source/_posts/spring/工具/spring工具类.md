@@ -54,3 +54,7 @@ spring 工具类笔记
 
 ## RequestContextHolder
 
+该类维护了 ThreadLocal 变量，用于保存每个线程的 RequestAttributes。当我们需要获取当期线程的request时 可以使用如下语句:
+
+> HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
+> HttpServletResponse response = ((ServletRequestAttributes)requestAttributes).getResponse();
