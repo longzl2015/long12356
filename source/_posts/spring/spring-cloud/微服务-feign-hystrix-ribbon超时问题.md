@@ -156,7 +156,7 @@ private static class HystrixObservableTimeoutOperator<R> implements Operator<R, 
 
             @Override
             public void run() {
-              //抛出超时异常，交由外围的onErrorResumeNext捕获触发fallback
+              //抛出超时异常，交由外围的 onErrorResumeNext 捕获触发fallback 
               child.onError(new HystrixTimeoutException());
             }
           });
