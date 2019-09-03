@@ -48,7 +48,7 @@ vol的权限问题
 
 https://stackoverflow.com/questions/46769339/how-to-change-permission-of-mapped-volume-in-kubernetes-docker
 
-Pvc 无法删除文图
+Pvc 无法删除
 
 https://stackoverflow.com/questions/51358856/kubernetes-cant-delete-persistentvolumeclaim-pvc
 
