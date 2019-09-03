@@ -16,6 +16,8 @@ eureka 用于服务发现
 
 <!--more-->
 
+## eureka支持的rest-http 
+
 eureka 支持的rest http:
 
 | Operation                                  | HTTP action                                                  | Description                                                  |
@@ -32,6 +34,21 @@ eureka 支持的rest http:
 | 更新 metadata                              | PUT /eureka/apps/appID/instanceID/metadata?key=value         | HTTP Code:  200 on success; 500 on failure                   |
 | 获取指定 vip address(虚拟主机名)的实例信息 | GET /eureka/vips/vipAddress                                  | HTTP Code: 200 on success Output: JSON/XML; 404 if the vipAddress does not exist. |
 | 获取指定 secure vip address的实例信息      | GET /eureka/svips/svipAddress                                | HTTP Code: 200 on success Output: JSON/XML; 404 if the svipAddress does not exist. |
+
+## eureka 密码访问
+
+http://www.itmuch.com/spring-cloud/finchley-out-1-eureka-security/
+
+1. SpringSecurity 配置http保护
+2. defaultZone 的 url 采用如下形式。
+
+```yaml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:password123@localhost:8761/eureka/
+```
+
 
 
 

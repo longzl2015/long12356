@@ -12,13 +12,17 @@ tags: [spring,springcloud,gateway]
 
 [TOC]
 
-在使用gateway的过程中，主要介绍 重试机制、均衡负载器是否作用、超时。
+在使用gateway的过程中的一些相关配置。
 
 <!--more-->
 
 ##重试机制
 
-gateway 若要实现重试机制，可以使用 `RetryGatewayFilterFactory`
+gateway 若要实现重试机制，可以使用 `RetryGatewayFilterFactory`。
+由于 微服务之间的调用 使用Feign(ribbon)，而ribbon已经有重试策略。目前 我们并没有设置 gateway 的重试机制。
+
+gateway重试 针对浏览器等设备的请求
+ribbon重试 针对服务之间的请求
 
 ### yml配置
 
@@ -84,7 +88,7 @@ public class RetryGatewayFilterFactory extends AbstractGatewayFilterFactory<Retr
 		retryConfig.validate();
 
 		Repeat<ServerWebExchange> statusCodeRepeat = null;
-    // Statuses 或者 Series 不为空
+        // Statuses 或者 Series 不为空
 		if (!retryConfig.getStatuses().isEmpty() || !retryConfig.getSeries().isEmpty()) {
 			Predicate<RepeatContext<ServerWebExchange>> repeatPredicate = context -> {
 				ServerWebExchange exchange = context.applicationContext();
@@ -144,6 +148,7 @@ public class RetryGatewayFilterFactory extends AbstractGatewayFilterFactory<Retr
 - 满足 小于[MaxIterations] && 满足[Exceptions]
 
 ##均衡负载
+
 [LoadBalancerClient Filter](https://cloud.spring.io/spring-cloud-gateway/reference/html/#_loadbalancerclient_filter)
 
 gateway可以从注册中心(如eureka)获取服务信息，然后选取其中一个实例，将服务名替换为实例IP。可以其实现源码。如下
@@ -172,7 +177,7 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 		final ServiceInstance instance = choose(exchange);
 		// 重写 url
 		URI requestUrl = loadBalancer.reconstructURI(new DelegatingServiceInstance(instance, overrideScheme), uri);
-    //重写 GATEWAY_REQUEST_URL_ATTR
+        //重写 GATEWAY_REQUEST_URL_ATTR
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, requestUrl);
 		return chain.filter(exchange);
 	}
@@ -186,11 +191,9 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 
 ```
 
-
-
 ## 超时
 
-###HttpClient 控制超时
+### HttpClient 超时
 
 gateway的自动配置类为 `org.springframework.cloud.gateway.config.GatewayAutoConfiguration`。
 
@@ -199,9 +202,9 @@ gateway的自动配置类为 `org.springframework.cloud.gateway.config.GatewayAu
 - spring.cloud.gateway.httpclient.connectTimeout
 - spring.cloud.gateway.httpclient.responseTimeout
 
-### Hystrix 控制超时
+### Hystrix 超时
 
-[Hystrix GatewayFilter Factory](https://cloud.spring.io/spring-cloud-gateway/reference/html/#hystrix)
+[Hystrix GatewayFilter Factory](https://cloud.spring.io/spring-cloud-gateway/reference/html/#hystrix) 
 
 ## 服务发现
 

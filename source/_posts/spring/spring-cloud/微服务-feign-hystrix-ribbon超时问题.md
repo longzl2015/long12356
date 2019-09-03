@@ -11,7 +11,7 @@ tags: [spring,springcloud]
 ---
 
 
-本节介绍 feign-hystrix-ribbon 的超时问题
+本节简单介绍 feign-hystrix-ribbon 的超时问题，由于对RxJava不熟悉，出现错误的地方请见谅。
 
 
 <!--more-->
