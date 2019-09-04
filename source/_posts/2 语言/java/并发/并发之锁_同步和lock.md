@@ -1,6 +1,6 @@
 ---
 title: 并发之锁-同步和lock.md
-date: 2019-08-01 10:10:15
+date: 2019-03-01 10:10:15
 tags: [synchronized,lock]
 categories: [语言,java,并发]
 ---
