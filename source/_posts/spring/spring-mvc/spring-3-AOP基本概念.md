@@ -25,11 +25,23 @@ categories: [spring,springmvc]
 - AOP代理（AOP Proxy）
 - 织入（Weaving）
 
-----
+### AOP 的 同类调用问题
+
+```
+启用注解 @EnableAspectJAutoProxy(exposeProxy = true)
+  
+获取代理对象并执行方法 ((Service) AopContext.currentProxy()).callMethodB();  
+```
+
+
 
 ## 来源
+
 [](http://www.importnew.com/28342.html)
 [](http://www.uml.org.cn/j2ee/201301102.asp)
 
+https://www.jianshu.com/p/b95365bb323c
 
+[官方文档](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#aop)
 
+[AopContext](https://www.threeperson.com/users/zld406504302/articles/2073)
