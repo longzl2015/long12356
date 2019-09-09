@@ -6,7 +6,9 @@ tags:
 categories: [docker]
 ---
 
+在某些场景下，服务器是不允许连接外网的。因此本文简单记录离线安装 docker 的过程。
 
+需确保两台 CentOs 环境一致。
 
 ##简单概述
 
