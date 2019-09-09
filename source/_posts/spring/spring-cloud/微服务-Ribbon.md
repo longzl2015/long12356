@@ -11,21 +11,27 @@ tags: [spring,springcloud,ribbon]
 ---
 
 
-本节介绍 Ribbon 的均衡负载规则。
-
+本节介绍 Ribbon。
 
 <!--more-->
 
+## ribbon 原理概述
 
-总体图:
+1. 获取 `@LoadBalanced` 注解标记的`RestTemplate`。
+
+2. 为上述`RestTemplate` 添加一个拦截器(filter): 当使用 `RestTemplate` 发起http调用时进行拦截。
+
+3. 拦截到请求时，通过服务名获取该次请求的服务集群的全部列表信息。
+
+4. 根据规则从集群中选取一个服务作为此次请求访问的目标。
+
+5. 访问该目标，并获取返回结果。
+
+## 选取服务实例过程
+
+![img](/images/微服务-Ribbon/e9998448e095176c2454fafd66ea57ab1511332.png)
 
 ![](/images/微服务-Ribbon/cdd4b059.png)
-
-
-## 时序图
-
-![](/images/微服务-Ribbon/9161873b.png)
-![](/images/微服务-Ribbon/f8e06bb4.png)
 
 ## 均衡负载器
 
@@ -262,3 +268,5 @@ https://my.oschina.net/javamaster/blog/2985895
 http://blog.didispace.com/springcloud-sourcecode-ribbon/
 
 [ppt](https://docs.google.com/presentation/d/1bF8PpsQjUCppsjqq70KtECQSPUtPHyG335OSc3vSLog/edit?usp=sharing)
+
+http://www.spring4all.com/article/230

@@ -151,7 +151,7 @@ public class RetryGatewayFilterFactory extends AbstractGatewayFilterFactory<Retr
 
 [LoadBalancerClient Filter](https://cloud.spring.io/spring-cloud-gateway/reference/html/#_loadbalancerclient_filter)
 
-gateway可以从注册中心(如eureka)获取服务信息，然后选取其中一个实例，将服务名替换为实例IP。可以其实现源码。如下
+gateway可以从注册中心(如eureka)获取服务信息，然后选取其中一个实例，将服务名替换为实例IP。源码如下
 
 ```java
 public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
