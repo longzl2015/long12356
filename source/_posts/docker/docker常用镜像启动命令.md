@@ -1,10 +1,14 @@
 ---
 title: docker常用镜像启动命令
-date: 2019-08-10 22:46:48
+date: 2018-08-10 22:46:48
 tags: 
   - docker
 categories: [docker]
 ---
+
+记录常用的软件的docker启动命令
+
+<!--more-->
 
 ## 启动 mysql
 

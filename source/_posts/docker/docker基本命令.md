@@ -1,10 +1,14 @@
 ---
 title: docker 基本命令
-date: 2019-08-10 22:46:48
+date: 2018-08-10 22:46:48
 tags: 
   - docker
 categories: [docker]
 ---
+
+docker 基本命令
+
+<!--more-->
 
 [TOC]
 
@@ -12,7 +16,7 @@ categories: [docker]
 
 ### 1.1 搜索镜像:  
 
- docker search 关键字
+docker search 关键字
 
 ### 1.2 下载一个镜像
 

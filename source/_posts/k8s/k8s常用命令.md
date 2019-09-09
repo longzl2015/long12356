@@ -10,6 +10,31 @@ tags: [k8s]
 
 ---
 
+k8s 常用命令
+
+<!--more-->
+
+
+### port-forward
+
+将本机端口转发到容器的端口
+
+```
+kubetl port-forward 容器名 主机端口: 容器端口
+```
+
+### cp 命令
+
+```
+kubectl cp ingress-nginx/nginx-ingress-controller-mp5zd:/etc/nginx/nginx.conf ~/Desktop/aa.conf
+```
+
+上述命令会出现以下警告，可以忽略
+
+>  tar: Removing leading / from member names
+
+
+
 ### proxy 代理
 
 ```bash
@@ -59,24 +84,6 @@ kubectl run -it srvlookup --image=tutum/dnsutils --rm  --restart=Never -- dig SR
 > ;; MSG SIZE  rcvd: 189
 >
 > pod "srvlookup" deleted
-
-### port-forward
-
-将本机端口转发到容器的端口
-
-```
-kubetl port-forward 容器名 主机端口: 容器端口
-```
-
-### cp 命令
-
-```
-kubectl cp ingress-nginx/nginx-ingress-controller-mp5zd:/etc/nginx/nginx.conf ~/Desktop/aa.conf
-```
-
-上述命令会出现以下警告，可以忽略
-
->  tar: Removing leading / from member names
 
 
 

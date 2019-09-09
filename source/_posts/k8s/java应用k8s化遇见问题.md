@@ -10,10 +10,13 @@ tags: [k8s]
 
 ---
 
+记录java程序docker化过程中，遇到的问题
+
+<!--more-->
 
 ## eureka
 
-配置
+将 eureka 进行docker化时，配置如下:
 
 ```
 spring:
@@ -31,3 +34,7 @@ eureka:
 ```
 
 https://github.com/Netflix/eureka/issues/1008
+
+还有一个需要注意:
+
+必须在 k8s 中将 eureka 服务设置为 StatefulSet。因为 Eureka Client 需要将自己的信息注册到每一个 Eureka Server 中。
