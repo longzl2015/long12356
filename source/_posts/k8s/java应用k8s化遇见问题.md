@@ -38,3 +38,11 @@ https://github.com/Netflix/eureka/issues/1008
 还有一个需要注意:
 
 必须在 k8s 中将 eureka 服务设置为 StatefulSet。因为 Eureka Client 需要将自己的信息注册到每一个 Eureka Server 中。
+
+## 远程调试的问题
+
+1. 每个 dockerfile 中都添加了 `-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n`便于远程调试。
+2. 在编写k8s的pod模版时，通常需要添加监控检测。
+
+在进行远程调试的过程中，一旦超过`监控检测`的时限，pod容器就会重启。
+
