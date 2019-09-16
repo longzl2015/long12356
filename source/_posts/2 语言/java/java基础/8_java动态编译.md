@@ -157,4 +157,4 @@ public class HotClassLoader extends ClassLoader {
 ## 参考资料
 
 [JavaCompilerAPI中文指南](http://pfmiles.github.io/blog/dynamic-java/)
-
+[使用 javax.tools 创建动态应用程序](https://www.ibm.com/developerworks/cn/java/j-jcomp/index.html)

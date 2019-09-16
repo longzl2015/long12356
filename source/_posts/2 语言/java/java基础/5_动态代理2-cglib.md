@@ -72,11 +72,12 @@ public class Test {
 
 ## jdk动态代理 vs cglib
 
-- jdk动态代理 依赖接口，而 cglib 不需要
+- jdk动态代理 依赖接口，而 cglib 使用的是字节码增强，无需依赖 接口。
 - jdk1.8之前，jdk动态代理运行慢；jdk1.8及以后，jdk动态代理的运行速度比cglib快了
 
 ## 来源
 
+https://anthonyzero.github.io/2018/06/12/Java%E5%AD%97%E8%8A%82%E7%A0%81%E5%A2%9E%E5%BC%BA/
 https://blog.csdn.net/mantantan/article/details/51873755
 https://blog.csdn.net/zhanlanmg/article/details/48161003
 https://www.cnblogs.com/cruze/p/3865180.html
