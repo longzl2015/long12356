@@ -88,3 +88,12 @@ curl http://localhost:2376/version
 
 > export DOCKER_HOST="tcp://10.100.1.130:2376"
 
+## 通过pid 查找 服务
+
+http://www.huilog.com/?p=1133
+
+查找k8s pod name
+
+```bash
+docker inspect -f "{{.Id}} {{.State.Pid}} {{.Config.Hostname}}"  $(docker ps -q) |grep 8888
+```

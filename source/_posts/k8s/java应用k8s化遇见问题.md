@@ -46,3 +46,10 @@ https://github.com/Netflix/eureka/issues/1008
 
 在进行远程调试的过程中，一旦超过`监控检测`的时限，pod容器就会重启。
 
+## jdk 的docker支持
+
+https://blog.softwaremill.com/docker-support-in-new-java-8-finally-fd595df0ca54
+
+https://www.oracle.com/technetwork/java/javase/8u191-relnotes-5032181.html
+
+使用 jdk8_191版本默认启用 UseContainerSupport
