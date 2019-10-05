@@ -10,6 +10,9 @@ tags: [spark,udf,udaf]
 
 ---
 
+spark_udf_udaf
+
+<!--more-->
 
 ## 简要使用
 
@@ -31,7 +34,7 @@ object SparkUdfInSqlBasicUsageStudy {
     spark.sql("select id, to_uppercase(text) from t_foo").show()
   }
 }
-``` 
+```
 
 #### udf 实现 UDF0-UDF22 接口
 
@@ -53,7 +56,7 @@ object SparkUdfInSqlBasicUsageStudy {
     //....
   }
 }
-``` 
+```
 
 
 ### udaf

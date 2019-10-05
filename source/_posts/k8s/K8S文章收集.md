@@ -14,6 +14,10 @@ tags: [k8s]
 
 <!--more-->
 
+办公环境下 kubernetes 网络互通方案
+
+https://www.qikqiak.com/post/office-env-k8s-network/
+
 蘑菇街 K8S 为什么不选择 flannel 网络模型
 
 [http://wsfdl.com/kubernetes/2018/07/09/why_not_flanneld.html](http://wsfdl.com/kubernetes/2018/07/09/why_not_flanneld.html)
