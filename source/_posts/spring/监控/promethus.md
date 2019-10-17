@@ -2,8 +2,8 @@
 title: promethus
 date: 2019-05-30 23:22:58
 tags: 
-  - Actuator
-categories: [springboot,监控]
+  - promethus
+categories: [spring,监控]
 ---
 
 

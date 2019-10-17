@@ -4,7 +4,7 @@ title: spring工具类
 
 date: 2018-11-22 11:28:00
 
-categories: [springboot,spring工具类]
+categories: [spring,工具]
 
 tags: [工具类]
 

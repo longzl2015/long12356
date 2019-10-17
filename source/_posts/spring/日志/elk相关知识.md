@@ -4,7 +4,7 @@ title: elk相关知识
 
 date: 2019-07-09 19:22:42
 
-categories: [elk]
+categories: [log]
 
 tags: [elk,log]
 
