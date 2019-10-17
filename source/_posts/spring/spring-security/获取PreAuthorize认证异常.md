@@ -3,7 +3,7 @@ title: 获取PreAuthorize认证异常
 date: 2019-06-10 11:09:07
 tags: 
   - SpringSecurity
-categories: [springboot,springsecurity]
+categories: [spring,springsecurity]
 ---
 
 ```java

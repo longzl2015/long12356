@@ -4,7 +4,7 @@ title: springSecurity其他资料
 
 date: 2019-06-10 11:09:01
 
-categories: [springboot,springsecurity]
+categories: [spring,springsecurity]
 
 tags: [SpringSecurity,todo]
 

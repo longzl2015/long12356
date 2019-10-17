@@ -14,6 +14,10 @@ tags: [k8s]
 
 <!--more-->
 
+Ingress 413 client-max-body-size
+
+https://forums.rancher.com/t/ingress-client-max-body-size/10747
+
 办公环境下 kubernetes 网络互通方案
 
 https://www.qikqiak.com/post/office-env-k8s-network/

@@ -4,7 +4,7 @@ title: spring-security架构
 
 date: 2019-06-10 11:09:01
 
-categories: [springboot,springsecurity]
+categories: [spring,springsecurity]
 
 tags: [SpringSecurity,todo]
 

@@ -1,12 +1,12 @@
 ---
 
-title: springboot-8-i18n
+title: spring-5-i18n
 
 date: 2019-10-14 09:00:06
 
-categories: [spring,springboot]
+categories: [spring,springframe]
 
-tags: [springboot,i18n]
+tags: [spring,springframe,i18n]
 
 ---
 
@@ -74,8 +74,8 @@ SessionLocaleResolver 该类的主要作用是添加 session 作用域范围的 
 
 LocaleChangeInterceptor 主要处理逻辑:
 
-1. 通过解析 request 中的 Locale header参数，
-2. 将header中的信息同步到 Locale对象中
+1. 通过解析 request 中的 Parameter参数，
+2. 将Parameter参数的信息同步到 Locale对象中
 
 
 
@@ -113,6 +113,44 @@ spring.messages.basename: i18n/messages
 spring.messages.cache-seconds: 3600
 #设定message bundles编码方式，默认为UTF-8
 #spring.messages.encoding=UTF-8
+```
+
+### 工具类
+
+```
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.Locale;
+
+@Slf4j
+@Component
+public class LocaleMessageSourceUtil {
+
+    @Autowired
+    private MessageSource messageSource;
+
+    public LocaleMessageSourceUtil() {
+    }
+
+    public String getMessage(String code) {
+        return getMessage(code, (Object[]) null);
+    }
+
+    public String getMessage(String code, Object... args) {
+        return getMessage(code, args, "");
+    }
+
+    public String getMessage(String code, Object[] args, String defaultMessage) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage(code, args, defaultMessage, locale);
+    }
+}
+
+
 ```
 
 

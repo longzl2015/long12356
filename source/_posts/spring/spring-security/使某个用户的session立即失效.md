@@ -4,7 +4,7 @@ title: 使某个用户的session立即失效(转)
 
 date: 2019-06-10 11:09:08
 
-categories: [springboot,springsecurity]
+categories: [spring,springsecurity]
 
 tags: [SpringSecurity]
 

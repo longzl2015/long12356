@@ -295,6 +295,58 @@ private static class HystrixObservableTimeoutOperator<R> implements Operator<R, 
 }
 ```
 
+## hystrix部分配置
+
+```yaml
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          # 启用超时检测
+          enabled: true
+        isolation:
+          # THREAD or Semaphore
+          strategy: THREAD
+          thread:
+            # 调用超时时间
+            timeoutInMilliseconds: 5000
+      fallback:
+        # 启用 fallback
+        enabled: false
+      circuitBreaker:
+        # 启用 回路器
+        enabled: true
+        # 滑动窗口任务数
+        requestVolumeThreshold: 20
+        # 回到 拒绝 请求的 时间
+        sleepWindowInMilliseconds: 5000
+        # 错误容忍度
+        errorThresholdPercentage: 50
+      metrics:
+        rollingStats:
+          # 设置统计的时间窗口值的
+          timeInMilliseconds: 10000
+          # 一个时间窗口 的 bucket 数量
+          numBuckets: 10
+    "RemoteProductService#getProduct(int)":
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 500
+  threadpool:
+    default:
+      # 并发执行最大线程数
+      coreSize: 30
+      maximumSize: 30
+      maxQueueSize: 1000
+      queueSizeRejectionThreshold: 200
+
+```
+
+
+
+
 
 ## 相关文档
 
