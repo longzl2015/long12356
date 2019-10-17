@@ -1,6 +1,6 @@
 ---
 
-title: spring-ioc
+title: spring-0-重要接口定义
 
 date: 2019-10-17 00:00:00
 
@@ -14,7 +14,7 @@ Spring 几个重要的接口类
 
 <!--more-->
 
-## 相关接口
+## IOC容器
 
 ### BeanFactory
 
@@ -37,9 +37,32 @@ ApplicationContext是spring提供的更高级的IOC容器接口。它除了能�
 - 访问资源。(实现ResourcePatternResolver接口)
 - 支持应用事件。(实现ApplicationEventPublisher接口)
 
-### BeanDefinition
+## bean对象
+
+###BeanDefinition
 
 BeanDefinition定义了spring中bean对象的基本行为和属性。
+
+### BeanDefinitionReader
+
+BeanDefinitionReader 定义了加载bean信息的 load() 方法。
+
+```java
+public interface BeanDefinitionReader {
+	BeanDefinitionRegistry getRegistry();
+	ResourceLoader getResourceLoader();
+	ClassLoader getBeanClassLoader();
+	BeanNameGenerator getBeanNameGenerator();
+  // 从指定路径或资源对象加载 bean 定义
+	int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException;
+  int loadBeanDefinitions(String location) throws BeanDefinitionStoreException;
+  // 忽略
+}
+```
+
+BeanDefinitionReader的子类如下所示:
+
+![image-20191017141723423](/images/spring-0/image-20191017141723423.png)
 
 
 
