@@ -181,15 +181,15 @@ protected <T> T doGetBean(
 
 整个方法的过程可以概括为：
 
-> 1. 获取参数 name 对应的真正的 beanName
-> 2. 检查缓存或者实例工厂中是否有对应的单例，若存在则进行实例化并返回对象，否则继续往下执行
-> 3. 执行 prototype 类型依赖检查，防止循环依赖
-> 4. 如果当前 beanFactory 中不存在需要的 bean，则尝试从 parentBeanFactory 中获取
-> 5. 将之前解析过程返得到的 GenericBeanDefinition 对象合并为 RootBeanDefinition 对象，便于后续处理
-> 6. 如果存在依赖的 bean，则进行递归加载
-> 7. 依据当前 bean 的作用域对 bean 进行实例化
-> 8. 如果对返回 bean 类型有要求，则进行类型检查，并按需做类型转换
-> 9. 返回 bean 实例
+1. 获取参数 name 对应的真正的 beanName
+2. 检查缓存或者实例工厂中是否有对应的单例，若存在则进行实例化并返回对象，否则继续往下执行
+3. 执行 prototype 类型依赖检查，防止循环依赖
+4. 如果当前 beanFactory 中不存在需要的 bean，则尝试从 parentBeanFactory 中获取
+5. 将之前解析过程返得到的 GenericBeanDefinition 对象合并为 RootBeanDefinition 对象，便于后续处理
+6. 如果存在依赖的 bean，则进行递归加载
+7. 依据当前 bean 的作用域对 bean 进行实例化
+8. 如果对返回 bean 类型有要求，则进行类型检查，并按需做类型转换
+9. 返回 bean 实例
 
 接下来我们针对各步骤中的详细过程按照需要进行逐一探究。
 
@@ -237,19 +237,20 @@ public Object getSingleton(String beanName) {
 
 ```java
 protected Object getSingleton(String beanName, boolean allowEarlyReference) {
-    // 检查缓存中是否存在实例
-    Object singletonObject = this.singletonObjects.get(beanName); // singletonObjects以beanName为key存储bean实例
+    // 检查 singletonObjects 缓存中是否存在 单例实例
+    Object singletonObject = this.singletonObjects.get(beanName); // singletonObjects: key(beanName) value(bean实例)
 
-    if (singletonObject == null // 缓存中为空
+    if (singletonObject == null // singletonObjects缓存中为空
             && this.isSingletonCurrentlyInCreation(beanName)) {  // bean正在创建中
         synchronized (this.singletonObjects) {
-            singletonObject = this.earlySingletonObjects.get(beanName); // earlySingletonObjects以beanName为key存储bean实例（这里的实例还处于创建中）
+            singletonObject = this.earlySingletonObjects.get(beanName); // earlySingletonObjects:key(beanName) value(bean实例)（这里的实例还处于创建中）
             if (singletonObject == null && allowEarlyReference) {
-                // 当某些方法需要提前初始化的时候，会调用addSingletonFactory将对应的objectFactory初始化策略存储在singletonFactories中
-                ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName); // singletonFactories以beanName为key存储创建bean的工厂
+                // 当某些方法需要提前初始化的时候，
+                // 会调用addSingletonFactory将对应的objectFactory存储在singletonFactories中
+                ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName); // singletonFactories key(beanName) value(ObjectFactory)
                 if (singletonFactory != null) {
                     singletonObject = singletonFactory.getObject();
-                    // earlySingletonObjects和singletonFactories互斥
+                    // earlySingletonObjects 和 singletonFactories互斥
                     this.earlySingletonObjects.put(beanName, singletonObject);
                     this.singletonFactories.remove(beanName);
                 }
@@ -260,11 +261,17 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 }
 ```
 
-上述方法的逻辑是首先从存放 bean 实例的集合 singletonObjects 中获取实例，如果实例不存在且正在创建中，则尝试从 earlySingletonObjects 中获取正在创建中的 bean 实例，如果仍然不存在并且允许早期依赖，则将 ObjectFactory 提前曝光。
+上述方法的逻辑是
+首先从存放 bean 实例的集合 singletonObjects 中获取实例，
+如果实例不存在且正在创建中，则尝试从 earlySingletonObjects 中获取正在创建中的 bean 实例，
+如果仍然不存在并且允许早期依赖，则将 ObjectFactory 提前曝光。
 
 > **singletonObjects 和 earlySingletonObjects 的区别**
 >
-> 两者都是以 beanName 为 key，bean 实例为 value 进行存储，区别在于 singletonObjects 存储的是实例化完成的 bean 实例，而 earlySingletonObjects 存储的是正在实例化中的 bean，所以两个集合的内容是互斥的。
+> 两者都是以 beanName 为 key，bean 实例为 value 进行存储，区别在于
+> singletonObjects 存储的是实例化完成的 bean 实例，
+> earlySingletonObjects 存储的是正在实例化中的 bean，
+> 所以两个集合的内容也是互斥的。
 
 ## 从 bean 实例中获取目标对象
 
@@ -290,7 +297,7 @@ protected Object getObjectForBeanInstance(Object beanInstance, String name, Stri
     // 获取由FactoryBean创建的bean实例
     Object object = null;
     if (mbd == null) {
-        // 尝试从缓存中获取bean实例
+        // 尝试从factoryBeanObjectCache缓存中获取bean实例
         object = this.getCachedObjectForFactoryBean(beanName);
     }
     if (object == null) {
@@ -337,7 +344,7 @@ protected Object getObjectFromFactoryBean(FactoryBean<?> factory, String beanNam
                             throw new BeanCreationException(beanName, "Post-processing of FactoryBean's singleton object failed", ex);
                         }
                     }
-                    // 缓存，以factoryBeanName为key，由FactoryBean创建的对象为value
+                    // 缓存，以 factoryBeanName 为key，由FactoryBean创建的对象为value
                     this.factoryBeanObjectCache.put(beanName, (object != null ? object : NULL_OBJECT));
                 }
             }
@@ -410,7 +417,7 @@ private Object doGetObjectFromFactoryBean(final FactoryBean<?> factory, final St
 
 上述方法中的 factory.getObject() 是我们一层层剥离外表所触及到的核心，其具体实现则交给了开发者。
 
-##创建 bean 实例
+## 创建 bean 实例
 
 如果单例缓存集合中不存在目标 bean 实例，那么说明当前 bean 可能是一个非单例对象，或者是一个单例但却是第一次加载，如果前面的操作是获取对象，那么这里就需要真正创建对象了，在具体创建对象之前，需要做如下几步操作：
 
@@ -422,7 +429,7 @@ private Object doGetObjectFromFactoryBean(final FactoryBean<?> factory, final St
 
 完成了上述流程之后，容器针对具体的作用域采取适当的方法创建对应的 bean 实例。
 
-###  创建单例对象
+### 创建单例对象
 
 之前尝试从单例缓存集合中获取单例对象，而能够走到这里说明之前缓存不命中，对应的单例对象还没有创建，需要现在开始实时创建，这个过程位于 getSingleton(String beanName, ObjectFactory<?> singletonFactory) 方法中，这是一个重载方法，与前面从缓存中获取单例对象的方法在参数上存在差别：
 
@@ -437,9 +444,6 @@ public Object getSingleton(String beanName, ObjectFactory<?> singletonFactory) {
                 // 对应的bean正在其它地方创建中
                 throw new BeanCreationNotAllowedException(beanName,
                         "Singleton bean creation not allowed while singletons of this factory are in destruction (Do not request a bean from a BeanFactory in a destroy method implementation!)");
-            }
-            if (logger.isDebugEnabled()) {
-                logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
             }
 
             // 前置处理，对于需要依赖检测的bean，设置状态为“正在创建中”
@@ -515,9 +519,6 @@ this.getSingleton(beanName, new ObjectFactory<Object>() {
 
 ```java
 protected Object createBean(String beanName, RootBeanDefinition mbd, Object[] args) throws BeanCreationException {
-    if (logger.isDebugEnabled()) {
-        logger.debug("Creating instance of bean '" + beanName + "'");
-    }
     RootBeanDefinition mbdToUse = mbd;
 
     // 1.根据设置的class属性或className来解析得到Class引用
@@ -556,7 +557,7 @@ protected Object createBean(String beanName, RootBeanDefinition mbd, Object[] ar
 
 该方法虽然叫 createBean，但仍然不是真正创建 bean 实例的地方，该方法主要还是在做一些前期准备工作，具体的流程参见代码注释，下面针对各个过程来逐一探究。
 
-##### **4.1.1 获取 class 引用**
+#### 获取 class 引用
 
 不知道你是否还记得，在对标签解析过程的探究中，对于 class 属性的解析，如果参数中传入了类加载器则会尝试获取其 class 引用，否则直接记录类的全称类名，对于前者这里的解析就是直接返回引用，而后者则需要在此对其进行解析得到对应的 class 引用：
 
@@ -594,7 +595,7 @@ protected Class<?> resolveBeanClass(final RootBeanDefinition mbd, String beanNam
 
 逻辑很清晰，如果 beanDefinition 实例中记录已经是 class 引用则直接返回，否则进行解析，即 doResolveBeanClass 方法，该方法会验证类全称类名，并利用类加载器解析获取 class 引用，具体不再展开。
 
-##### **4.1.2 处理 override 属性**
+#### 处理 override 属性
 
 Spring 中并不存在 `override-method` 的标签，这里的 override 指的是 <lookup-method/> 和 <replaced-method/> 两个标签，之前解析这两个标签时是将这两个标签配置以 MethodOverride 对象的形式记录在 beanDefinition 实例的 methodOverrides 属性中，而这里的处理主要是逐一检查所覆盖的方法是否存在，如果不存在则覆盖无效，如果存在唯一的方法，则覆盖是明确的，标记后期无需依据参数类型以及个数进行推测：
 
@@ -630,7 +631,7 @@ protected void prepareMethodOverride(MethodOverride mo) throws BeanDefinitionVal
 }
 ```
 
-##### **4.1.3 处理 InstantiationAwareBeanPostProcessor**
+#### 处理 InstantiationAwareBeanPostProcessor
 
 接下来主要处理 InstantiationAwareBeanPostProcessor 处理器，我们先来回忆一下该处理器的作用。该处理器的接口定义如下：
 
@@ -723,7 +724,7 @@ if (bean != null) {
 }
 ```
 
-##### **4.1.4 实例化 bean**
+#### 实例化 bean
 
 终于挖到了实例化 bean 的地方，实例化 bean 的逻辑还是挺复杂的，我们先来看一下主体流程，如源码中的注释，我们可以将整个过程概括为 7 个步骤：
 
@@ -778,9 +779,6 @@ protected Object doCreateBean(final String beanName, final RootBeanDefinition mb
     // 4. 检查是否需要提前曝光，避免循环依赖，条件：单例 && 允许循环依赖 && 当前bean正在创建中
     boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && this.isSingletonCurrentlyInCreation(beanName));
     if (earlySingletonExposure) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
-        }
         // 为避免循环依赖，在完成bean实例化之前，将对应的ObjectFactory加入bean的工厂
         this.addSingletonFactory(beanName, new ObjectFactory<Object>() {
             @Override
@@ -1417,9 +1415,6 @@ boolean earlySingletonExposure = (
                     && this.allowCircularReferences // 允许循环依赖，需要通过程序设置
                     && this.isSingletonCurrentlyInCreation(beanName)); // 当前 bean 正在创建中
     if (earlySingletonExposure) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Eagerly caching bean '" + beanName + "' to allow for resolving potential circular references");
-        }
         // 为避免循环依赖，在完成bean实例化之前，将对应的ObjectFactory加入创建bean的工厂集合中
         this.addSingletonFactory(beanName, new ObjectFactory<Object>() {
             @Override
@@ -1449,7 +1444,7 @@ protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFa
 > 说明一下方法中各个变量的意义
 >
 > - singletonObjects：用于保存 beanName 和 bean 实例之间的关系
-> - singletonFactories：用于保存 beanName 和创建 bean 的工厂之间的关系
+> - singletonFactories：用于保存 beanName 和 创建 bean 的工厂之间的关系
 > - earlySingletonObjects：也是保存 beanName 和 bean 实例之间的关系，不同于 singletonObjects，当一个bean的实例放置于其中后，当bean还在创建过程中就可以通过 getBean 方法获取到
 > - registeredSingletons：用来保存当前所有已注册的 bean
 
@@ -1457,7 +1452,7 @@ protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFa
 
 **5. 初始化 bean 实例**
 
-整个初始化过程包括 **属性注入** 和 **执行初始化方法** 两个步骤。我们先来看属性注入的过程，该过程位于 populateBean 方法中（populate，这个词用的很有想象力~）：
+整个初始化过程包括 **属性注入** 和 **执行初始化方法** 两个步骤。我们先来看属性注入的过程，该过程位于 populateBean 方法中：
 
 ```java
 protected void populateBean(String beanName, RootBeanDefinition mbd, BeanWrapper bw) {
@@ -1555,13 +1550,7 @@ protected void autowireByName(
             pvs.add(propertyName, bean);
             // 记录依赖关系到集合中
             this.registerDependentBean(propertyName, beanName);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Added autowiring by name from bean name '" + beanName + "' via property '" + propertyName + "' to bean named '" + propertyName + "'");
-            }
         } else {
-            if (logger.isTraceEnabled()) {
-                logger.trace("Not autowiring property '" + propertyName + "' of bean '" + beanName + "' by name: no matching bean found");
-            }
         }
     }
 }
