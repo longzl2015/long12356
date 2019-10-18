@@ -1,8 +1,8 @@
 ---
 
-title: spring-1-应用上下文的refresh方法(转)
+title: spring-3-应用上下文的refresh方法(转)
 
-date: 2019-10-17 00:00:00
+date: 2019-10-17 00:00:03
 
 categories: [spring,springframe]
 
@@ -630,7 +630,7 @@ public interface MessageSource {
 
 Spring MessageSource 相关类的继承关系如下：
 
-![spring-message-source](/images/spring-1-应用上下文的refresh/11102521_5Jz2.png)
+![spring-message-source](/images/spring-3-应用上下文的refresh/11102521_5Jz2.png)
 
 其中 HierarchicalMessageSource 的设计为 MessageSource 提供了层次支持，建立了父子层级结构。
 ResourceBundleMessageSource 和 ReloadableResourceBundleMessageSource 是我们常用的两个类，均可以看做是对 jdk 原生国际化支持的封装，只不过后者相对于前者提供了定时更新资源文件的支持，从而不需要重启系统。

@@ -62,7 +62,7 @@ public interface BeanDefinitionReader {
 
 BeanDefinitionReader的子类如下所示:
 
-![image-20191017141723423](/images/spring-0/image-20191017141723423.png)
+![image-20191017141723423](/images/spring-0-重要接口定义/image-20191017141723423.png)
 
 
 
