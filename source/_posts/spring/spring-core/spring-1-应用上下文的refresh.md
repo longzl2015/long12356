@@ -692,9 +692,7 @@ Spring 框架设计精良，当前最新版本是 4.3.8.RELEASE
 protected void initMessageSource() {
     ConfigurableListableBeanFactory beanFactory = this.getBeanFactory();
     if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
-
         /*如果存在名称为 messageSource 的 bean*/
-
         // 初始化资源
         this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
         // 构造层次关系
@@ -704,22 +702,14 @@ protected void initMessageSource() {
                 hms.setParentMessageSource(this.getInternalParentMessageSource());
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("Using MessageSource [" + this.messageSource + "]");
-        }
     } else {
-
         /*不存在名称为 messageSource 的 bean*/
-
         // 创建一个 DelegatingMessageSource 对象
         DelegatingMessageSource dms = new DelegatingMessageSource();
         dms.setParentMessageSource(this.getInternalParentMessageSource());
         this.messageSource = dms;
         // 以 messageSource 进行注册
         beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, this.messageSource);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Unable to locate MessageSource with name '" + MESSAGE_SOURCE_BEAN_NAME + "': using default [" + this.messageSource + "]");
-        }
     }
 }
 ```
@@ -728,34 +718,25 @@ protected void initMessageSource() {
 
 ##初始化事件广播器
 
-事件广播和监听机制是典型的观察者模式的实现，而 ApplicationEventMulticaster 也是观察者模式中主题角色的典型实现。在 Spring 中，如果我们希望监听事件广播器广播的事件，则需要定义一个实现了 ApplicationListener 接口的监听器，Spring 支持监听器的编码注册和自动扫描注册，这个我们在后面小节中细说，我们先来看一下这里广播器的初始化过程：
+事件广播和监听机制是典型的观察者模式的实现，而 ApplicationEventMulticaster 也是观察者模式中主题角色的典型实现。
+在 Spring 中，如果我们希望监听事件广播器广播的事件，则需要定义一个实现了 ApplicationListener 接口的监听器，Spring 支持监听器的编码注册和自动扫描注册，这个我们在后面小节中细说，我们先来看一下这里广播器的初始化过程：
 
 ```java
 protected void initApplicationEventMulticaster() {
     ConfigurableListableBeanFactory beanFactory = this.getBeanFactory();
     if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
-
-        /*包含名称为 applicationEventMulticaster 的 bean*/
-
         this.applicationEventMulticaster = beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Using ApplicationEventMulticaster [" + this.applicationEventMulticaster + "]");
         }
     } else {
-
-        /*不包含名称为 applicationEventMulticaster 的 bean*/
-
         // 创建并注册一个 SimpleApplicationEventMulticaster
         this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
         beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Unable to locate ApplicationEventMulticaster with name '" + APPLICATION_EVENT_MULTICASTER_BEAN_NAME + "': using default [" + this.applicationEventMulticaster + "]");
-        }
     }
 }
 ```
 
-逻辑很清晰，如果我们以约定的方式配置了自己的事件广播器，则初始化该广播器实例，否则容器会创建并注册一个默认的 SimpleApplicationEventMulticaster，进入该广播器的实现我们会发现如下逻辑：
+逻辑很清晰，如果我们以约定的方式配置了自己的事件广播器，则初始化该广播器实例，
+否则容器会创建并注册一个默认的 SimpleApplicationEventMulticaster，进入该广播器的实现我们会发现如下逻辑：
 
 ```java
 public void multicastEvent(final ApplicationEvent event, ResolvableType eventType) {
@@ -883,10 +864,6 @@ Spring 4.1 增加了 SmartInitializingSingleton，实现了该接口的单例可
 
 ```java
 public void preInstantiateSingletons() throws BeansException {
-    if (this.logger.isDebugEnabled()) {
-        this.logger.debug("Pre-instantiating singletons in " + this);
-    }
-
     // 遍历实例化满足条件的 bean
     List<String> beanNames = new ArrayList<String>(this.beanDefinitionNames);
     for (String beanName : beanNames) {
