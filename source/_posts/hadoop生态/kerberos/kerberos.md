@@ -126,6 +126,9 @@ Should I call ugi.checkTGTAndReloginFromKeytab() before every action on hadoop?
 
 https://stackoverflow.com/questions/34616676/should-i-call-ugi-checktgtandreloginfromkeytab-before-every-action-on-hadoop
 
+Hadoop Delegation Tokens详解【译文】
+
+https://www.jianshu.com/p/617fa722e057
 
 
 MIT 官方文档
