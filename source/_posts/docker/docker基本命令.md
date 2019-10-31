@@ -65,6 +65,17 @@ docker logs  container-id/container-name
 ### 2.8 将容器保存为一个镜像
 docker commit  container-id/container-name
 
+### 3.9 批量删除无用镜像
+
+docker system prune
+
+```text
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+```
 ## 3.自定义一个镜像
 ### 3.1 commit方式
 1. 进入bash交互环境
