@@ -76,6 +76,12 @@ WARNING! This will remove:
   - all dangling images
   - all dangling build cache
 ```
+
+### 3.10 查看 容器资源使用情况
+
+docker stats
+
+
 ## 3.自定义一个镜像
 ### 3.1 commit方式
 1. 进入bash交互环境
