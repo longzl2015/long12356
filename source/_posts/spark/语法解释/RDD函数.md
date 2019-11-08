@@ -64,7 +64,12 @@ RDD提供了两种类型的操作：transformation和action
 将每个分区中的所有元素都形成一个数组。如果在处理当前元素时需要使用前后的元素，该操作将会非常有用，不过有时我们可能还需要将分区边界的数据收集起来并广播到各节点以备使用。
 
 #### 1.3.2 mapPartitions
-基于分区的map，spark会为操作分区的函数该分区的元素的迭代器。
+基于分区的map，spark对每个分区的迭代器进行操作。
+
+普通的map算子对RDD中的每一个元素进行操作，而 mapPartitions 算子对RDD中每一个分区进行操作。
+
+- 如果是普通的map算子，假设一个partition有1万条数据，那么map算子中的function要执行1万次，也就是对每个元素进行操作。
+- 如果是mapPartition算子，由于一个task处理一个RDD的partition，那么一个task只会执行一次function，function一次接收所有的partition数据，效率比较高。
 
 #### 1.3.3 mapPartitionsWithIndex
 与mapPartitions不同之处在于带有分区的序号。

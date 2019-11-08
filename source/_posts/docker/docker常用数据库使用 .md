@@ -38,7 +38,9 @@ categories: [docker]
 
 `docker images ` 查看所有的镜像
 
-## 启动 mysql
+##  mysql
+
+### 启动 mysql
 
 ```bash
 docker run --name localmysql --restart=always -p 3306:3306  -e MYSQL_ROOT_PASSWORD=root -d mysql:5.6 --lower_case_table_names=1
@@ -53,6 +55,23 @@ docker run --name localmysql --restart=always -p 3306:3306  -e MYSQL_ROOT_PASSWO
 - 若要将mysql的数据保存到本机上，添加 `-v /home/data:/var/lib/mysql` 即可。
 - `--lower_case_table_names=1` 表示数据库对大小写不敏感
 - 如要改mysql版本，将 5.6 修改为其他版本即可。
+
+### 迁移 mysql
+
+```text
+docker exec some-mysql sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql
+
+docker exec -i another-mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /some/path/on/your/host/all-databases.sql
+```
+
+### 创建用户与授权
+
+```text
+use mysql;
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL ON *.* TO 'username'@'localhost';
+flush privileges;
+```
 
 ## 启动oracle
 ### oracle 11g
