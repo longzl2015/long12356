@@ -1,6 +1,6 @@
 ---
 
-title: spring-2-bean的创建和初始化(转)
+title: spring-3-bean的创建和初始化(转)
 
 date: 2019-10-17 00:00:02
 

@@ -43,7 +43,8 @@ ApplicationContext是spring提供的更高级的IOC容器接口。它除了能�
 
 BeanDefinition定义了spring中bean对象的基本行为和属性。
 
-
+- AnnotatedBeanDefinition
+- AbstractBeanDefinition
 
 ### BeanDefinitionReader
 
@@ -106,6 +107,28 @@ public interface ObjectFactory<T> {
 ObjectFactory 目的也是工厂，用于生产 Bean 对象。这个接口和FactoryBean有点像，但是 ObjectFactory 仅仅是一个普通的工厂。
 
 在开源项目中，ObjectFactory 也被经常使用。如 `RequestObjectFactory`、`ResponseObjectFactory`、`SessionObjectFactory`
+
+## 各种 Aware 接口
+
+- ResourceLoaderAware
+- BeanClassLoaderAware
+- EnvironmentAware
+
+## 各种后处理器
+
+### BeanDefinitionRegistryPostProcessor
+
+在程序启动时，该类会将各种`配置注解`(@Configuration、@Component、@ComponentScan、@Import、@ImportResource)注解的类进行注入？
+
+### BeanFactoryPostProcessor vs BeanPostProcessor
+
+[spring扩展点之一：BeanFactoryPostProcessor和BeanPostProcessor](https://www.cnblogs.com/duanxz/p/3750725.html)
+
+[使用BeanFactoryPostProcessor——这种姿势不要用](https://www.jianshu.com/p/3d099ea43b0e)
+
+## BeanDefinitionRegistry
+
+## BeanDefinition
 
 ## 优质文章
 

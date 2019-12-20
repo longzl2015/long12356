@@ -18,7 +18,7 @@ categories: [spark,语法解释]
 
 ## 区别
 
-两者的区别在于：cache其实是调用了persist方法，缓存策略为MEMORY_ONLY。而persist可以通过设置参数有多种缓存策略。
+两者的区别在于：cache 其实是调用了 persist 方法，缓存策略为 MEMORY_ONLY。而 persist 可以通过设置参数有多种缓存策略。
 
 ## persist12种策略
 

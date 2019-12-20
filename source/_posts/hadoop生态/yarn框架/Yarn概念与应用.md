@@ -67,7 +67,7 @@ YARN的设计允许个别应用程序（通过应用程序管理器）以共享�
 
 本质上，Container 是资源分配，这是ResourceManager 授予特定ResourceRequest的成功结果。Container为application授予在特定主机上使用特定数量的资源（内存，CPU等）的权限。
 
-ApplicationMaster必须将Container提交给对应的NodeManager，以便使用资源启动其任务。当然，在安全模式下验证容器分配是为了确保ApplicationMaster(s) 不能在集群中伪造分配。
+ApplicationMaster必须将Container提交给对应的NodeManager，以便使用资源启动其任务。当然，在安全模式下验证容器分配是为了确保 ApplicationMaster(s) 不能在集群中伪造分配。
 
 ### 4.2.1 容器运行期间的容器规格
 

@@ -83,3 +83,5 @@ https://blog.csdn.net/zhanlanmg/article/details/48161003
 https://www.cnblogs.com/cruze/p/3865180.html
 https://www.cnblogs.com/monkey0307/p/8328821.html
 https://juejin.im/entry/5b95be3a6fb9a05d06732ec2
+
+[Cglib 与 JDK 动态代理的运行性能比较](http://www.iocoder.cn/Fight/The-running-performance-of-Cglib-compared-to-the-JDK-dynamic-proxy/)

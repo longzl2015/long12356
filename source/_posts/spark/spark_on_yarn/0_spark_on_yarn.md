@@ -10,7 +10,7 @@ tags: [spark,yarn]
 
 ---
 
-在spark on yarn 模式下，spark-submit.sh 的源码流程。
+在 spark on yarn 模式下，spark-submit.sh 的源码流程。
 
 <!--more-->
 

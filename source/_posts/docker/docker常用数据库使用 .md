@@ -131,4 +131,9 @@ user: ADMIN
 password: 0Racle$
 ```
 
+### db2
+
+```
+docker run -itd --name mydb2 --privileged=true -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=123456 -e DBNAME=testdb -v /home/db:/database ibmcom/db2
+```
 

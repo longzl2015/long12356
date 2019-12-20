@@ -1,6 +1,5 @@
-
 ---
-title: spark使用教程
+title: spark使用教程(转)
 date: 2017-06-04 23:22:58
 tags: 
   - spark
@@ -16,7 +15,7 @@ categories:
 
 # 第一个Spark程序
 
-```
+```scala
 /**
  * 功能：用spark实现的单词计数程序
  * 环境：spark 1.6.1, scala 2.10.4
@@ -43,7 +42,6 @@ object WordCount {
     sc.stop()
   }
 }
-
 ```
 
 # 关于RDD
@@ -290,7 +288,6 @@ spark程序可以通过控制RDD分区方式来减少通信开销。分区并不
 
 ```
 PairRDDFunctions.partitionBy(new HashPartitioner(n))
-
 ```
 
 另外，spark还提供了一个范围分区器，叫做`RangePartitioner`。范围分区器争取将所有的分区尽可能分配得到相同多的数据，并且所有分区内数据的上界是有序的。
