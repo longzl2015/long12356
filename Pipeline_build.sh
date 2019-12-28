@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-echo "=== git config"
-
-git config --global user.email "longzl@longzl.com"
-git config --global user.name "longzl"
-
 echo "=== hexo install"
 set -x;
 npm install;
-
-npm install hexo-deployer-git --save;
 npm install hexo-filter-plantuml --save;
 npm install hexo-generator-searchdb --save;
+node_modules/hexo/bin/hexo g;
 
-cat package.json
-
-echo "=== hexo deploy"
-
-node_modules/hexo/bin/hexo g -d;
+echo "=== "
+rm -rf scaffolds
+rm -rf source
+rm -rf themes
+rm -rf .gitignore
+rm -rf _config.yml
+rm -rf CodePipeline.sh
+rm -rf package.json
+rm -rf Pipeline_build.sh
+rm -rf push2git.sh
+rm -rf README.md
+rm -rf run_service.sh
+mv public/* ./
+rm -rf public
