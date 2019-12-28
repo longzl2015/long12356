@@ -48,7 +48,7 @@ start-history-server.sh hdfs://node4:9000/directory
 export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080 -Dspark.history.retainedApplications=3 -Dspark.history.fs.logDirectory=hdfs://node4:9000/directory"
 ```
 
-这样，在启动HistoryServer之后，在浏览器中打开http://node4:18080就可以看到web页面了
+这样，在启动HistoryServer之后，在浏览器中打开`http://node4:18080`就可以看到web页面了
 
  
 
