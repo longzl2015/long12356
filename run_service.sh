@@ -5,7 +5,7 @@ cd "${basePath}" || exit
 
 npm install;
 
-#npm install hexo-deployer-git --save;
+npm install hexo-deployer-git --save;
 npm install hexo-filter-plantuml --save;
 npm install hexo-generator-searchdb --save;
 npm install hexo-server --save;
