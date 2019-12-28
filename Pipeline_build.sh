@@ -5,7 +5,7 @@ set -x;
 cnpm install;
 cnpm install hexo-filter-plantuml --save;
 cnpm install hexo-generator-searchdb --save;
-node_modules/hexo/bin/hexo g;
+node_modules/hexo/bin/hexo g -d;
 
 echo "=== 移动文件夹"
 rm -rf scaffolds
