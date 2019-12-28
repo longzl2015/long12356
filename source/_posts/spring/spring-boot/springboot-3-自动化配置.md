@@ -41,7 +41,7 @@ public @interface SpringBootApplication {
 
 本文介绍主要 EnableAutoConfiguration注解
 
-##EnableAutoConfiguration注解
+###EnableAutoConfiguration注解
 
 EnableAutoConfiguration 源码如下
 
@@ -58,14 +58,14 @@ public @interface EnableAutoConfiguration {
 }
 ```
 
-该注解导入了 `EnableAutoConfigurationImportSelector`。
+该注解导入了 `AutoConfigurationImportSelector`。
 
-EnableAutoConfigurationImportSelector 主要作用为 查找出ClassPath下面的所有`META-INF/spring
-.factories`文件，获取 spring.factories 文件中 EnableAutoConfiguration 对应的属性，然后加载并实例化这些属性对应的类信息。
+`AutoConfigurationImportSelector` 主要作用为 查找出ClassPath下面的所有`META-INF/spring.factories`文件，获取 `spring.factories` 文件中 `org.springframework.boot.autoconfigure.EnableAutoConfiguration` 对应的属性，然后加载并实例化这些属性对应的类信息。
 
-EnableAutoConfigurationImportSelector 中较为重要的代码片段如下
+`EnableAutoConfigurationImportSelector` 中较为重要的代码片段如下
 
 ```java
+// 获取候选配置
 protected List<String> getCandidateConfigurations(
   AnnotationMetadata metadata,
   AnnotationAttributes attributes) {
@@ -74,7 +74,7 @@ protected List<String> getCandidateConfigurations(
   // .. 
   return configurations;
 }
-// 指定要加载的key
+// 指定要加载的key为org.springframework.boot.autoconfigure.EnableAutoConfiguration
 protected Class<?> getSpringFactoriesLoaderFactoryClass() {
   return EnableAutoConfiguration.class;
 }

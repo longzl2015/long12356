@@ -61,10 +61,6 @@ public @interface ComponentScan {
 ComponentScan注解的处理是由 org.springframework.context.annotation.ConfigurationClassParser 完成的。
 
 
-
-
-
-
 ## 来源
 
 https://blog.csdn.net/qq_20597727/article/details/82713306
