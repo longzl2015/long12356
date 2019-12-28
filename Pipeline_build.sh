@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo "=== git config"
+
+git config --global user.email "longzl@longzl.com"
+git config --global user.name "longzl"
+
 echo "=== hexo install"
 set -x;
 npm install;
