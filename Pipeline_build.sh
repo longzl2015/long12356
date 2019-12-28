@@ -2,12 +2,12 @@
 
 echo "=== hexo install"
 set -x;
-npm install;
-npm install hexo-filter-plantuml --save;
-npm install hexo-generator-searchdb --save;
+cnpm install;
+cnpm install hexo-filter-plantuml --save;
+cnpm install hexo-generator-searchdb --save;
 node_modules/hexo/bin/hexo g;
 
-echo "=== "
+echo "=== 移动文件夹"
 rm -rf scaffolds
 rm -rf source
 rm -rf themes
@@ -21,3 +21,5 @@ rm -rf README.md
 rm -rf run_service.sh
 mv public/* ./
 rm -rf public
+
+ls -l
