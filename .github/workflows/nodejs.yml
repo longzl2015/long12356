@@ -29,5 +29,4 @@ jobs:
         cat ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-        # install dependencies
         node_modules/hexo/bin/hexo d
