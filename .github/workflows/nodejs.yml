@@ -21,6 +21,8 @@ jobs:
         node_modules/hexo/bin/hexo g
     - name: hexo d
       run: |
+        git config --global user.email "longzl@longzl.com"
+        git config --global user.name "longzl"
         node_modules/hexo/bin/hexo d
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
