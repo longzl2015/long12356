@@ -1,0 +1,42 @@
+name: push to coding page
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: 更新子目录
+      run: |
+        sed -i "" 's?^url: https.*?url: https://longzl.coding.me?' _config.yml
+        sed -i "" 's?^root: .*?root: /blog?' _config.yml
+    - name: 安装依赖包
+      run: |
+        npm install
+    - name: 生成 静态文件
+      run: |
+        node_modules/hexo/bin/hexo g
+    - name: 生成 ssh 配置
+      env:
+        ACTION_DEPLOY_KEY: ${{ secrets.blog }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$ACTION_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa # 配置秘钥
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+    - name: git
+      run: |
+        cd ./public
+        git init
+        git config user.name "jjeejj"
+        git config user.email "wenjunjiang1993@163.com"
+        git add .
+        git commit -m "Update docs"
+        git push --force --quiet "git@git.coding.net:longzl/blog.git" master:master
