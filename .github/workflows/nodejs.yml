@@ -16,7 +16,6 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
-        hexo g
-        hexo d
+        node_modules/hexo/bin/hexo g -d
       env:
         CI: true
