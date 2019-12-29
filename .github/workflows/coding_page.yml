@@ -35,8 +35,8 @@ jobs:
       run: |
         cd ./public
         git init
-        git config user.name "jjeejj"
-        git config user.email "wenjunjiang1993@163.com"
+        git config user.name "longzl"
+        git config user.email "289570126@qq.com"
         git add .
         git commit -m "Update docs"
         git push --force --quiet "git@git.coding.net:longzl/blog.git" master:master
