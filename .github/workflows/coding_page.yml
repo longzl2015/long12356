@@ -41,4 +41,5 @@ jobs:
         git commit -m "Update docs"
     - name: git push
       run: |
+        cd ./public
         git push --force --quiet "git@git.coding.net:longzl/blog.git" master:master
