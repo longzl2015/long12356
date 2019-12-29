@@ -80,4 +80,3 @@ deploy:
   branch: master
   name: longzl
   email: longzl@longzl.com
-  token: $GITHUB_TOKEN
