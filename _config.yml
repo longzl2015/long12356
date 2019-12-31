@@ -72,6 +72,9 @@ search:
   format: html
   limit: 10000
 
+marked:
+  prependRoot: true
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
