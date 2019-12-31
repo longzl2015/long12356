@@ -72,8 +72,22 @@ search:
   format: html
   limit: 10000
 
+# 图片 渲染 prependRoot 为 true
 marked:
+  gfm: true
+  pedantic: false
+  breaks: true
+  smartLists: true
+  smartypants: true
+  modifyAnchors: 0
+  autolink: true
+  sanitizeUrl: false
+  headerIds: true
   prependRoot: true
+  external_link:
+    enable: false
+    exclude: []
+    nofollow: false
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
