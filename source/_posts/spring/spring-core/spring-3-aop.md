@@ -29,6 +29,7 @@ tags: [spring,springframe,aop]
 ## spring aop
 
 
+FastClassBySpringCGLIB vs EnhancerBySpringCGLIB
 
 
 
