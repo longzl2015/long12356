@@ -4,7 +4,7 @@ title: spring-0-重要接口定义
 
 date: 2019-10-17 00:00:00
 
-categories: [spring,springframe]
+categories: [spring,spring-core]
 
 tags: [spring,springframe,ioc]
 

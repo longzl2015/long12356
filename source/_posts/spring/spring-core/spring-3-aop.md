@@ -4,7 +4,7 @@ title: spring-2-aop
 
 date: 2019-12-11 00:00:03
 
-categories: [spring,springframe]
+categories: [spring,spring-core]
 
 tags: [spring,springframe,aop]
 

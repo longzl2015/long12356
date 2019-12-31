@@ -3,7 +3,7 @@ title: spring-4-应用上下文的refresh方法(转)
 
 date: 2019-10-17 00:00:03
 
-categories: [spring,springframe]
+categories: [spring,spring-core]
 
 tags: [spring,springframe]
 

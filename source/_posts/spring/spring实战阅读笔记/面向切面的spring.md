@@ -4,7 +4,7 @@ title: 面向切面的spring
 
 date: 2018-10-25 12:30:00
 
-categories: [springboot,spring实战阅读笔记]
+categories: [spring,spring实战阅读笔记]
 
 tags: [spring]
 

@@ -4,7 +4,7 @@ title: spring-5-i18n
 
 date: 2019-10-14 09:00:06
 
-categories: [spring,springframe]
+categories: [spring,spring-core]
 
 tags: [spring,springframe,i18n]
 

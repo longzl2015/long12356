@@ -4,7 +4,7 @@ title: spring-3-bean的创建和初始化(转)
 
 date: 2019-10-17 00:00:02
 
-categories: [spring,springframe]
+categories: [spring,spring-core]
 
 tags: [spring,springframe,bean]
 
