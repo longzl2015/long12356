@@ -11,11 +11,11 @@ tags: [spring,springcloud,feign]
 ---
 
 
-本节介绍 feign。
+本节介绍 feign
 
 <!--more-->
 
-
+![14126519-4cc483cb15b9dc6d](/images/微服务-feign/14126519-4cc483cb15b9dc6d.png)
 
 
 
