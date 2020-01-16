@@ -69,8 +69,8 @@ theme: next
 search:
   path: search.xml
   field: post
-  format: json
-  content: true
+  format: html
+  content: false
 
 # 图片 渲染 prependRoot 为 true
 marked:
