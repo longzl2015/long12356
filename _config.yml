@@ -70,7 +70,7 @@ search:
   path: search.xml
   field: post
   format: html
-  content: true
+  content: false
 
 # 图片 渲染 prependRoot 为 true
 marked:
