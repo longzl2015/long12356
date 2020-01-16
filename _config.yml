@@ -70,7 +70,7 @@ search:
   path: search.xml
   field: post
   format: html
-  limit: 10000
+  limit: 30000
 
 # 图片 渲染 prependRoot 为 true
 marked:
