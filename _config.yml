@@ -74,7 +74,7 @@ search:
 # Algolia Search API Key
 algolia:
   applicationID: '3PG4TD6Q1Z'
-  apiKey: 'e1c044eb37a05b735947d108123d22a4'
+  apiKey: '6b9d4c4620800d1cde1473ec117c7cd9'
   indexName: 'blog'
   chunkSize: 5000
 
