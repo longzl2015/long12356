@@ -18,6 +18,8 @@ jobs:
         npm install
     - name: hexo g
       run: |
+        node_modules/hexo/bin/hexo clean
+        node_modules/hexo/bin/hexo algolia
         node_modules/hexo/bin/hexo g
     - name: Deploy
       env:
