@@ -11,6 +11,7 @@ categories: [语言,java,jvm]
 
 # 参数介绍
 
+
 - -Xms :设置Java堆栈的初始化大小
 - -Xmx :设置最大的java堆大小
 - -Xmn :设置年轻代大小
@@ -19,6 +20,10 @@ categories: [语言,java,jvm]
 - -XX:NewRatio :设置年轻代和老年代的比值
 - -XX:NewSize :设置年轻代的大小
 - -XX:SurvivorRatio=N :设置年轻代中 Eden 与俩个 Survivor 的比值
+
+- -XX:MetaspaceSize : 
+
+> Sets the size of the allocated class metadata space that will trigger a garbage collection the first time it is exceeded. This threshold for a garbage collection is increased or decreased depending on the amount of metadata used. The default size depends on the platform.
 
 - -XX:+MinMetaspaceFreeRatio=N : 当进行过Metaspace GC之后，会计算当前Metaspace的空闲空间比，如果空闲比小于这个参数，那么虚拟机将增长Metaspace的大小
 - -XX:+MaxMetaspaceFreeRatio=N : 当进行过Metaspace GC之后，会计算当前Metaspace的空闲空间比，如果空闲比大于这个参数，那么虚拟机会释放Metaspace的部分空间
@@ -59,3 +64,7 @@ https://www.cnblogs.com/redcreen/archive/2011/05/04/2037057.html
 Visual GC 插件使用
 
 https://www.jianshu.com/p/9e4ccd705709
+
+oracle 官方参数手册
+
+https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html#BABFAFAE
