@@ -15,9 +15,20 @@ categories: [语言,java,jvm]
 - -Xmx :设置最大的java堆大小
 - -Xmn :设置年轻代大小
 - -Xss :设置java线程堆栈大小
+
 - -XX:NewRatio :设置年轻代和老年代的比值
 - -XX:NewSize :设置年轻代的大小
-- -XX:SurvivorRatio=n :设置年轻代中 Eden 与俩个 Survivor 的比值
+- -XX:SurvivorRatio=N :设置年轻代中 Eden 与俩个 Survivor 的比值
+
+- -XX:+MinMetaspaceFreeRatio=N : 当进行过Metaspace GC之后，会计算当前Metaspace的空闲空间比，如果空闲比小于这个参数，那么虚拟机将增长Metaspace的大小
+- -XX:+MaxMetaspaceFreeRatio=N : 当进行过Metaspace GC之后，会计算当前Metaspace的空闲空间比，如果空闲比大于这个参数，那么虚拟机会释放Metaspace的部分空间
+
+- -XX:+HeapDumpBeforeFullGC 
+- -XX:+HeapDumpAfterFullGC 
+
+- -XX:+UseAdaptiveSizePolicy
+
+
 
 例子: [SurvivorRatio](https://docs.oracle.com/cd/E19159-01/819-3681/abeil/index.html)
 
