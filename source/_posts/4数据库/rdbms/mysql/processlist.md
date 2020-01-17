@@ -3,7 +3,8 @@ title: processlist
 date: 2017-01-05 03:30:09
 tags: 
   - mysql
-categories: [数据库,rdbms,db2]
+  - 索引
+categories: [数据库,rdbms,mysql]
 ---
 
 # show processlist 命令
