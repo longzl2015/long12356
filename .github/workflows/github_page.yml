@@ -18,9 +18,7 @@ jobs:
         npm install
     - name: hexo g
       run: |
-        export HEXO_ALGOLIA_INDEXING_KEY=6b9d4c4620800d1cde1473ec117c7cd9
         node_modules/hexo/bin/hexo clean
-        node_modules/hexo/bin/hexo algolia
         node_modules/hexo/bin/hexo g
     - name: Deploy
       env:
