@@ -38,9 +38,9 @@ public @interface MapperScan {
 }
 ```
 
-通过上述源码可以发现，MapperScan 会引入 MapperScannerRegistrar类。
+通过上述源码可以发现，MapperScan 会引入 MapperScannerRegistrar 类。
 
-##MapperScannerRegistrar
+## MapperScannerRegistrar
 
 将 MapperScan 中的属性 添加到 ClassPathMapperScanner 中，然后 ClassPathMapperScanner 调用 doScan()
 
@@ -114,7 +114,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 }
 ```
 
-##ClassPathMapperScanner
+## ClassPathMapperScanner
 
 ClassPathMapperScanner的doScan主要做了两步操作:
 

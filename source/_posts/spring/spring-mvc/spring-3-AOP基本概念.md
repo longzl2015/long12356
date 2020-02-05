@@ -25,6 +25,16 @@ categories: [spring,springmvc]
 - AOP代理（AOP Proxy）
 - 织入（Weaving）
 
+## JoinPoin 
+
+下面简要介绍JponPoint的方法：
+
+1.java.lang.Object[] getArgs()：获取连接点方法运行时的入参列表；
+2.Signature getSignature() ：获取连接点的方法签名对象；
+3.java.lang.Object getTarget() ：获取连接点所在的目标对象；
+4.java.lang.Object getThis() ：获取代理对象本身；
+
+
 ### AOP 的 同类调用问题
 
 ```

@@ -1,11 +1,12 @@
 ---
-title: mybatis-0-mapper接口
+title: mybatis-0-为什么使用mapper接口方式编程
 date: 2018-09-03 10:00:01
 tag: ["mybatis"]
 categories: mybatis
 ---
 
-原始dao开发方法和mapper代理方法的比较。
+原始 dao 开发方法和 mapper 代理方法的比较。
+
 [原文地址](http://www.cnblogs.com/selene/p/4605191.html)
 
 <!--more-->
@@ -62,7 +63,7 @@ import com.mybatis.entity.User;
  */
 public class UserDaoImpl implements UserDAO {
     private SqlSessionFactory sqlSessionFactory;
-    // 需要向dao实现类中注入SqlSessionFactory
+    // 需要向dao实现类中注入 SqlSessionFactory
     // 通过构造方法注入
     public UserDaoImpl(SqlSessionFactory sqlSessionFactory) {
         this.sqlSessionFactory = sqlSessionFactory;
@@ -80,8 +81,7 @@ public class UserDaoImpl implements UserDAO {
     @Override
     public List<User> findUserByName(String username) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        List<User> list = sqlSession
-                .selectList("test.findUserByName", username);
+        List<User> list = sqlSession.selectList("test.findUserByName", username);
 
         // 提交事务
         sqlSession.commit();
@@ -382,10 +382,10 @@ public class UserMapperTest {
 ```
 ### 小结
 
-1. 代理对象内部调用selectOne()和selectList():如果mapper对象返回单个pojo对象(非集合对象)代理对象内部通过selectOne查询数据库，如果mapper方法返回集合对象，代理对象内部通过selectList查询数据库。
+1. 代理对象内部调用selectOne()和selectList(): 如果mapper对象返回单个pojo对象(非集合对象)代理对象内部通过selectOne查询数据库，如果mapper方法返回集合对象，代理对象内部通过selectList查询数据库。
 
 2. mapper接口中的方法参数只能有一个是否影响系统开发：
 
 　　mapper接口方法参数只能有一个，系统是否不利于维护？
 
-　　回答：系统框架中，dao层的代码是被业务层公用的。机试mapper接口只有一个参数，可以使用包装类型的pojo满足不同的业务方法的需求。
+　　回答：系统框架中，dao层的代码是被业务层公用的。即使mapper接口只有一个参数，可以使用包装类型的pojo满足不同的业务方法的需求。
