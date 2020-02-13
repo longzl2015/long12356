@@ -1,6 +1,6 @@
 ---
 
-title: redis介绍（转）
+title: redis类型介绍（转）
 
 date: 2018-09-27 10:31:00
 
