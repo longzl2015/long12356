@@ -66,7 +66,14 @@ jmap -dump:format=b,file=jmap.info PID
 - 直接把zip下载到本地，然后解压用浏览器查看index.html
 - 把zip下载到本地， 用MAT可视化工具解析zip
 
+### leak_suuspects
+
+1. Accumulated Objects in Dominator Tree（以当前问题对象为根的Dominator支配树）
+2. Accumulated Objects by Class in Dominator Tree（以当前问题对象为根的Dominator支配树 按类的维度分类统计）
+3. 
+
 ## 遇到问题
+
 Unable to initialize GTK+
 
 遇到这个问题的话，是因为ParseHeapDump.sh
@@ -112,3 +119,9 @@ sudo  mat.app/Contents/MacOS/MemoryAnalyzer
 原网址 
 
 http://moheqionglin.com/site/blogs/84/detail.html
+
+
+
+## 参考
+
+[MAT报告说明](https://juejin.im/post/5c73b9cef265da2de04ac1c6)

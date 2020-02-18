@@ -32,3 +32,6 @@ ArrayList and Vector 异同。Vector 已经被弃用。
 - 读：旧的容器
 - 写:  复制新的容器，然后在新的容器上添加 新元素
 
+## 参考
+
+[图解AQS的设计与实现](https://www.lagou.com/lgeduarticle/76788.html)

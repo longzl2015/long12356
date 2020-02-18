@@ -6,7 +6,7 @@ date: 2018-12-27 15:05:00
 
 categories: [语言,java,命令行]
 
-tags: [jvm]
+tags: [jvm,jcmd]
 
 ---
 

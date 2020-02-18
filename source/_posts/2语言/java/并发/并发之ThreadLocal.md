@@ -13,7 +13,9 @@ ThreadLocal 主要用于**线程内**共享一些数据，而不是**线程间**
 
 ## ThreadLocal
 
-主要用于同一线程内共享一些数据，避免通过参数来传递
+主要用于同一线程内共享一些数据，避免通过参数来传递。 
+
+**需要注意的是**: ThreadLocal并不存储Thread的引用。
 
 ThreadLocal 和 Thread 是 深度绑定的。
 
@@ -59,7 +61,9 @@ value: T的值
 public class ThreadLocal<T> {
     
     public T get() {
+        // 获取当前线程
         Thread t = Thread.currentThread();
+        // 获取当前线程的ThreadLocalMap
         ThreadLocalMap map = getMap(t);
         if (map != null) {
             ThreadLocalMap.Entry e = map.getEntry(this);
