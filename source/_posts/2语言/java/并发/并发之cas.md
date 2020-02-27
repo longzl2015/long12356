@@ -10,7 +10,6 @@ tags: [并发]
 
 ---
 
-
 CAS（Compare and swap）比较和替换是设计并发算法时用到的一种技术。
 简单来说，比较和替换是使用一个期望值和一个变量的当前值进行比较，如果当前变量的值与我们期望的值相等，就使用一个新值替换当前变量的值。
 
@@ -87,7 +86,7 @@ public static class MyLock {
 locked变量不再是boolean类型而是AtomicBoolean。这个类中有一个compareAndSet()方法，它使用一个期望值和AtomicBoolean实例的值比较，和两者相等，则使用一个新值替换原来的值。在这个例子中，它比较locked的值和false，如果locked的值为false，则把修改为true。
 如果值被替换了，compareAndSet()返回true，否则，返回false。
 
-下面是 **AtomicInteger** 的例子:
+另一个例子是 **AtomicInteger**:
 
 ```java
 public class Sample2 {

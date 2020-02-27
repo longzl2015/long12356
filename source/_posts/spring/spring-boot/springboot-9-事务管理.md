@@ -49,3 +49,9 @@ PlatformTransactionManager实现类:
 
 ##参考
 
+ [@Transactional原理]( https://www.jianshu.com/p/b33c4ff803e0)
+
+[Spring源码学习之十二：@Transactional是如何工作的]( https://juejin.im/post/59e87b166fb9a045030f32ed)
+
+[关于Spring+Mybatis事务管理中数据源的思考](https://juejin.im/post/59c259665188253407012580)
+

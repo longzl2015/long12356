@@ -154,6 +154,19 @@ public class HotClassLoader extends ClassLoader {
 
 
 
+## 动态编译内存泄露问题
+
+```
+Java 7 introduced this bug: 
+in an attempt to speed up compilation, they introduced the SharedNameTable, which uses soft references to avoid reallocations, but unfortunately just causes the JVM to bloat out of control, as those soft references will never be reclaimed until the JVM hits its -Xmx memory limit. Allegedly it will be fixed in Java 9. 
+In the meantime, there's an (undocumented) compiler option to disable it: 
+  -XDuseUnsharedTable.
+```
+
+https://stackoverflow.com/questions/14617340/memory-leak-when-using-jdk-compiler-at-runtime
+
+
+
 ## 参考资料
 
 [JavaCompilerAPI中文指南](http://pfmiles.github.io/blog/dynamic-java/)

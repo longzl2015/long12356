@@ -1,12 +1,12 @@
 ---
 
-title: springboot-1-使能注解1-EnableAsync
+title: springboot-1-使能注解1
 
 date: 2019-08-05 00:00:01
 
 categories: [spring,springboot]
 
-tags: [springboot]
+tags: [springboot,import]
 
 ---
 
@@ -16,11 +16,13 @@ tags: [springboot]
 - @EnableAsync，
 - @EnableTransactionManagement。
 
-本文以@EnableAsync为例，介绍使能注解的生效过程。
+上面三个使能注解都使用到了`@Import` 。
 
 <!--more-->
 
-## EnableAsync注解
+先以 EnableAsync 为例简单看下 @Import 的使用。
+
+##EnableAsync注解
 
 ```java
 @Target(ElementType.TYPE)
@@ -35,9 +37,11 @@ public @interface EnableAsync {
 }
 ```
 
-使能注解中包含一个至关重要的`@Import`。
+下面正式讲解 Import注解 的生效过程。
 
-##Import注解
+##简单概括
+
+###Import注解
 
 @Import 注解只有一个方法，它的返回值会被注入到spring容器中。
 
@@ -54,9 +58,9 @@ public @interface Import {
 }
 ```
 
-上述代码中，我们可以看到`Import注解`支持注入4种类型。在本章中仅介绍 ImportSelector。
+上述代码中，我们可以看到`Import注解`支持注入4种类型。`EnableAsync注解`使用的是 `ImportSelector`
 
-##ImportSelector接口
+###ImportSelector接口
 
 ImportSelector 只有一个方法。该方法会返回 `全类名字符串`。而这些全类名字符串会被注入到spring中
 
@@ -66,70 +70,18 @@ public interface ImportSelector {
 }
 ```
 
-还是以`@EnableAsync`为例。
-
-从`EnableAsync注解`源码中可以看到
-
-- `@EnableAsync`的`@Import`会将`AsyncConfigurationSelector`注入到spring容器中
-- `AsyncConfigurationSelector`又是`ImportSelector`的子类，其会根据 `selectImports()`的返回值注入指定类。
-
-```java
-public class AsyncConfigurationSelector extends AdviceModeImportSelector<EnableAsync> {
-	private static final String ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME =
-			"org.springframework.scheduling.aspectj.AspectJAsyncConfiguration";
-  // 根据 @EnableAsync 的 AdviceMode 字段返回指定的全类名。
-	@Override
-	public String[] selectImports(AdviceMode adviceMode) {
-		switch (adviceMode) {
-			case PROXY:
-				return new String[] { ProxyAsyncConfiguration.class.getName() };
-			case ASPECTJ:
-				return new String[] { ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME };
-			default:
-				return null;
-		}
-	}
-}
-```
-
-```java
-public abstract class AdviceModeImportSelector<A extends Annotation> implements ImportSelector {
-
-	public static final String DEFAULT_ADVICE_MODE_ATTRIBUTE_NAME = "mode";
-	protected String getAdviceModeAttributeName() {
-		return DEFAULT_ADVICE_MODE_ATTRIBUTE_NAME;
-	}
-
-	@Override
-	public final String[] selectImports(AnnotationMetadata importingClassMetadata) {
-		Class<?> annoType = GenericTypeResolver.resolveTypeArgument(getClass(), AdviceModeImportSelector.class);
-		AnnotationAttributes attributes = AnnotationConfigUtils.attributesFor(importingClassMetadata, annoType);
-		if (attributes == null) {
-			throw new IllegalArgumentException(String.format(
-				"@%s is not present on importing class '%s' as expected",
-				annoType.getSimpleName(), importingClassMetadata.getClassName()));
-		}
-
-		AdviceMode adviceMode = attributes.getEnum(this.getAdviceModeAttributeName());
-		String[] imports = selectImports(adviceMode);
-		if (imports == null) {
-			throw new IllegalArgumentException(String.format("Unknown AdviceMode: '%s'", adviceMode));
-		}
-		return imports;
-	}
-  // 子类实现：根据配置，导入指定的类
-	protected abstract String[] selectImports(AdviceMode adviceMode);
-}
-
-```
-
-## Import注解是如何被spring识别的
+##Import注解是如何被spring识别的
 
 Import注解的生效过程中有一个至关重要的类ConfigurationClassPostProcessor。我们先从该类开始。
 
 ###ConfigurationClassPostProcessor
 
-以下代码为精简的部分代码:
+**先说 ConfigurationClassPostProcessor 的作用:**
+
+1. 扫描程序中的 配置类（如Configuration注解、Bean注解、Component注解、ComponentScan注解、Import注解、ImportResource注解）
+2. 通过ConfigurationClassParser解析配置类，将解析得到的配置类注册成相应的BeanDefinitions
+
+**以下代码为精简的部分代码**:
 
 ```java
 public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPostProcessor,
@@ -226,21 +178,18 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 }
 ```
 
-简单来说，ConfigurationClassPostProcessor 主要是 
+###ConfigurationClassParser
 
-1. 扫描程序中的 配置类（如Configuration注解、Bean注解、Component注解、ComponentScan注解、Import注解、ImportResource注解）
-2. 通过ConfigurationClassParser解析配置类，将解析得到的配置类注册成相应的BeanDefinitions
+**ConfigurationClassParser主要作用是**: 
 
-### ConfigurationClassParser
-
-ConfigurationClassParser主要作用是: 根据不同注解，解析出配置类，并将解析出的配置类放入 configurationClasses中。
-
-例如:
+根据不同注解，解析出配置类，并将解析出的配置类放入 configurationClasses中。
 
 1. `BeanDefinitionHolder`包含 `@Import` 注解且`@Import`注解的值为 `ImportSelector`的实现类(假设为`ImportSelectorImplA`)，
-2.  `ConfigurationClassParser` 会调用 `ImportSelectorImplA.selectImports()`获取一个全类名列表，
+2. `ConfigurationClassParser` 会调用 `ImportSelectorImplA.selectImports()`获取一个全类名列表，
 3. 将这全类名列表逐个转成`ConfigurationClass`类实例 ，
 4. 将`ConfigurationClass`类实例 put进`ConfigurationClassParser.configurationClassesMap`变量中。
+
+**以下代码为精简的部分代码**:
 
 ```java
 class ConfigurationClassParser {
@@ -370,7 +319,7 @@ class ConfigurationClassParser {
 						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata());
 					}
 					else {
-						// 重新调用开头的processConfigurationClass方法
+						// 重新调用开头的 processConfigurationClass 方法
 						this.importStack.registerImport(
 								currentSourceClass.getMetadata(), candidate.getMetadata().getClassName());
 						processConfigurationClass(candidate.asConfigClass(configClass));

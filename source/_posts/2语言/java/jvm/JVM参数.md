@@ -17,7 +17,7 @@ categories: [语言,java,jvm]
 - -Xmn :设置年轻代大小
 - -Xss :设置java线程堆栈大小
 
-- -XX:NewRatio :设置年轻代和老年代的比值
+- -XX:NewRatio :设置老年代和年轻代的比值 默认为2
 - -XX:NewSize :设置年轻代的大小
 - -XX:SurvivorRatio=N :设置年轻代中 Eden 与俩个 Survivor 的比值
 
