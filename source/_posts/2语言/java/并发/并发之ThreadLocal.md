@@ -49,7 +49,7 @@ initialValue: 当 get() 获取不到ThreadLocalMap时，返回该值
 ThreadLocal 中包含着一个静态内部类 ThreadLocalMap . ThreadLocalMap 是一个 自定义的hashMap，用来存储 
 
 ```
-key: ThreadLocal<T>对象的hashCode
+key: ThreadLocal<T> 实例对象
 value: T的值
 ```
 
